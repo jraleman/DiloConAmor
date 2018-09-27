@@ -1,0 +1,724 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>FelicitaMe</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+    <!-- FontAwesome - http://fortawesome.github.io/Font-Awesome/ -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+
+	<!-- jQueryMobileCSS - original without styling -->
+    <link rel="stylesheet" href="../css/themes/dca_theme.css" />
+    <link rel="stylesheet" href="../css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="../css/jquery.mobile.structure-1.4.5.min.css" />
+
+    <!-- CSS style used for jquery menu -->
+    <style>
+        textarea {
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        .ui-selectmenu.ui-popup .ui-input-search {
+            margin-left: .5em;
+            margin-right: .5em;
+        }
+
+        .ui-selectmenu.ui-dialog .ui-content {
+            padding-top: 0;
+        }
+
+        .ui-selectmenu.ui-dialog .ui-selectmenu-list {
+            margin-top: 0;
+        }
+
+        .ui-selectmenu.ui-popup .ui-selectmenu-list li.ui-first-child .ui-btn {
+            border-top-width: 1px;
+            -webkit-border-radius: 0;
+            border-radius: 0;
+        }
+
+        .ui-selectmenu.ui-dialog .ui-header {
+            border-bottom-width: 1px;
+        }
+
+        #message {
+            vertical-align: top;
+            -webkit-transition: height 0.2s;
+            -moz-transition: height 0.2s;
+            transition: height 0.2s;
+        }
+    </style>
+
+    <!-- Responsive images -->
+    <style>
+
+        img {max-width:20%}
+
+        @media screen and (orientation: landscape) {
+            .ui-mobile .ui-page {
+                min-height: 0 !important;
+            }
+        }
+    </style>
+
+	<!-- jQuery / jQueryMobile Scripts -->
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../js/jquery.mobile-1.4.2.js"></script>
+
+    <!-- Swipe right to open the menu. -->
+    <script type="text/javascript">
+        $( document ).on( "pagecreate", "#main", function() {
+            $( document ).on( "swipeleft swiperight", "#main", function( e ) {
+                // We check if there is no open panel on the page because otherwise
+                // a swipe to close the left panel would also open the right panel (and v.v.).
+                // We do this by checking the data that the framework stores on the page element (panel: open).
+                if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+                    if ( e.type === "swiperight" ) {
+                        $( "#menu" ).panel( "open" );
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- Javascript for filter-menu -->
+    <script type="text/javascript">
+        $.mobile.document
+            // "filter-menu-menu" is the ID generated for the listview when it is created
+            // by the custom selectmenu plugin. Upon creation of the listview widget we
+            // want to prepend an input field to the list to be used for a filter.
+            .on( "listviewcreate", "#filter-menu-menu", function( e ) {
+                var input,
+                    listbox = $( "#filter-menu-listbox" ),
+                    form = listbox.jqmData( "filter-form" ),
+                    listview = $( e.target );
+                // We store the generated form in a variable attached to the popup so we
+                // avoid creating a second form/input field when the listview is
+                // destroyed/rebuilt during a refresh.
+                if ( !form ) {
+                    input = $( "<input data-type='search'></input>" );
+                    form = $( "<form></form>" ).append( input );
+                    input.textinput();
+                    $( "#filter-menu-listbox" )
+                        .prepend( form )
+                        .jqmData( "filter-form", form );
+                }
+                // Instantiate a filterable widget on the newly created listview and
+                // indicate that the generated input is to be used for the filtering.
+                listview.filterable({ input: input });
+            })
+            // The custom select list may show up as either a popup or a dialog,
+            // depending how much vertical room there is on the screen. If it shows up
+            // as a dialog, then the form containing the filter input field must be
+            // transferred to the dialog so that the user can continue to use it for
+            // filtering list items.
+            //
+            // After the dialog is closed, the form containing the filter input is
+            // transferred back into the popup.
+            .on( "pagebeforeshow pagehide", "#filter-menu-dialog", function( e ) {
+                var form = $( "#filter-menu-listbox" ).jqmData( "filter-form" ),
+                    placeInDialog = ( e.type === "pagebeforeshow" ),
+                    destination = placeInDialog ? $( e.target ).find( ".ui-content" ) : $( "#filter-menu-listbox" );
+                form
+                    .find( "input" )
+                    // Turn off the "inset" option when the filter input is inside a dialog
+                    // and turn it back on when it is placed back inside the popup, because
+                    // it looks better that way.
+                    .textinput( "option", "inset", !placeInDialog )
+                    .end()
+                    .prependTo( destination );
+            });
+    </script>
+
+    <script type="text/javascript">
+        function select_all() {
+            document.getElementById('message').select();
+        }
+    </script>
+
+</head> 
+
+<body>        
+    <div data-role="page" data-theme='a' id="main">
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='a'>
+            <a href="#menu"><i class='fa fa-bars'></i></a>
+            <a href="../index.html#main" data-transition="fade" data-ajax="false"><i class="fa fa-home"></i></a>
+            <h1 style="text-align:center">Dilo con Amor</h1>
+        </div>
+        
+        <div data-role="content">
+	        <div class='inset'>
+				<h2 align="center">Celebración de Cumpleaños</h2>
+
+                <p align="center">
+                    <img src="../images/pages/cumpleanos.png"></img>
+                </p>
+
+                    <label for="filter-menu"><h4>Para:</h4></label>
+                    <select name="filter-menu" id="filter-menu" data-native-menu="false">
+                        <option value="abuela">Abuela</option>
+                        <option value="abuelo">Abuelo</option>
+                        <option value="amiga">Amiga</option>
+                        <option value="amigo">Amigo</option>
+                        <option value="esposa">Esposa</option>
+                        <option value="esposo">Esposo</option>
+                        <option value="hermana">Hermana</option>
+                        <option value="hermano">Hermano</option>
+                        <option value="hija">Hija</option>
+                        <option value="hijo">Hijo</option>
+                        <option value="mama">Mama</option>
+                        <option value="novia">Novia</option>
+                        <option value="novio">Novio</option>
+                        <option value="papa">Papa</option>
+                        <option value="prima">Prima</option>
+                        <option value="primo">Primo</option>
+                        <option value="tia">Tía</option>
+                        <option value="tio">Tío</option>
+                    </select>
+
+                    <p align="center">
+                        <button class="ui-btn ui-btn-inline" onclick="generateMsg();">Generar</button>
+                    </p>
+
+                    <label for="textarea-enhanced"><h4>Mensaje:</h4></label>
+                    <textarea readonly="readonly" onclick="select_all();" name="textarea-enhanced" id="message" data-enhanced="true" class="ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all" placeholder="Mensaje" data-autogrow="true"></textarea>
+
+	        </div>
+	        
+        </div>
+
+        <div data-role="panel" data-display="push" id="menu" data-theme="b">
+            <ul data-role="listview">
+                <li><b>Seleccione el Evento</b></li>
+                <li data-icon='false'><a href="aniversario.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-bell-o'></i>&ensp; Aniversario</a></li>
+                <li data-icon='false'><a href="#" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-birthday-cake'></i>&ensp; Cumpleaños</a></li>
+                <li data-icon='false'><a href="madre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-venus'></i>&ensp; Día de la Madre</a></li>
+                <li data-icon='false'><a href="padre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-mars'></i>&ensp; Día del Padre</a></li>
+                <li data-icon='false'><a href="fin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-sun-o'></i>&ensp; Fin de Año</a></li>
+                <li data-icon='false'><a href="graduacion.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-graduation-cap'></i>&ensp; Graduación</a></li>
+                <li data-icon='false'><a href="navidad.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-tree'></i>&ensp; Navidad</a></li>
+                <li data-icon='false'><a href="san_valentin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-heart-o'></i>&ensp; San Valentín</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        function generateMsg()
+        {
+                var selected = $( "#filter-menu" ).val(); // or this.value
+                //alert(selected);
+                
+                    // Recopilacion de frases usando: http://www.consejosgratis.net/
+
+                // Abuela
+                if (selected == "abuela") {
+                    var Abuela = 
+                    ["Usualmente recuerdo lo maravillosa que eres como amiga y como abuela. Lo puedo descubrir en las pequeñas cosas que haces para que todos a tu alrededor se sientan especiales. Yo me siento muy orgulloso de poder llamarte “¡Abuelita!”", 
+                    "¡Querida abuelita, te envío un gran abrazo por tu Cumpleaños! Aquí te lo guardo para ti y espero que te mantengas feliz y saludable por muchos años más.", 
+                    "Todavía puedo recordar esos días de mi niñez en que solías leerme cuentos para dormir. Todavía puedo sentir tu presencia a mi lado. Por eso te envío este mensaje, abuelita, lleno de amor y respeto en este día tan especial.", 
+                    "He aprendido tanto de ti, tú me has enseñado muchas cosas, sobre todo aquellas referentes al poder de la amistad y el amor. ¡Gracias por tu amor y tu amistad! Qué tengas un gran día.",  
+                    "Que este día traiga un sinnúmero de felicidad y alegría como lo has traído tu a nuestras vidas, felicidades nanita querida.",
+                    "Otra abuela como tú no existe en el mundo. Te quiero mucho y espero que vivas muchos años más. ¡Feliz cumpleaños abuela!",
+                    "No hay un obsequio en el mundo lo suficientemente grande y valioso que pueda representar todo lo que tú te mereces en el día de tu cumpleaños. Eres una mujer maravillosa, mi querida abuela, y por eso te deseo el mejor de los cumpleaños. Por favor cuídate mucho para que así podamos tenerte con nosotros muchísimos años más. Te quiero con todo mi corazón y te deseo el mejor de todos tus cumpleaños.",
+                    "Cuando estoy a tu lado, siento tranquilidad y alegría. Con tu cariño, me siento seguro y le pido a Dios que vivas muchos años más. Feliz cumpleaños abuelita, haré que tus sueños se hagan realidad.",
+                    "Tienes tanta energía como si tuvieras veinte. Tienes tanta alegría como siempre. Te quiero abuelita y te deseo un feliz cumpleaños al lado de tu familia que siempre cuidará de ti.",
+                    "Más que mi abuela eres mi amiga. Eres en la que puedo confiar y la que siempre me aconsejará y me apoyará. Feliz cumpleaños abuelita, eres la que hace que mi vida sea mejor.",
+                    "Hoy es tu día y eres muy especial. Pero quiero que sepas que para mí, todos los días son tuyos. Te quiero y espero que este cumpleaños sea el mejor de todos.",
+                    "Querida abuela, en este pequeño mensaje quiero intentar expresarte todo mi cariño. Quiero desearte muchos años de vida, de felicidad y de amor. Te quiero, ¡Feliz cumpleaños!",
+                    "Tal y como los buenos vinos, tú mejoras con los años. Feliz cumpleaños abuela, tu corazón aún es joven y sé que vivirás muchos años.",
+                    "Dios te ha bendecido enormemente con un año más de vida y por eso son motivo de alegría para todos nosotros estar contigo para celebrarlo. Gracias por todo lo que haces por mí, por tus sabios consejos y sobre todo por tu amor incondicional, eso es algo que recordaré por toda mi vida. Muchas felicidades en tu cumpleaños, te lo digo con todo mi cariño.",
+                    "Te quiero con todo mi corazón y eres un de las personas más importantes de mi vida. Contigo, mi niñez fue la mejor. Te quiero abuela, feliz cumpleaños.",
+                    "Te quiero mucho abuelita querida, eres la mejor. Te llevo en el corazón y te deseo un feliz cumpleaños este día. Sé que aún te quedan muchos años por vivir.",
+                    "Por todas tus enseñanzas, por tu paciencia y tu cariño, te has ganado mi amor eterno abuela. Eres la persona más dulce que conozco y te deseo una inolvidable fiesta cumpleaños.",
+                    "Si no hubieras existido, mi niñez no hubiera sido la que fue: una feliz y mágica niñez. Te quiero mucho y te deseo un feliz cumpleaños. Haré que este día sea muy especial para ti.",
+                    "¡Feliz cumpleaños abuela! Te mereces todo el cariño y los regalos del mundo por ser la abuela tan linda que eres. Nunca olvides que te quiero y que siempre cuidaré de ti.",
+                    "Tienes todo mi cariño y respeto abuelita, porque me enseñaste desde pequeño a ser una buena persona. Te quiero y te deseo un feliz cumpleaños, toda tu familia estará a tu lado para festejar contigo este día tan especial."];
+                    var randomValue = Abuela[Math.floor(Math.random() * Abuela.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Abuelo
+                else if (selected == "abuelo") {
+                    var Abuelo = 
+                    ["Querido abuelo, en estas pocas líneas quiero expresarte lo mucho que significas para mí, además de desearte un muy feliz cumpleaños. Te mereces lo mejor por haber sido mi guía en la vida, mi consuelo y mi sabio consejero.", 
+                    "Gracias querido abuelo por haber estado a mi lado en todos esos momentos difíciles de mi adolescencia. Ten un feliz cumpleaños hoy día, y que la vida te colme de riquezas.", 
+                    "Para un abuelito especial, al cual le debo todo mi cariño y respeto. Y es que como tú nunca habrá nadie. Feliz cumpleaños a ti, y que sean mucho, pero muchos más.", 
+                    "Por todo lo que has hecho por mí e incluso por las reprimendas cuando era niño, hoy sólo quiero desearte un muy feliz cumpleaños, tierno abuelito. Siempre serás para mí la luz de mi existir.",  
+                    "Para ti, abuelo querido por ser el cómplice más leal y darme a entender lo que en verdad es bueno. Te deseo un Feliz cumpleaños.",
+                    "Feliz cumpleaños, viejito, pásala muy bien y disfruta de tus obsequios.", 
+                    "Me siento agradecida de tener un abuelito como tú, alguien en quien confiar, que sabe instruirme y guiarme en mis momentos de incertidumbre. Te quiero con toda el alma. Feliz cumpleaños, abuelito.", 
+                    "Pásala bien, abuelito, en este día tan esperado por todos, que quienes te queremos hemos preparado un obsequio muy especial. Feliz cumpleaños, viejito de mi corazón.", 
+                    "Tanto que me has dado y tantas veces me has aconsejado, que te mereces todo lo bueno del mundo, por eso ahora, querido abuelito, te deseo un feliz cumpleaños cargado de dicha y emoción. Te quiero mucho.",  
+                    "Un Feliz cumpleaños para el abuelito más lindo del mundo. Que los cumplas feliz y que obtengas muchos, pero muchos regalitos.",
+                    "Te quiero mucho, abuelito, por ser como eres, por acompañarnos siempre, por nunca dejar de darme los consejos necesarios para tener un buen día y por cuidar de la familia siempre. Feliz cumpleaños, y que, desde luego, vengan muchos buenos momentos.", 
+                    "Para mi lindo abuelito con todo mi corazón, por ser el día de su cumpleaños. Dios te bendiga y te dé muchos años más de vida. Te quiero por siempre abuelito.",
+                    "Desde el chiste más hilarante hasta mis más terribles preocupaciones, siento que puedo compartirlo todo contigo. Desde un abrazo cariñoso hasta la más dulce de tus risas, abuelito, en mi vida lo eres todo. ¡Felicidades!",
+                    "Tu cumpleaños es sobre ti y sobre todo aquello que hiciste en esta vida. Has tenido un camino sorprendente, abuelito. ¡Feliz Cumpleaños! Deseo que el amor y las bendiciones de Dios abunden en tu camino hoy y todos los días de tu vida.",
+                    "Después de haber pasado los mejores años de mi vida a tu lado, contigo sosteniendo mi mano mientras daba mis primeros pasos; ahora todos deseamos que tengas un muy feliz y dichoso cumpleaños y esperamos que nos permitas, ahora, sostener tu mano. ¡Te queremos, abuelito!",
+                    "Cientos de velas sobre tu pastel de cumpleaños no podrían compararse con el brillo con que llenas nuestras vidas. ¡Feliz Cumpleaños, querido abuelito! No olvides que te amamos.",
+                    "Alguien lleno de sabiduría, de diversión, de encanto... Alguien lleno de buenos modales, de comprensión, de inspiración... Abuelito, eres único y especial, tus nietos te deseamos lo mejor en este día",
+                    "Tu cumpleaños debería ser una fiesta nacional, porque tú eres un tesoro nacional, abuelito, eres alguien muy especial y querido por toda la familia. ¡Felicidades!",
+                    "Desearía ser tu bastón. Así podría estar a tu lado, acompañándote, todo el día. ¡Te queremos mucho!",
+                    "Usted es el mejor abuelo del mundo feliz cumpleaños"];
+                    var randomValue = Abuelo[Math.floor(Math.random() * Abuelo.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Amiga
+                else if (selected == "amiga") {
+                    var Amiga = 
+                    ["Feliz día, amiga. Estoy muy feliz de poder festejar un cumpleaños más tuyo a tu lado. te deseo todo lo mejor.",
+                    "¡Feliz día, querida amiga! Espero que este nuevo año que vas a vivir esté lleno de felicidad. te quiero mucho.",
+                    "Espero que Dios te siga bendiciendo con mucho amor y salud. Feliz día, querida amiga. Pásala increíble.",
+                    "Tú te mereces lo mejor. Eres una gran persona y la mejor de las amigas. Feliz día, amiguita.",
+                    "Espero que todos tus sueños se puedan hacer realidad, amiga. Feliz día, eres la mejor de todas las amigas.",
+                    "Sabes que siempre te desearé lo mejor. Voy a estar contigo siempre y te apoyaré en todo lo que necesites. Feliz día, amiga.",
+                    "Eres más que una amiga, eres como una hermana para mí y quiero agradecerte por estar siempre a mi lado en los buenos y malos momentos. Feliz cumpleaños, amiga.",
+                    "Te deseo todo lo mejor hoy en tu cumpleaños, querida amiga. Espero que estés rodeada de la gente que más quieres. Pásala genial, amiga.",
+                    "Me entristece mucho no poder estar a tu lado el día de tu cumpleaños, querida amiga. Sin embargo, ninguna distancia nos podrá separar y hará que me olvide de este día. Feliz día, amiga.",
+                    "Espero que este nuevo año que comienza en tu vida puedas acercarte más a tus metas. Tienes que aprovechar el regalo que Dios te ha dado. Feliz cumpleaños, amiguita.",
+                    "Siempre que es tu cumpleaños me acuerdo de todos los momentos que hemos compartido juntos y lo que más quiero es agradecerle a Dios por haberme dado a una amiga tan especial como tú. Feliz cumpleaños.",
+                    "Espero que este día sea un día inolvidable y que el Señor te bendiga siempre. Feliz día, amiga. Estoy feliz porque cumples un año más de vida.",
+                    "¡Feliz día, querida amiga. Te deseo lo mejor de este mundo. Espero que cumplas muchísimos años más y que sigamos siendo amigas para siempre.",
+                    "Te agradezco por haber estado junto a mí en los momentos más duros y alegres, eres mi mejor amiga. Te deseo muchas felicidades hoy en tu día. Feliz cumpleaños.",
+                    "Nuestra amistad es más fuerte que cualquier obstáculo o distancia. Te mando mis mejores deseos por el día de tu cumpleaños y mis felicitaciones.",
+                    "Quiero que esta fecha sea increíble. Espero que tengas junto con la gente que te quiere. Feliz cumpleaños, amiga.",
+                    "Nos conocemos desde muy pequeñas y siempre has sido mi mejor amiga. Por eso siempre le pido a Dios que te bendiga con muchos años de vida. Espero que seas muy feliz y que logres alcanzar tus sueños.",
+                    "Espero que puedas alcanzar todas tus metas y que siempre te acuerdes que puedes contar conmigo en todo momento. ¡Feliz día!",
+                    "Nosotras hemos pasado momentos maravillosos juntos que te he llegado a considerar como una hermana con la que puedo confiar siempre. Te agradezco por quererme. Feliz día.",
+                    "Nuestra amistad es algo muy importante para mí. Es por eso que te quiero mandar mis mejores deseos a través de estas palabras."];
+                    var randomValue = Amiga[Math.floor(Math.random() * Amiga.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Amigo
+                else if (selected == "amigo") {
+                    var Amigo = 
+                    ["Siempre guardo los mejores recuerdos de ti y por eso te deseo lo mejor, feliz cumpleaños querido amigo.",
+                    "Amigos como tu hacen que la vida sea más bonita, que tengas un feliz cumpleaños y la pases súper.",
+                    "Cada año es para disfrutarlo así que hoy celebra a lo grande y diviértete, feliz cumpleaños amigo.",
+                    "Sin importar lo que pase nuestra amistad perdurara toda la vida, te quiero mucho amiga, feliz cumpleaños.",
+                    "Hay muchas cosas que admiro de ti y en este día especial deseo expresarte todo mi cariño y buenos deseos, feliz cumpleaños amigo.",
+                    "Veo que cada año logras tus objetivos y te felicito por eso amigo, tu más que nadie se lo merece, que tengas un feliz cumpleaños.",
+                    "Juntos hemos compartido muchas alegrías y tristezas, eres una de las amigas que siempre esta cuando más la necesito, en este día de tu cumpleaños te envío un fuerte abrazo a la distancia y mis mejores deseos.",
+                    "A veces peleamos y discutimos pro siempre acabamos riendo porque somos buenos amigos, que pases un feliz cumpleaños.",
+                    "Eres una de mis mejores amigas y aunque me encuentre lejos siempre te llevo en mi corazón, te deseo un feliz cumpleaños.",
+                    "En esta vida las personas son más importantes que lo material y por eso yo te considero alguien muy especial, feliz cumpleaños amigo.",
+                    "Espero que este nuevo año en tu vida sea mejor que el anterior y que todos tus sueños se hagan realidad, feliz cumpleaños de todo corazón.",
+                    "Por mi vida han pasado miles de personas afirmando ser mi amigos pero son pocos los que han podido demostrármelo, por suerte tú eres uno de ellos, te deseo un feliz cumpleaños.",
+                    "Si hay alguien en quien siempre puedes confiar esa soy yo amiga mía, nunca lo olvides, te deseo un feliz cumpleaños.",
+                    "La vida recién empieza para ti, aprovecha tu juventud y disfruta de la vida, feliz cumpleaños amigo y muchos éxitos.",
+                    "Muchas felicidades amigo, hoy es tu cumpleaños y desde aquí te mando buenas vibras para que la pases bien y tus deseos se cumplan.",
+                    "Admito que no tengo buena memoria pero nunca olvido los cumpleaños de mis verdaderos amigos, feliz cumpleaños y que la pases de maravillas.",
+                    "Hoy es un día en que solo deben haber sonrisas y alegrías, que pases un bonito cumpleaños en compañía de tus seres queridos.",
+                    "Eres un gran chico y por eso te aprecio mucho. Gracias porque estar dispuesto a escucharme, a aconsejarme y sobre todo te agradezco por ser un buen amigo. Te deseo muchas felicidades en este día, que tengas un hermoso cumpleaños.",
+                    "Tener tu compañía siempre es muy especial pues nos divertimos y pasamos momentos muy especiales. Hoy que estás celebrando un año más de vida espero que todos sus sueños se hagan realidad. Que Dios te bendiga mucho.",
+                    "Nuestra amistad nació en la infancia y desde entonces somos como hermanos. En todos los buenos recuerdos de mi vida siempre estás tú. Espero que tengas un lindo cumpleaños y que todos tus anhelos se hagan realidad."];
+                    var randomValue = Amigo[Math.floor(Math.random() * Amigo.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Esposa
+                else if (selected == "esposa") {
+                    var Esposa = 
+                    ["Mil besos y abrazos no serían suficientes para decirte cuánto me alegra compartir mi vida contigo, espero despertar cada mañana a tu lado y celebrar todos los cumpleaños que Dios tenga en sus planes. ¡Feliz cumpleaños amada esposa!",
+                    "Bella esposa, estamos casados hace 10 años y aun me encuentro enamorado de ti como si fuera la primera vez que te veo, te adoro y deseo que cumplas un hermoso cumpleaños.",
+                    "El haberte conocido estaba escrito en nuestros destinos, casarme contigo ha sido la mejor decisión que he podido tomar en toda mi vida, gracias a Dios por la oportunidad de estar contigo en tu cumpleaños.",
+                    "Mi vida entera te dedico hoy, pues hace años a la misma hora, comenzó a brillar el sol al contemplar el rostro de la niña más hermosa que nació para estremecer mi corazón. Feliz cumple, reina de mi corazón.",
+                    "Para la madre y esposa que cada día se esfuerza por mantenernos siempre unidos y que llena nuestros corazones de amor, dicha y felicidad.",
+                    "Quiero darte el mejor regalo: mi corazón y amor incondicional... no fuiste mi primera mujer, pero si la ultima... pues ninguna seria tan noble y amorosa como tu.",
+                    "Yo no quiero comprar un billete de lotería. No quiero pedir favores a Dios. No quiero que Dios me otorgue algunos deseos. Todo lo que yo quiero en esta vida eres tu. ¡Quédate conmigo siempre! Te deseo un muy Feliz cumpleaños.",
+                    "Tu eres la Abeja Reina de mi vida porque tu amor y cariño son más dulce que la miel. Un hermoso día para para la esposa más dulce.",
+                    "Yo era un alma perdida hasta el día en que te conocí. Hoy, soy afortunado por tener en mi vida a alguien como tú. Has sido una esposa amorosa, una verdadera amiga, una honesta guía y mi sistema de apoyo, todo a la vez. Gracias por todo, querida... Espero que tengas un día inolvidable.",
+                    "Yo creo en dios, Yo creo en los milagros, Yo creo en los ángeles Y creo en ellos sólo porque te tengo Gracias por ser el milagro de mi vida Feliz Cumple, mi ángel!",
+                    "Mi vida sin ti sería como un lago sin agua. Tú haces que mi vida este completa en todos los sentidos. ¡Feliz día, querida!",
+                    "El dinero puede comprar ropas de diseño, casas lujosas, carros suntuosos, vacaciones carísimas y el estilo de vida de los reyes. Pero todo eso es inútil sin el amor de una reina honesta y hermosa. Gracias por ser la reina en mi vida. ¡Feliz Cumpleaños, Querida!",
+                    "Desde el día en que te vi por primera vez, yo me enamore de ti y hasta el día de hoy, no puedo pensar en amar a nadie más. Tú eres la mujer más hermosa que he visto; yo he sido bendecido por poder compartir mi vida contigo. ¡Feliz Cumpleaños a la más brillante estrella de mi vida!",
+                    "Yo pensé que me iba a pasar la vida buscando la felicidad... pero desde que te encontré me tiene sin cuidado, porque tú eres la alegría de mi vida. ¡Dichoso día, mi querida esposa!",
+                    "Con mucho amor quiero expresarte la alegría tan grande que siento de tenerte como la madre de nuestros hijos. ¡Te amo mi cielo!"];
+                    var randomValue = Esposa[Math.floor(Math.random() * Esposa.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Esposo
+                else if (selected == "esposo") {
+                    var Esposo = 
+                    ["Se levanta el telón para festejar una nueva obra de la vida, tu vida, ese telón que alza para dejar ver una hermosa obra de arte. Hoy tienes un año nuevo de vida y es una razón para dar gracias de nuevo. Feliz cumpleaños mi vida.",
+                    "Hoy cumples un año más de vida amor mío y quiero hacerte muy feliz, pues me pone muy contenta que la pases a mi lado y espero que vengan muchos más, feliz cumpleaños mi amor",
+                    "Para qué payasos y magos, para qué inundar la vida de una corta alegría viendo que la mayor alegría nos la concede Dios y hoy en el que somos capaces de festejar un año más de tu vivir. Gozar de la experiencia del amor contigo todos estos años de matrimonio ha sido lo mejor que ha podido sucederme sin lugar a dudas. Te deseo todo lo mejor y que goces de un bello cumpleaños.",
+                    "Te deseo lo mejor del mundo en este nuevo año de existencia al que llegas, estoy feliz de que logres darle una vuelta más al sol y eso en sí mismo es un gran mérito. El sol está muy contento de ver cómo es que haces ronda en torno a él año tras año y yo muy feliz de lograr festejarlo año tras año a tu lado. Que todos tus sueños se cumplan. Felicidades amor.",
+                    "Es una gran alegría que logres llegar a un año más de vida, es una buena razón para festejar y para dar las gracias a Dios primero por tu vida, segundo por dejarme festejar un año más contigo y tercero, porque tengo al esposo más magnífico del mundo a mi lado y eso no se puede describir porque no puede tener comparación. Feliz cumpleaños mi amor y que la pases increíble.",
+                    "Estoy que compro un paquete de juegos pirotécnicos para tirar al aire en la noche y festejar el cumpleaños de mi esposo querido. Es una fecha tan importante que merece los juegos artificiales más bellos del planeta y que cuando hagan sus lindas figuras dibujen tu rostro y diga: ¡Feliz cumpleaños!",
+                    "Como sé que no habrá eso, yo me disfrazo de uno de ellos y te los festejo. Feliz cumpleaños mi vida.",
+                    "Quiero que pases un lindo día de cumpleaños, eres el mejor esposo del mundo y me siento muy feliz de tenerte en mi vida, te amo muchísimo.",
+                    "Un día como hoy viniste al mundo, iluminaste la tierra con tu existencia ahora eres mi esposo y pusiste tu luz en mi vida, feliz cumpleaños esposo mío.",
+                    "Te regalo mi vida misma como obsequio y sabes muy bien que puedes contar siempre con mi persona en cualquier momento. Deseo lo mejor para ti en este día y que continúes recibiendo varios obsequios. Feliz cumpleaños mi bello esposo.",
+                    "Eres el rey de la casa y hoy se hará lo que tu órdenes, queremos que seas muy feliz y que pases un cumpleaños como el que te mereces, feliz día mi amor",
+                    "Gracias por protegernos y por ser lo primero en tu vida, eres un esposo y un padre ejemplar, así que por favor no demores que te esperamos en casa para festejar, feliz cumpleaños amor de mi vida",
+                    "Amor mío eres todo para mí y espero que la vida me de muchos años más para disfrutar de todos y cada uno de tus cumpleaños, que tengas un lindo día, hoy te haré muy feliz",
+                    "Este día se celebra algo muy bonito y es el día en que naciste, gracias a eso pude conocerte y pudimos juntar nuestras vidas, es por eso que quiero festejarlo y hacerte feliz hoy y el resto de tus días, feliz cumpleaños esposo querido.",
+                    "Hoy todos estamos de fiesta porque celebramos un año más de tu vida, y no solo cumples eso si no también todas tus metas prometidas, estoy muy orgullosa de ti y feliz de estar en tu vida, feliz cumpleaños mi vida.",
+                    "Si volviera a nacer lo volvería a hacer, te diría si y me casaría contigo, pues mis días son muy felices a tu lado y más días como hoy en el que festejamos tu cumpleaños, feliz cumpleaños esposo mío.",
+                    "Espero que hoy la pasemos lindo, que partamos la torta y pidas tu deseo, hoy queremos que seas muy feliz y que sepas que eres el mejor papá y el esposo más amoroso del planeta, feliz cumpleaños mi amor.",
+                    "Feliz cumpleaños, hombre de mi vida. Gracias por ser la persona que alegra las vidas de todos y cada uno en esta familia. Espero que podamos pasar juntos muchísimos cumpleaños tuyos más. Eres el mejor esposo que se podría pedir. Te amo."];
+                    var randomValue = Esposo[Math.floor(Math.random() * Esposo.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Hermana
+                else if (selected == "hermana") {
+                    var Hermana = 
+                    ["Feliz cumpleaños hermanita preciosa. Para nosotros es una gran pena que no estés aquí. Te envío miles de besos y abrazos y deseo con todo mi corazón que todo te vaya bien.",
+                    "Hermanita en éste día te deseo toda la felicidad del mundo. Recibe muchos abrazos y que te llenen de muchos regalos. Te extraño mucho.",
+                    "Al recordar los cumpleaños que celebrábamos juntos me lleno de nostalgia. Que tengas un feliz cumpleaños hermanita. No olvides que tu familias siempre te recuerda y te quiere.",
+                    "Lo menos que pensé fue que celebrarías tu cumpleaños lejos de nosotros. Te deseo un buen día y el mejor de los cumpleaños. Feliz cumpleaños hermanita de mi corazón.",
+                    "Debemos agradecer cumplir un año más de vida es un regalo de Dios, por eso debemos celebrarlo. Espero lo celebres a lo grande y que se cumplan todos tus deseos.",
+                    "Por cosas del destino te fuiste tan lejos para hacer realidad tus objetivos por ello estamos muy orgullosos de ti. Tú mereces eso y mucho más, que tengas un gran día y un feliz cumpleaños.",
+                    "¡Feliz cumpleaños¡ Aunque no pueda abrazarte te mando mil besos y te deseo lo mejor. Siempre estas presente en mis oraciones, te quiero mucho.",
+                    "Para la hermana más bonita de la faz de la tierra le deseo Feliz cumpleaños. Para quien hace sentir su ausencia. Para la amiga que extraño y quiero mucho. Feliz cumpleaños hermanita.",
+                    "No te envío ningún regalo pero estaré muy ansiosa esperando tu retorno para celebrarlo a todo dar. Recuerda siempre que te quiero y que siempre estás en mis pensamientos. Feliz cumpleaños hermanita.",
+                    "Hermanita por el día de tu cumpleaños recibe un gran beso y abrazo. Te extraño tanto que pasare contando los días que faltan para tu retorno. Que la pases muy bonito hermanita.",
+                    "Aunque a la distancia te envío un saludo, mil abrazos y besos. Daría todo lo que está a mi alcance por estar contigo este día. Te quiero mucho y Feliz cumpleaños hermana de mi corazón.",
+                    "Tu existencia es incomparable. Le doy las gracias a Dios por darnos la alegría de tener una hermana como tú. Te quiero mucho. Feliz cumpleaños.",
+                    "Aunque te diera todos los regalos del mundo no serían suficientes para expresarte cuanto te quiero. Que tengas un lindo cumpleaños, aunque estemos separados te mando miles de besos.",
+                    "A pesar de nuestras discrepancias y de la distancia que nos separa este es el mejor día para decirte que te quiero y nadie es igual a ti. ¡Feliz cumpleaños hermanita querida!",
+                    "Que tengas un feliz cumpleaños querida hermanita, te extraño. Que Dios te llene de bendiciones y que tengas un día muy feliz.",
+                    "Hermanita Feliz cumpleaños, te deseo de todo corazón que este día y cada dia que pase estén llenos de mucho éxito y que se cumplan todos tus deseos. Recuerda que siempre estás en nuestro pensamientos y que esperamos tu pronto retorno.",
+                    "Antes de desearte un Feliz cumpleaños deseo de todo corazón que seas muy feliz y que se hagan realidad todos tus sueños. Feliz cumpleaños hermanita querida, siempre estoy pensando en ti.",
+                    "Ha pasado otro cumpleaños más y no estamos juntos, otro cumpleaños que te haces extrañar tanto. Feliz cumpleaños querida hermanita, y que seas muy feliz.",
+                    "Hermanita quiero que no te olvides que ocurra lo que ocurre, te vayas donde te vayas siempre estaré contigo. Feliz cumpleaños chiquita, y continua realizando tus sueños."];
+                    var randomValue = Hermana[Math.floor(Math.random() * Hermana.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Hermano
+                else if (selected == "hermano") {
+                    var Hermano = 
+                    ["Feliz cumpleaños hermanito. Me alegra poder celebrar junto a ti un año más de vida y seguir disfrutando de tu alegría. Te quiero un montón y deseo que sigas cumpliendo muchos años más.",
+                    "Tenerte como hermano es un regalo que Dios me mandó porque siempre me cuidaste y me aconsejaste como un padre. Gracias por ser como eres hermano, te deseo un feliz cumpleaños en el que todos tus deseos se cumplan.",
+                    "Nunca dejes de soñar y de seguir aquello que quieres. Es lo que deseo para ti en este día especial hermano. Feliz cumpleaños y que Dios siga guiando tu camino.",
+                    "Feliz cumpleaños hermanito querido. Juntos hemos pasado muchas cosas y aunque estemos lejos, siempre estaremos unidos por el corazón. Te quiero.",
+                    "Agradezco a Dios la oportunidad que nos da de tenerte un año más con nosotros. Disfruta de tu fiesta de cumpleaños, te la mereces y cuando soples las velas de tu torta, que todos tus deseos se cumplan. ¡Feliz cumpleaños!",
+                    "Eres una de las personas más importante de mi vida y lo único que deseo para ti es felicidad y mucho amor. Feliz cumpleaños hermanito, que tu sonrisa nunca se apague.",
+                    "Feliz cumpleaños a la personita que siempre gustó de tomar mis juguetes sin mi permiso y de hacerme bromas para asustarme. Te quiero mucho y nunca olvidaré tus travesuras ni tu alegría. Solo deseo que pases un feliz cumpleaños y que tengas un linda vida.",
+                    "Desearte un feliz cumpleaños es muy poco. Yo te deseo una feliz vida. Que tus deseos se cumplan y que sigas celebrando tu cumpleaños cien años más.",
+                    "Tal vez no pueda darte un abrazo el día de hoy pero quiero hacerte llegar mis saludos, abrazos y besos en este día especial. Feliz cumpleaños hermanito, siempre te llevo en el corazón.",
+                    "Es increíble lo rápido que pasa el tiempo. Aún recuerdo cuando eres un pequeño corriendo por la casa y ahora estás tan grande cumpliendo un año más. Te deseo el mejor cumpleaños hermanito, que tu vida esté llena de felicidad.",
+                    "Mil abrazos no pueden expresar lo mucho que te quiero. Solo quiero que sepas que para mí siempre serás mi hermanito menor y que deseo que el día de hoy sea un gran día para ti. ¡Feliz cumpleaños!",
+                    "Te deseo un feliz cumpleaños con todo mi corazón. Porque eres mi hermano del alma, con el que compartí tristezas y alegrías, con el que pasé la mayor parte mi vida y la persona que siempre estuvo para mí. Te quiero y deseo que el día del hoy sea inolvidable para ti.",
+                    "Ni las peleas, ni las diferencias podrán hacernos olvidar lo que la sangre grita. Que somos hermanos y que siempre estaremos unidos sin importar la distancia que nos separe. Te deseo un feliz cumpleaños hermano, es hora de olvidar las peleas y de reunirnos como la familia que siempre fuimos y somos.",
+                    "Querido hermano, ¡Feliz cumpleaños! Estoy muy contento continuar gozando de tu compañía festejando un año más de tu llegada a este mundo. Te quiero de corazón y espero que sigamos celebrando mas años de vida.",
+                    "Tener un hermano como tu es una bendición, pues tu estas pendiente de mi en todo momento y eres un buen ejemplo. Nunca cambies hermano espero que tengas un feliz cumpleaños y que todos tu sueños se hagan realidad.",
+                    "No renuncies a tu ideales y mantente firme en ellos. Te deseo lo mejor del mundo en esta fecha especial para ti. Feliz cumpleaños hermano y continua haciendo las cosas bien.",
+                    "Feliz cumpleaños hermano del alma. Hemos vivido muy buenos momentos y aunque estemos a gran distancia, siempre habrá un bello sentimiento que nos une, te quiero mucho.",
+                    "De todo corazón te deseo un feliz cumpleaños. Porque eres mi único hermano con el que pase bonitos y feos momentos, con la persona que compartí mis mejores años de vida y en quien siempre confiare toda mi vida. Te deseo que este día sea grandioso para ti porque te quiero.",
+                    "Así te encuentres a gran distancia, espero que puedas recibir mi cariño y mis buenos deseos. Te echo de menos y me gustaría celebrar este día contigo. Recuerda que soy más que tu hermana, soy tu amiga nunca te dejare sola. ¡Feliz cumpleaños!",
+                    "Ni las rencillas, ni nuestras disputas nos harán olvidar el sentimiento que nos une. Siempre seremos hermanos y nos mantendremos unidos a pesar de la distancia. Que tengas un feliz cumpleaños, es momento de dejar en el pasado nuestras diferencias, y unir los lazos de familia que compartimos."];
+                    var randomValue = Hermano[Math.floor(Math.random() * Hermano.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Hija
+                else if (selected == "hija") {
+                    var Hija = 
+                    ["Siempre serás mi niña de tierna mirada y mágica sonrisa, la razón de mi felicidad y mi orgullo más grande, te deseo de todo corazón un feliz cumpleaños.",
+                    "Mi único objetivo en la vida es trabajar para darte lo mejor y mi mejor premio es verte feliz, hoy es un día especial en tu vida y quiero desearte lo mejor, feliz cumpleaños.",
+                    "Cada día que pasa aprendes una nueva lección y luces más hermosa hija mía, te quiero mucho y deseo que este cumpleaños la pases súper bien.",
+                    "Te felicito hija mía porque demuestras con tus acciones que estas convirtiéndote en una persona responsable de buen corazón, que pases un feliz cumpleaños.",
+                    "Felicidades querida hija, acabas de cumplir un año más en que seguramente lograras muchas de tus metas y vivirás maravillosas experiencias.",
+                    "Solo puedo decirte que me haces sentir muy contenta, eres una chica que sabe tomar sus propias decisiones y que actúa de la manera correcta, feliz cumpleaños hija mía y que dios te bendiga por siempre.",
+                    "A veces desearía tener más de lo que tengo para darte lo que te mereces, mientras tenga vida me seguiré esforzando para que no te falte nada y seguiré siendo la persona que te apoye incondicionalmente, feliz cumpleaños hija.",
+                    "La vida nos da y nos quitas muchas cosas pero nunca dejes que se lleva tu bella sonrisa, sonríele a la vida hasta en los momentos más adversos y siempre confía en mí, feliz cumpleaños hija.",
+                    "Mi único sueño es tu felicidad y para lograrlo luchare contra viento y marea si es necesario, tú me hiciste feliz desde que naciste y por eso te lo debo todo, feliz cumpleaños hija.",
+                    "Desde que te tuve entre mis brazos sentí algo increíble y en ese momento le prometí a dios cuidarte, educarte y ser un ejemplo para ti, te veo y me alegro mucho hija mía, disfruta de cumplir un año más de vida.",
+                    "Saber que eres feliz a mi lado me motiva a ser mejor, a pesar de tu corta edad has demostrado ser una persona que sabe lo que quiere en esta vida y por eso te admiro, feliz cumpleaños hija.",
+                    "Una parte de mi corazón te pertenece querida hija, es una parte que late de felicidad cada vez que mis ojos te ven, feliz cumpleaños.",
+                    "odos estos años son recuerdos inolvidables del pasado contigo, momentos preciosos del presente y promesas de un futuro maravilloso. Feliz cumpleaños a mi amada hija. Te veo como lo que eres y no lo que las personas pueden querer que seas, te veo como una estrella entre un mar de plebeyos, te veo como una hermosa princesa en un cuento de hadas maravilloso, pero sobre todo os veo como la hija a la que yo siempre eh querido y querré toda la vida, feliz cumple princesa.",
+                    "Hija, eres una de nuestras mayores bendiciones. Ojalá que este y todos tus días del año Dios te bendiga con lo mejor que la vida pueda ofrecerte, felicidades.",
+                    "Estoy seguro que la vida te devolverá toda la felicidad que me has dado tu, porque tú hija eres una bendición, feliz cumpleaños.",
+                    "Querida hija en este día, queremos recordarte lo afortunados que nos sentimos tu papi y yo de tener una hija como tu, feliz día. Una hija como tu es un regalo de Dios, no hay otra manera de explicarlo.",
+                    "Como no voy a ser feliz si tengo a la hija más bonita de todas, aquella que cuando vino a este mundo me hizo el hombre más feliz, feliz cumpleaños hijita.",
+                    "Las palabras no son suficientes para expresar cuan feliz me siento por ser tu padre. ¡Te Amo, Hija Mío! Tu presencia me hace sentir completo. ¡Feliz Cumpleaños, mi niña!.",
+                    "Bendiciones hija y que pases un feliz cumpleaños, cada año que pasa creces y eres más hermosa pero para mí siempre serás mi pequeña princesa de cuento de hada.",
+                    "Aun recuerdo el día en que naciste y al sostenerte entre mis brazos supe que mi vida sería mucho mejor porque tu serias la razón de mi existir, feliz cumpleaños querida hija."];
+                    var randomValue = Hija[Math.floor(Math.random() * Hija.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Hijo
+                else if (selected == "hijo") {
+                    var Hijo = 
+                    ["Para mi hijo querido, porque has sabido llevar una vida acorde con los principios que nosotros, tus padres, te hemos inculcado. Feliz cumpleaños.",
+                    "Tú eres todos los momentos del pasado, los preciosos momentos del presente y la promesa de un maravilloso futuro. ¡Feliz cumpleaños pequeño!",
+                    "Ser padre es difícil, pero tratándose de ti lo hiciste muy fácil para mí. Estoy muy contento de que hayas crecido convirtiéndote en un buen muchacho, feliz dia.",
+                    "No importa cuantos cumpleaños pasen, tu siempre seras mi pequeño ángel, feliz cumpleaños hijo.",
+                    "Es una bendición de Dios, el que cuente con alguien tan especial como tu en mi vida.",
+                    "Al igual que una estrella fugaz en el cielo puede iluminar todo el horizonte, tu, mi querido hijo, Iluminaste nuestras vidas al venir a este mundo a través de nosotros. Sed siempre bendecido. Feliz cumpleaños.",
+                    "Nadie puede igualar el regalo que yo recibí un día como hoy, pero cada día de mi vida intentaré compensártelo. Felicidades hijo.",
+                    "Que seas bendecido con todo en la vida que siempre has querido. Que los ángeles de los cielos siempre miren por encima de tu bienestar. Un muy feliz cumpleaños te deseamos!",
+                    "Eres una de las cosas más maravillosas que me ha pasado en esta vida. Por eso, doy gracias a Dios por haberme dado un hijo tan maravilloso como tu Feliz cumpleaños.",
+                    "Para nosotros, usted es más que Superman, Batman, Jedi, Anakin Skywalker, Iron Man y todos los otros superhéroes del mundo. tu eres nuestro propio super hijo, feliz dia.",
+                    "No hay nada que se compare con el orgullo de un padre cuando ve convertirse a su hijo pequeño en un joven hombretón. Gracias por darnos la oportunidad de llamarnos a nosotros mismos padres orgullosos. ¡Feliz cumpleaños!",
+                    "Un feliz cumpleaños para mi hijo, el tesoro que un día el Señor me regaló. Tan solo quiero que sepas que siempre camino a tu lado, por mucho que parezca que a veces estoy lejos de ti. Te quiero mucho, hijo mío.",
+                    "Hace muchos años, en este mismo día, que llegaste a nuestras vidas y nos trajo la felicidad, la alegría y mucho amor. Feliz cumpleaños al mejor hijo en el mundo entero!",
+                    "Mi felicidad está completa desde el día en que naciste, por eso quiero celebrar este maravilloso acontecimiento contigo. Feliz cumpleaños.",
+                    "Nadie más que yo puede desearte felicidad, prosperidad, que tus sueños se realicen, porque cuando eres feliz tu, lo soy yo, cuando tus sueños se realizan también se realizan los míos, y porque verte feliz es por lo que vivo: Te Amo hijo mio.",
+                    "Veo un poco más de mí en ti, con cada año que pasa. feliz cumpleaños hijo.",
+                    "Que todos los días de tu vida estén llenos de bendiciones. Feliz cumpleaños hijo.",
+                    "Mientras estabas creciendo, nuestras mentes estaban llenas de preguntas y confusiones. acerca de ¿Qué sera cuando seas grande? ¿Serás capaz de hacer una buena vida? Pero viendo que crecías cumpleaños tras cumpleaños, sabemos que no hay nada de que tener que preocuparnos. Te deseamos un feliz día.",
+                    "Porque has sido una persona maravillosa, un amigo sincero una compañía increíble, y sobre todo un hijo obediente hoy te deseamos un muy feliz cumpleaños, disfruta tu día.",
+                    "No importa cuántos cumpleaños van y vienen, siempre serás mi hijo pequeño."];
+                    var randomValue = Hijo[Math.floor(Math.random() * Hijo.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Mama
+                else if (selected == "mama") {
+                    var Mama = 
+                    ["Hoy es el cumpleaños del mayor tesoro que tengo en mi vida: mi mamita querida. Mamita feliz cumpleaños. Te amo mucho. Te deseo lo mejor del universo por ser una extraordinaria mamá. Muchas bendiciones para ti mamita de mi corazón en este tu día y siempre.",
+                    "Mamita hermosa hoy que es tu cumpleaños quiero aprovechar para  agradecerte con toda mi alma todo lo que me has dado y me sigues dando. Muchas gracias por todos tus cuidados y por ser mi mejor amiga. Te amo mucho. Feliz cumpleaños. Muchas bendiciones hoy y siempre.",
+                    "Hoy quiero desear muchas felicidades a la mamita más hermosa de este universo. Feliz cumpleaños reina de mi vida. Gracias por ser mi ejemplo y mi todo. Gracias por tu apoyo y amor incondicional. Te quiero infinito mamita. Que tengas un gran día de cumpleaños.",
+                    "Feliz cumpleaños mamita de mi corazón. Que el Señor te bendiga siempre con mucha salud y años de vida. Que siempre podamos disfrutar de momentos bellos como este como lo es tu cumpleaños. Te amo con todo mi corazón.",
+                    "Hoy es tu cumpleaños mamita hermosa y lo único que desea expresar mi corazón aparte de unos bellos saludos cumpleañeros es un profundo agradecimiento por todo lo que haces por mí y todo lo que me das. Soy muy afortunada de tenerte como mi madre. Feliz cumpleaños mamita linda.",
+                    "Un feliz cumpleaños a la madre más maravillosa de este universo. Gracias por todo mamita porque gracias a ti soy quien soy hoy por hoy. Te amo demasiado.",
+                    "Mamita jamás podría terminar de agradecerte por todo lo que has hecho por mí pero bueno no hay que ponernos meditabundos ni melancólicos porque hoy es tu cumpleaños y hay que celebrarlo como te mereces. Que tengas un feliz día mamita de mi corazón y que Diosito siempre te bendiga.",
+                    "En un día como hoy sólo puedo dar infinitas gracias al Señor por permitirme tener una madre tan linda y maravillosa como tú. Feliz cumpleaños hermosa. Te amo.",
+                    "Mamita no sabes lo orgullosa que estoy de ser tu hija. Eres la mejor madre del mundo. Te amo. Feliz cumpleaños reina de mi vida.",
+                    "Mamita sin ti mi vida no tendría rumbo ni sentido. Gracias por estar siempre a mi lado. Te quiero infinito. Feliz cumpleaños.",
+                    "Señor sólo puedo pedirte que siempre le des mucha salud a mi mamita querida para que podamos disfrutar de lindos momentos como éste, ya que hoy es su cumpleaños.",
+                    "El gran amor que me has dado, ha curado todas mis heridas; tus palabras cariñosas limpiaron cada una de mis lágrimas. Mamá, decirte Gracias tal vez no sea suficiente, pero esa es la sensación que me invade en este día tan especial para ti. ¡Espero que tengas un muy Feliz Día!.",
+                    "Tú me enseñaste el significado de la vida. Me enseñaste el verdadero valor del esfuerzo. Muchas Gracias Mamá por convertirte en mi inspiración. Siempre me asombrará tu dedicación hacia mí y deseo que la pases muy bien en este día tan especial. ¡Feliz Cumpleaños, Mamá!",
+                    "Te escribo para enviarte un saludo especial por tu cumpleaños a ti, que eres la madre más dulce y alegre del mundo. Gracias Mamá porque tu ejemplo me ha ayudado a ser fuerte y ha llenado mi camino de alegrías y de esperanza. ¡Eres la mejor! ¡Feliz Cumpleaños, Dulce Madre Mía!",
+                    "Felicitaciones a mi bellísima madre en su cumpleaños. Tú has sido un ejemplo a seguir en mi vida. Deseo lo mejor para ti en esta noche y durante todos los días de tu vida. Estas palabras te las dedico con todo mi amor: ¡Te amo, Mamá! ¡Feliz Cumpleaños!",
+                    "Tú siempre has sido mi guía, mi amiga y mi confidente, alguien en quien puedo confiar y quién siempre me entregó su amor de manera incondicional. De no haber sido por ti, mamá, yo nunca hubiera podido llegar hasta donde estoy ahora. ¡Feliz Cumpleaños, Mamita de mi Corazón!",
+                    "Madre Me has regalado el milagro de la vida, me has enseñado y educado con una paciencia infinita, perdonando mis muchos errores y felicitándome cuando hacía las cosas bien. Eres una de las mujeres más extraordinarias de este mundo, y mis palabras nunca serán suficientes para agradecerte todo lo que has hecho por mí. ¡Feliz Cumpleaños, Mamá!",
+                    "Querida madre, hoy es un día muy especial para ti, y yo quiero aprovecharlo para agradecerte por haberme traído a este mundo y por cuidarme de manera incansable. ¡Quiero que disfrutes de cada segundo de este día y que pases uno de tus mejores Cumpleaños! ¡Siempre estaré cerca de ti!",
+                    "Las dificultades no me preocupan porque se que, cuando lo necesite, podre contar con tu apoyo incondicional. Eres una gran Madre y una mejor amiga... Eres la persona en quien yo mas confió. ¡Muchas felicidades!",
+                    "El día en que me convierta en madre, me conformare con ser la mitad de buena que tu, porque así­ podre estar segura de que mi hija sera¡ feliz, así como yo fui muy feliz mientras tu me cuidabas. ¡Muchas Gracias por tu amor, Mama¡!! Espero que este año encuentres razones para sonreír cada dia. ¡Feliz Cumple, Madrecita querida!"];
+                    var randomValue = Mama[Math.floor(Math.random() * Mama.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Novia
+                else if (selected == "novia") {
+                    var Novia = 
+                    ["Hoy es un día muy especial y te mereces ser tratada como la reina que eres. Estoy demasiado agradecido con tenerte a mi lado y llenar mis días de felicidad. Te amo muchísimo y espero pasar contigo muchísimos cumpleaños más. ¡Feliz cumpleaños preciosa!",
+                    "En este día tan especial, quisiera regalarte la luna y las estrellas, pero lo único que te puedo ofrecer es mi amor más sincero. Te regalo mi corazón y mis días para pasarlos a tu lado siempre. ¡Feliz cumpleaños mi amor!",
+                    "Espero que la pases increíble este día y espero estar contigo muchos cumpleaños más. Te amo y te deseo un ¡Feliz cumpleaños mi amor!",
+                    "Para la mujer más bella, las flores más bellas. Mi amor incondicional y mis pensamientos te ofrezco hoy en este día tan especial para ti, tu cumpleaños. ¡Feliz día mi amor!",
+                    "Te agradezco por haberme aceptado en tu vida y ser la mujer que eres. Hoy, en este día tan especial, solo quiero hacerte las mujer mas feliz y espero que estemos muchísimos años mas juntos.",
+                    "Hoy será el primero de muchos cumpleaños que estaré a tu lado, tratando de hacerte la mujer más feliz. Te deseo un cumpleaños lleno de alegría mi amor y espero vivir contigo toda la vida. Gracias por estar a mi lado, te amo.",
+                    "Hoy cumples un año más y estoy contigo para vivirlo y hacerlo aun mas especial. Deseo que en este cumpleaños la pases increíble y espero estar a tu lado para todos tus cumpleaños futuros. Te amo.",
+                    "La mujer más bella que conozco hoy está de fiesta. ¡Feliz cumpleaños corazón! Te deseo un cumpleaños lleno de alegría. Este día y todos los días de tu vida. Espero compartir a tu lado muchísimos cumpleaños más. Te amo.",
+                    "Hoy has sido bendecida por Dios con un día mas de vida y a mí me bendijo con tu presencia en mi vida. Lo más grande que puedo regalarte es mi corazón y mi vida. ¡Feliz cumpleaños amor mío!",
+                    "Ahora que es tu cumpleaños, eres mi reina. Hoy estoy aquí para servirte, porque mi corazón te pertenece, hoy más que nunca mi amor. ¡Feliz cumpleaños!",
+                    "Con este mensaje te quiero expresar todo mi amor en este día, le agradezco a la vida por haberte conocido y te doy las gracias por hacerme el hombre más feliz de todos, feliz cumpleaños amor mío.",
+                    "Cuando desperté esta mañana mire el calendario y me acorde que hoy es tu cumpleaños, saber que existes y eres parte de mi vida me hace feliz, hoy cumples años pero el mejor regalo lo tengo yo porque soy tu novio y porque tú me das amor.",
+                    "A través de este saludo te quiero expresar todo el cariño que te tengo, gracias por estar conmigo, quiero pasar contigo por el resto de nuestras vidas. Feliz cumpleaños amor de mi vida.",
+                    "Cada día que pasa mi amor por ti se hacer más grande, soy el hombre más feliz de todos, y en este día quiero decirte que también deseo que tú seas feliz. Te mereces lo mejor, que tengas un onomástico lindo.",
+                    "Hace varios días estoy esperando esta fecha, para celebrarla junto a ti mi gran amor, hoy es tu cumpleaños y no me voy a cansar de decirte cuánto te amor. Que todos tus sueños se hagan realidad.",
+                    "Muchas felicidades por tu cumpleaños, mi hermosa muñequita, cada día junto a ti soy súper feliz, eres lo mejor que me ha pasado. Prepárate para todas las sorpresas que hoy tendrás.",
+                    "Cada día a tu lado es especial, pero hoy más que nunca porque estás celebrando un año más de vida. Gracias por existir y por hacer de mí un mejor hombre. Te quiero mucho.",
+                    "Te mando este saludos para decirte que te deseo lo mejor, hoy cumples otro año de vida junto a mí y no te imaginas la felicidad que eso me da. Feliz cumpleaños.",
+                    "Apenas comienza a amanecer y ya me muero de ganas por ir a verte, hoy festejaremos a lo grande por tu onomástico. Sólo vivo para hacerte feliz.",
+                    "Hoy es tu onomástico y estaba pensando qué regalarte, es que ya no tengo nada porque te lo he dado todo lo mejor: Mi gran amor, mi ternura, mi respeto. Te amo mi princesa."];
+                    var randomValue = Novia[Math.floor(Math.random() * Novia.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Novio
+                else if (selected == "novio") {
+                    var Novio = 
+                    ["Hoy cumple años el mejor novio del mundo, el novio que siempre quise y a quien le deseo lo mejor para su vida, que cumpla sus proyectos y sea exitoso. Hoy agradezco a Dios por un nuevo año en el que continúas viviendo y yo estoy aquí para compartirlo contigo, y estoy aún más agradecida porque tengo la oportunidad de vivir una experiencia de amor increíble a tu lado. Feliz cumpleaños cariño, recuerda que mi amor está contigo en donde tu estés.",
+                    "Feliz cumpleaños mi vida, hoy es un día demasiado especial porque además de festejar tu cumpleaños, es un día en el que cumplimos un mes más desde que nos conocimos y acordamos ser novios, debido a eso, la importancia de este día se duplica y debemos celebrarlo al máximo.",
+                    "Lo que más deseo para ti es una vida llena de alegrías y si es junto a mí será mucho mejor porque sabes que el amor que te tengo es infinito y traspasa fronteras. Feliz día mi vida.",
+                    "Queda claro que hoy no es un día cualquiera, pues un día como hoy nació la persona que le da sentido a mi vida, esa persona que hace que cada uno de mis días se tornen especiales, por ello agradezco a Dios y a la vida que se cumpla un año más desde tu nacimiento. Sé que aún faltan muchísimos cumpleaños más y hoy será uno de los mejores que tendrás. Te amo.",
+                    "Festejar un día como tu cumpleaños es algo que me llena de felicidad porque es tan grande mi amor hacia ti, que aunque no tenga el dinero para comprarte la fortaleza más costosa del mundo, lo haría si pudiese. Pero ten presente que mi amor crea la fortaleza más bella para ti, el amor que te tengo excede cualquier obstáculo. Te amo con todo mi corazón y mi deseo es celebrar junto a ti cada uno de tus cumpleaños. Feliz cumpleaños mi vida.",
+                    "Hoy el mundo entero está de fiesta porque cumple años el mejor novio del universo. Hoy cada deseo tuyo se hará realidad para complacerte y llenarte de alegrías, tus metas serán cumplidas. Hoy Dios te regala un año más, razón por la que debemos estar agradecidos; de mi parte espero que este sea el mejor cumpleaños que hayas tenido, pues te adoro tanto que espero y sé que te mereces todo lo mejor para que tu felicidad sea completa. Te amo de aquí hasta el fin del mundo y te deseo un cumpleaños inolvidable.",
+                    "Desde el momento que nuestras miradas se cruzaron toda nuestra vida cambió, a tu lado he descubierto lo que es el amor verdadero y me siento muy afortunada por tenerte. Pasa un bonito onomástico mi amor.",
+                    "Me encanta estar junto a ti, esos momentos especiales cuando tomas mis manos y besas mis labios son los más maravillosos de mi vida. Mi corazón te pertenece y siempre va a ser así. Que pases un feliz cumpleaños mi príncipe azul.",
+                    "Me considero la chica más afortunada de todas porque estoy con un chico tan especial como tú. Te amo con toda mi alma y quiero decirte que tengas un cumpleaños inolvidable mi amor, te mando un gran beso.",
+                    "Pídeme lo que quieras y te lo daré, hoy te voy a hacer más feliz que nunca pues estás cumpliendo un año más de vida, gracias por existir mi amor. Muchas felicidades.",
+                    "Nuestro amor es tan inmenso que nunca acabará, nuestro noviazgo no es algo momentáneo. Tú y yo hemos nacido para amarnos y siempre va a ser así. En este día que celebras un año más de vida quiero decirte que en ese deseo toda la felicidad del mundo. Te amo mi amor.",
+                    "Feliz cumpleaños mi príncipe amado, quiero decirte que eres lo mejor que me ha pasado y junto a ti soy realmente feliz. Siempre voy a estar a tu lado y te ayudaré para que todos tus sueños se hagan realidad.",
+                    "El sentimiento que nos unen están fuerte que nunca dejará de existir, cada vez que me besas mi corazón late muy fuerte, estoy muy enamorada de ti. Te deseo muchas felicidades hoy que es tu onomástico y siempre.",
+                    "Cuando nos conocimos el amor surgió de inmediato, a partir de ese momento me has hecho sentir muy especial. Creo que una vida entera no me bastaría para demostrarte todo el amor que siento por ti. Muchas felicidades por tu onomástico.",
+                    "A pesar de ser tan diferentes nos amamos mucho, tú y yo nos complementamos perfectamente. Mi amor en este día deseo que pases un bonito cumpleaños y que Dios te bendiga para que puedas hacer realidad todos tus anhelos. Te amo mucho.",
+                    "Feliz cumpleaños mi amorcito hermoso, hoy es una fecha especial, porque un dia como hoy el amor de mi vida llego a este mundo para hacerme la mujer mas dichosa de todas.",
+                    "Un día como hoy llegaste a este mundo para regalar felicidad en la vida de muchas personas, estoy feliz de ser tu novia, de ser dueña de tu corazón, de tu amor, de ti, te amo con toda mi alma.",
+                    "Hoy podrá ser tu cumpleaños pero fue a mi quien la vida le dio el mejor obsequio de todos, tu amor por mi, el conocerte, el tenerte a mi lado, ser tu novia, te amo gracias.",
+                    "Eres el chico más lindo y más dulce de este planeta. Supongo que fui muy buena en otra vida para que, en ésta, tu corazón me ame con la misma intensidad que te ama el mío. ¡Feliz Cumpleaños, mi amor!",
+                    "Un día como hoy llegaste a este mundo, un día como hoy naciste tu mi amor, que bueno que nuestras vidas se cruzaran porque a tu lado soy muy feliz, le doy gracias a Dios por haberme puesto en mi camino."];
+                    var randomValue = Novio[Math.floor(Math.random() * Novio.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Papa
+                else if (selected == "papa") {
+                    var Papa = 
+                    ["Desde pequeñita tú has sido como mi héroe, me has enseñado tantas cosas, me has protegido de tantos peligros, nunca quiero alejarme de ti, eres el mejor, feliz cumpleaños.",
+                    "Hoy te deseo un feliz cumpleaños mi querido papa, eres la persona que siempre ha hecho de mis problemas algo pasajero, me has hecho reír en los peores momento de mi vida, te amo papa.",
+                    "Me siento tan orgullosa de ti , de tu esfuerzo ,de ser cada día mejor persona , mejor esposo, mejor profesional y sobretodo un buen padre para nosotros , por eso hoy te mereces algo especial por tu día , feliz cumpleaños con amor.",
+                    "Hoy estamos todos juntos celebrando aquel día en que nació un hermoso bebe que ahora es mi padre, un padre que amo con todo el corazón, gracias por todo el amor que me has dado siempre, te deseamos un cumpleaños feliz.",
+                    "Eres un padre ejemplar, todo lo que me enseñaste lo hiciste con mucho amor, eso me sirvió en la vida para ser quien soy, a pesar de que ya estoy grande sigo siendo tu pequeñita, feliz cumpleaños mi querido papa.",
+                    "Gracias a Dios tuve un padre como tú , nunca te fuiste de mi lado ,siempre fuiste mi confidente y trataste de verme reír aun en mis peores momentos, hiciste de mi vida una eterna alegría, feliz cumpleaños.",
+                    "Quiero seguir compartiendo este cumpleaños y muchos más a tu lado, siempre te voy a admirar por la entrega que tuviste desde que nosotros nacimos , nos quisiste tanto a nosotros y a mama también por eso te adoramos y te deseamos un feliz cumpleaños.",
+                    "Yo sé que la distancia nos separa pero eso no impedirá hacerte llegar todo mi amor a través de este mensaje, te deseo un hermoso cumpleaños, te amo mucho papa.",
+                    "Mi querido padre, te debo la vida, su infinito, sus colores, sonidos y los sentimientos que experimento. Por favor, acepta mi gratitud en este día tan especial, aunque cada momento de mi vida es un regalo que vino de ti ¡Feliz cumpleaños Papá!",
+                    "Yo extraño esos días en que tus fuertes hombros eran el lugar más alto del planeta. ¡Pero sólo quiero decirte, papá, que no importa cuanto tiempo haya pasado ni la edad que yo tenga, tu siempre serás mi superheroe! ¡Feliz Cumpleaños!",
+                    "¿Tú sabías cual era el lugar más seguro en el mundo? ¡Eran tus hombros! Hoy, que es tu cumpleaños, yo quiero agradecerte por cada uno de las cosas que tú has hecho por mi en la vida, cada una de las sonrisas que tu me das dado, cada una de las lagrimas que has tenido que comerte en mi nombre. Deseo que hoy tengas un muy feliz cumpleaños, Querido papá.",
+                    "Mi querido padre, gracias por estar para mi cuando yo te necesitaba, y apoyarme durante toda mi vida. Yo te deseo la mayor de las bendiciones y la mejor de las suertes en este día ¡Feliz Cumpleaños, Papá!",
+                    "No importa cuan viejos nos hayamos puesto, tu siempre serás la persona que sostiene mi mano cuando me tropiezo. De esa modo tan especial te pienso y de esa manera te amo. ¡Feliz día Papá!",
+                    "Mi querido padre, gracias por estar ahí para mi siempre que te he necesitado y gracias por apoyarme durante toda mi vida. Hoy, quisiera que tu tengas la mayor de las bendiciones y la mejor de suerte en tu cumpleaños.¡Feliz día!",
+                    "Todo el tiempo que he pasado contigo, se han convertido en dulces recuerdos para el resto de mi vida. Tú eres mi inspiración.¡Feliz día Papá! Me gustaría que vivas por mil años.",
+                    "Hoy, que es tu cumpleaños, Papá, no puedo dejar de sonreír porque tu has celebrado todos mis cumpleaños cuando yo era joven. Ahora, es momento de que yo celebre los tuyos. Así que siéntate en tu mecedora y apaga las velas para cerrar otro año fantástico de tu vida y de nuestra unión. ¡Feliz cumpleaños Papá!",
+                    "Yo todavía me siento como un pequeño niño cuando miro dentro de tus ojos. Si yo pudiera lograr ser la mitad de la persona que tu eres, me podría considerar un extraordinario ser humano. Gracias por mostrarme el camino, papá. ¡Feliz Cumpleaños!",
+                    "No existen tarjetas de cumpleaños, saludos o mensajes que puedan expresar en palabras la cantidad de amor y respeto que yo te tengo. Deseo que tengas un muy feliz cumpleaños, querido Padre.",
+                    "Tú eres la única persona que ha creído en mi en cada paso de mi vida. Gracias por ser un maravilloso padre y quiero que tengas un fantástico cumpleaños.",
+                    "Tú eres la mayor celebridad de mi vida; hoy, que es tu cumpleaños, yo deseo agradecerte por cada una de las cosas que has hecho por mi en la vida, por cada sonrisa que me has dado. Que el señor te bendiga y te mantenga saludable para siempre. ¡Feliz día!"];
+                    var randomValue = Papa[Math.floor(Math.random() * Papa.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Prima
+                else if (selected == "prima") {
+                    var Prima = 
+                    ["¡Primita de mi corazón! Que tengas un cumpleaños lleno de alegría y mucha emoción. Te lo desea desde el fondo de su alma tu prima que te quiere un montón.",
+                    "Feliz cumpleaños, querida prima. Que tus deseos se vuelvan realidad y lleves siempre en ti ese brillo que te caracteriza. Te quiero mucho.",
+                    "Ten un feliz cumpleaños, prima de mi corazón, que por la tarde iré a tu casa y nos divertiremos a lo grande en tu día. Pásalo muy bien.",
+                    "Un feliz cumpleaños te deseo estimada prima. Que la felicidad te colme de bienes y bendiciones en este día. Te quiero mucho.",
+                    "En este día especial sólo quiero felicitarte por tu cumpleaños y desearte que nunca dejes de soñar. Que la vida siempre te dará un nuevo despertar. ¡Felicidades querida prima!",
+                    "Primita linda, te deseo un año cargado de muchas buenas vibras. Sigue siendo como eres y tendrás una vida cargada de éxitos. Feliz cumpleaños.",
+                    "Un año que queda atrás para traerte otro lleno de inesperadas alegrías y sorpresas. Te quiero mucho primita. Ten un Feliz cumpleaños, y que cumplas muchos más.",
+                    "Puede que seas un año mayor, pero eso te hará más sabia y linda. Feliz cumpleaños, querida prima.",
+                    "Que Dios te bendiga en este nuevo año de vida y te ayude a ser mejor cada vez. Muchas felicidades por tu cumpleaños. Por la tarde te llevaré una sorpresa.",
+                    "Brindemos porque seas más feliz cada día. Te quiero mucho, prima de mi corazón. Gracias por tus palabras y por tu compañía cada vez que lo necesito. Ten un bonito cumpleaños, y que seas muy feliz.",
+                    "Hoy por la noche no te librarás de mi gran abrazo de cumpleaños. Te quiero mucho, primita. Feliz cumpleaños.",
+                    "Festejemos tu cumpleaños con mucha alegría, que un evento así sólo se da un día en la vida. Ten un feliz cumpleaños, adorada prima.",
+                    "Porque eres especial para mí es que te deseo lo mejor en este día. Sé siempre como eres y cosecharás la felicidad, porque tú sabes bien cómo vivir una vida plena de virtudes. Feliz cumpleaños querida prima.",
+                    "Brindemos porque seas más feliz cada día. Te quiero mucho, prima de mi corazón. Gracias por tus palabras y por tu compañía cada vez que lo necesito. Ten un bonito cumpleaños, y que seas muy feliz.",
+                    "Es siempre un placer desear un lindo y feliz cumpleaños a una personal tan especial como lo eres tu primita linda, feliz cumple.",
+                    "Que este sea un día muy bonito, que recibas el saludo de todas las personas que forman parte de tu vida y que sigas conservando esas ganas de ser la mejor, feliz cumpleaños a ti primita.",
+                    "Feliz cumpleaños primita, espero que logres cumplir todas tus metas pero que tu forma de ser nunca cambie porque así como eres todos te queremos.",
+                    "A celebrar a lo grande y tirar la casa por la ventana que hoy es tu cumpleaños, que empiece la diversión y que no termine hasta el amanecer, feliz cumpleaños prima.",
+                    "Qué felicidad poder pasar estos momentos tan bonitos contigo. feliz cumple querida primita.",
+                    "El mundo es mucho más bonito desde que tú llegaste a él. Felicidades prima."];
+                    var randomValue = Prima[Math.floor(Math.random() * Prima.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Primo
+                else if (selected == "primo") {
+                    var Primo = 
+                    ["Espero que pases un lindo cumpleaños querido primo. Que todos tus sueños se puedan realizar y siempre sientas el cariño de todos tus seres queridos. ¡Muchas felicidades!",
+                    "Qué feliz que soy primito de poder celebrar este cumpleaños junto a ti. Este cumpleaños será único porque los ángeles vendrán a tu vida para convertir tus sueños en una bella realidad. Feliz cumpleaños en tu día primo querido. ¡Que tengas un día muy especial!",
+                    "Ya estamos preparando la salida de la orquesta y organizando todos los instrumentos musicales para poder celebrarte y alegrarte en el día de tu cumpleaños querido primito. La pasaremos de maravilla primo, no sólo porque cantaremos todas tus canciones favoritas y partiremos el pastel sino porque una estrella fugaz bajará del cielo esta noche para alumbrar cada uno de tus días. Feliz cumpleaños primito, prepárate para recibir muchas sorpresitas en este día.",
+                    "Primo feliz cumpleaños para ti de todo corazón. De más está decirte que eres una persona muy importante y valiosa en mi vida y que siempre podrás contar conmigo cuando lo necesites como una gran prima y amiga. Recibe un fuerte abrazo en este día. Feliz cumpleaños desde el fondo de mi corazón.",
+                    "Que hoy sea un día en el que puedas sentir una inmensa felicidad y que puedas festejarlo en compañía de tus familiares. Feliz onomástico, te mereces todo lo mejor!",
+                    "La celebración por tu onomástico sólo durará unas horas, pero el cariño que siento por ti va a durar toda la vida. Espero que te diviertas mucho y que pases un lindo cumpleaños.",
+                    "Siempre me olvido de todo, pero de algo que nunca me voy olvidar es de tu cumpleaños. Te deseo todo lo mejor del mundo y espero que tengas un onomástico inolvidable.",
+                    "El tiempo pasa rápido, pero lo que nunca va a pasar es el cariño que siento por ti. Me siento muy contenta por ser tu prima y en este día quiero decirte que te deseo todo lo mejor. ¡Felicidades por tu cumpleaños!",
+                    "Hoy es un día muy especial pues hace 25 años llegaste a este mundo para ser la alegría de todos. Le pido a Dios que siempre te bendiga y tu vida puede estar llena de muchos éxitos. ¡Felicidades!",
+                    "Qué gran dicha es estar junto a ti para celebrar que hoy estás cumpliendo un año más de vida. No te sientas viejo, siéntete una persona más sabia. ¡Muchas felicidades!",
+                    "Hoy vas a escuchar muchas veces las palabras -feliz cumpleaños-, pero créeme que yo te lo digo de todo corazón. Eres muy especial, alguien a quien siempre voy a querer.",
+                    "Deseo que hoy pases un día espectacular y puedas divertirte a lo grande. Te envío un gran abrazo y te deseo que pases un feliz onomástico.",
+                    "Las personas especiales como tú merecen toda la felicidad del mundo siempre. Querido primo que tengas un cumpleaños hermoso y puedas sentir el cariño de todos sus seres queridos.",
+                    "Decirte que te deseo muchas felicidades es poco; tú te mereces todo lo mejor de este mundo porque eres un buen hijo, gran amigo y sobre todo un primo maravilloso. Que Dios te bendiga mucho y todos tus sueños se hagan realidad.",
+                    "Hoy vas a dar inicio a un nuevo año de vida y quiero decirte que te deseo muchos éxitos y alegrías en cada aspecto de tu vida. ¡Que pases un lindo cumpleaños!",
+                    "Querido primo espero que este día pueda ser uno de los más felices de tu vida, siempre recuerda que eres muy importante para mí, felicidades por tu onomástico.",
+                    "Espero que hoy puedas disfrutar de momentos inolvidables en compañía de todas las personas que más te queremos. ¡Que Dios te dé muchos años más de vida, felicidades!",
+                    "Me siento muy dichoso porque tengo un primo tan especial como tú y en este día que estás cumpliendo un año más quiero decirte que espero que tu vida está llena de muchas alegrías y que todos tus anhelos puedan realizarse.",
+                    "Que Dios te bendiga mucho y te premie porque eres una gran persona. Espero que siempre puedas sentir el cariño de todas las personas que te apreciamos. ¡Felicidades primo!",
+                    "Hoy celebramos tu llegada al mundo, celebramos que estás con nosotros y que eres la alegría de la familia. Querido primo siempre recuerda que siento un cariño especial por ti, espero que este día puedas divertirte mucho y pasarla bien."];
+                    var randomValue = Primo[Math.floor(Math.random() * Primo.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Tia
+                else if (selected == "tia") {
+                    var Tia = 
+                    ["Muchas felicidades por tu cumpleaños querida tía. Deseo que hoy puedas divertirte mucho y celebres a lo grande este nuevo año de vida. Eres alguien muy importante para mí.",
+                    "Espero que puedas pasar un día muy especial. Le pido a Dios que te bendiga con mucha salud y vida para que nos acompañes por mucho más tiempo. Felicidades por tu onomástico.",
+                    "Hoy estás festejando un año más de vida y es un acontecimiento muy especial para todos nosotros. Te queremos mucho querida tía y siempre te deseamos todo lo mejor.",
+                    "Quiero decirte que te aprecio mucho y me siento muy agradecido contigo pues siempre has sido como una mamá para mí. Que tengas un bonito onomástico querida tía y que todos tus sueños se hagan realidad.",
+                    "Muchas felicidades por tu onomástico apreciada tía. En este día tan importante deseo que estés rodeada de todas las personas que te queremos y puedas pasar un día maravilloso.",
+                    "Los años pasan y cada vez te vas convirtiendo en una persona más sabia. Qué grande es Dios por la gran bendición que es tenerte dentro de nuestro hogar. Felicidades por tu onomástico.",
+                    "En este día vamos a festejar contigo tu cumpleaños, también vamos a darle las gracias a Dios porque eres parte de nuestra familia. Que pases un hermoso día amada tía.",
+                    "Todos tus sobrinos te queremos pues eres alguien muy especial. En este día que estás cumpliendo años te deseamos muchas felicidades y éxitos a lo largo de tu vida.",
+                    "Felicidades por tu onomástico tía linda. Todos nos sentimos muy orgullosos por tenerte y queremos que sepas que siempre vamos estar junto a ti.",
+                    "Hoy es un día muy especial para ti y para todos nosotros pues estamos muy contentos de festejar a tu lado tu cumpleaños. Que Dios te bendiga siempre.",
+                    "Cada día que pasa te quiero mucho más. Le pido a Dios que te bendiga y pueda ayudarte para que hagas realidad todos tus anhelos. Muchas felicidades por tu onomástico.",
+                    "En este día estás celebrando un año más de vida y te deseo toda la felicidad del mundo. Eres una mujer muy especial y por eso te aprecio tanto.",
+                    "En este día especial lo mínimo que te mereces es sentir el gran cariño de todos tus familiares. Eres una tía muy especial por eso siempre te vamos a querer. Feliz cumpleaños.",
+                    "Desde que soy pequeña me has demostrado tu gran cariño, por ello en este día quiero decirte que te deseo toda la felicidad del mundo. Que tengas un lindo cumpleaños.",
+                    "Dios nos bendice a todos con tu presencia y en este día que cumples un año más de vida nos sentimos muy afortunados de tenerte junto a nosotros. Esperamos que pases un bonito cumpleaños.",
+                    "Es una gran dicha estar junto a ti para festejar tu onomástico. Le pido a Dios que sean muchos años más los que nos permita estar juntos. Te queremos mucho.",
+                    "Espero que hoy pueda ser un día inolvidable para ti. Te mereces toda la felicidad del mundo pues eres una mujer muy especial. Que tengas un lindo cumpleaños tía.",
+                    "Porque eres como una segunda madre para mí, te deseo un feliz cumpleaños. Deseo toda la felicidad para ti y todas las bendiciones de Dios.",
+                    "Feliz cumpleaños tía querida. Gracias por todo el apoyo que siempre me das y por todo el cariño que me regalas. Te quiero.",
+                    "A pesar de la distancia tía, siempre te recuerdo y quiero hacerte llegar mis mejores deseos en este día en el que Dios, te premia con un año más de vida. ¡Feliz Cumpleaños tía!"];
+                    var randomValue = Tia[Math.floor(Math.random() * Tia.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Tio
+                else if (selected == "tio") {
+                    var Tio = 
+                    ["Querido tío, desde lo más profundo de mi corazón he venido a expresarte lo mucho que te quiero y todos mis sinceros deseos para ti en este día especial. ¡Muchas felicidades por tu cumpleaños!",
+                    "¡Feliz cumpleaños, querido tío! Estaremos contigo hoy por la noche. Tan solo quería decirte lo mucho que significas para mí. Que todos tus sueños se cumplan. Eres lo máximo. Un gran abrazo.",
+                    "Para un tío sin igual que siempre se preocupa por toda la familia. ¡Feliz cumpleaños, querido tío! Y que la vida te colme de todo lo que ansías. Eres, sin duda, el mejor.",
+                    "¡Muchas felicidades por tu onomástico, querido tío! Hoy que es un día especial hemos preparado algo para ti que no olvidarás, así que cierra los ojos y espera la sorpresa. ¡Tendrás un excelente cumpleaños!",
+                    "Para alguien a quien aprecio con toda el alma, y es que eres una gran persona que siempre ha velado por mí. ¡Feliz cumpleaños, querido tío! Que Dios te bendiga y te colme de su gloria.",
+                    "Felicidades por tu cumpleaños. Este día se tiene que celebrar como debe ser, así que prepárate, que las próximas horas serán todas de alegría y fiesta. ¡Muchas bendiciones y felicidades por tu cumpleaños, querido tío!",
+                    "Para un tío excepcional que siempre se ha preocupado por mí. Te quiero mucho tío. ¡Feliz cumpleaños!",
+                    "Quiero dedicarle un saludo especial a una personita que llevo en mi corazón. Gracias por ser como eres, querido tío. ¡Muy feliz cumpleaños! Dios te bendiga.",
+                    "Que el cielo te colme de infinitas bendiciones ahora que cumples años y te envíe nuevos retos para que tu vida sea siempre animosa y puedas aprovechar los mejores momentos de ella en toda ocasión. ¡Felicidades por tu onomástico, querido tío!",
+                    "En este día especial te hemos venido a saludar, pues no hay nada mejor que el día de nuestro cumpleaños, un día para reflexionar y ser felices al compartirlo con la familia. ¡Felicidades por este día, tío!",
+                    "Tío, tú eres un amigo, un maestro y un segundo padre para mí. Gracias por estar conmigo y por ayudarme cuando me metía en problemas. Nunca te olvides de tu sobrino que te quiere tanto. ¡Feliz Cumpleaños!",
+                    "Un muy Feliz Cumpleaños para la persona más maravillosa, impresionante, atractiva, tremendamente divertida, valiente y genial que eres tú, apreciadísimo tío ¡Que tu fiesta de cumpleaños sea A-LU-CI-NAN-TE!",
+                    "Me he puesto a recordar y he descubierto que en cada momento feliz has estado presente para compartir mi alegría; en cada momento difícil, me has dado la mano y me has ofrecido tus consejos. Siempre que has podido me has ayudado. Hoy sólo me queda desearte que tengas un muy Feliz Cumpleaños!",
+                    "Tío: Me gusta mucho que tú seas mi modelo a seguir, eres una persona ejemplar, alegre y divertida y siempre le pones tanto amor y dedicación a cada una de las cosas que haces. Mi mayor deseo, por tu cumpleaños, es que sigas siendo como eres y que alcances todos y cada uno de tus sueños.",
+                    "Tú siempre has sido la alegría y el centro de nuestras reuniones familiares; Es muy divertido pasar el tiempo contigo. En este, tu día especial, nosotros te enviamos nuestros mejores deseos de felicidad y alegría, y deseamos que pases un muy Feliz Cumpleaños.",
+                    "No me importa si eres el hijo favorito de mis abuelos, o el hermano favorito de mi padre o el cuñado favorito de mi madre... Lo único que me importa es que tú eres mi tío favorito. ¡Feliz Cumpleaños, tío querido!",
+                    "Qué tengas una magnífica fiesta de cumpleaños, tío! Y que sea tan sólo el principio de un año lleno de alegrías en tu vida. ¡Recuerda siempre que puedes contar conmigo!",
+                    "Tú, para mí, eres más que mi tío, eres mi mejor amigo, alguien en quien puedo confiar mis pensamientos, sabiendo que los valorará y que no me juzgará. ¡Feliz Cumpleaños, Querido amigo!",
+                    "¡Felicitaciones en este día, querido tío! Espero que la pases muy bien y que tengas muchos años llenos de felicidad. ¡Gracias por todo lo que me has enseñado!",
+                    "Querido tío, ¡Qué tengas un muy feliz día! Es increíble que te veas igual que hace diez años... es como si los años no pasaran para ti. ¡Feliz Cumpleaños y que tengas una larga vida llena de alegría!"];
+                    var randomValue = Tio[Math.floor(Math.random() * Tio.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                else {
+                    document.getElementById("message").innerHTML = "Error!";
+                }
+
+        }
+    </script>
+
+</body>
+
+</html>

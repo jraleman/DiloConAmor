@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>FelicitaMe</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+    <!-- FontAwesome - http://fortawesome.github.io/Font-Awesome/ -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+
+	<!-- jQueryMobileCSS - original without styling -->
+    <link rel="stylesheet" href="../css/themes/dca_theme.css" />
+    <link rel="stylesheet" href="../css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="../css/jquery.mobile.structure-1.4.5.min.css" />
+
+    <!-- Responsive images -->
+    <style>
+
+        img {max-width:20%}
+
+        @media screen and (orientation: landscape) {
+            .ui-mobile .ui-page {
+                min-height: 0 !important;
+            }
+        }
+    </style>
+
+	<!-- jQuery / jQueryMobile Scripts -->
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../js/jquery.mobile-1.4.2.js"></script>
+
+    <!-- Swipe right to open the menu. -->
+    <script type="text/javascript">
+        $( document ).on( "pagecreate", "#main", function() {
+            $( document ).on( "swipeleft swiperight", "#main", function( e ) {
+                // We check if there is no open panel on the page because otherwise
+                // a swipe to close the left panel would also open the right panel (and v.v.).
+                // We do this by checking the data that the framework stores on the page element (panel: open).
+                if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+                    if ( e.type === "swiperight" ) {
+                        $( "#menu" ).panel( "open" );
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function select_all() {
+            document.getElementById('message').select();
+        }
+    </script>
+
+</head> 
+
+<body>        
+    <div data-role="page" data-theme='a' id="main">
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='a'>
+            <a href="#menu"><i class='fa fa-bars'></i></a>
+            <a href="../index.html#main" data-transition="fade" data-ajax="false"><i class="fa fa-home"></i></a>
+            <h1 style="text-align:center">Dilo con Amor</h1>
+        </div>
+        
+        <div data-role="content">
+	        <div class='inset'>
+				<h2 align="center">San Valentín</h2>
+
+                <p align="center">
+                    <img src="../images/pages/san_valentin.png"></img>
+                </p>
+
+                    <p align="center">
+                        <button class="ui-btn ui-btn-inline" onclick="generateMsg();">Generar</button>
+                    </p>
+
+                    <label for="textarea-enhanced"><h4>Mensaje:</h4></label>
+                    <textarea readonly="readonly" onclick="select_all();" name="textarea-enhanced" id="message" data-enhanced="true" class="ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all" placeholder="Mensaje" data-autogrow="true"></textarea>
+
+	        </div>
+	        
+        </div>
+
+        <div data-role="panel" data-display="push" id="menu" data-theme="b">
+            <ul data-role="listview">
+                <li><b>Seleccione el Evento</b></li>
+                <li data-icon='false'><a href="aniversario.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-bell-o'></i>&ensp; Aniversario</a></li>
+                <li data-icon='false'><a href="cumpleanos.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-birthday-cake'></i>&ensp; Cumpleaños</a></li>
+                <li data-icon='false'><a href="madre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-venus'></i>&ensp; Día de la Madre</a></li>
+                <li data-icon='false'><a href="padre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-mars'></i>&ensp; Día del Padre</a></li>
+                <li data-icon='false'><a href="fin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-sun-o'></i>&ensp; Fin de Año</a></li>
+                <li data-icon='false'><a href="graduacion.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-graduation-cap'></i>&ensp; Graduación</a></li>
+                <li data-icon='false'><a href="navidad.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-tree'></i>&ensp; Navidad</a></li>
+                <li data-icon='false'><a href="#" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-heart-o'></i>&ensp; San Valentín</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        function generateMsg()
+        {
+
+            // Recopilacion de frases usando: http://www.consejosgratis.net/
+
+                var Novios = 
+                ["Antes de conocerte no sabía qué rumbo tomar en mi vida, desde que te conocí me enseñaste amar a querer y respetar a los demás. Por ese motivo es que en este día tan especial quiero decirte que te amo con todas mis fuerzas y que cada día te amaré más. Feliz día de San Valentín.",
+                "Lo que siempre da vueltas en mi cabeza es el momento en que nos volveremos a encontrar, pues sólo tu compañía hace que mi corazón se llene de una alegría infinita por el amor que tanto te tengo, feliz día de San Valentín adorada mía.",
+                "Este es en el sitio que estés, yo siempre te buscaré y te daré mi compañía, jamás podré separarme de ti. Te adoro más cada día, gracias por todo la alegría que le has dado a mi corazón, feliz día de San Valentín.",
+                "Estar a tu lado es algo maravilloso, espero que esto puede durar por siempre ya que te amo demasiado… feliz día de San Valentín.",
+                "Ni la muerte podrá separarnos y apagar este maravilloso amor que tengo en mi corazón por ti. Lo que más deseo es tener una vida con tu compañía. Feliz día de San Valentín novia mía.",
+                "Cada vez que bese tus labios siento tocar el cielo, ya que eres un ángel tan maravilloso que siempre me acompaña. Feliz día de San Valentín princesa mía.",
+                "Te quiero tal cual, eres maravillosa, si fuese diferente no serías la chica a quien amo tanto. Gracias por estar en mi vida, gracias por tu amor y sobre todo feliz día de San Valentín.",
+                "Decirte que te vayas de mi vida es como sacar algo de mi cuerpo, porque el lugar a donde tú perteneces es a mi corazón. Te adoro y te quiero mucho, feliz día del amor.",
+                "No hay nada mejor en este mundo que brindar nuestro amor y ser correspondidos por esa persona que tanto queremos. Por eso en este día de San Valentín lo único que importa es que tú y yo estemos juntos celebrando lo maravillosa que es nuestra relación y nuestro amor. Te amo y te amaré por siempre porque eres el gran amor de mi vida.",
+                "En día tan especial quiero decirte que puedes contar conmigo siempre, sin importar lo que pase, porque mi amor por ti es verdadero. Tú llegaste a mi vida en el momento en el que más te necesitaba y aunque no me di cuenta, tú nunca te diste por vencido hasta hacerme caer en cuenta de lo maravilloso y especial que eres. Te amo con todo mi corazón, con toda mi alma y con toda mi mente y te deseo el mejor de todos los días de San Valentín.",
+                "En el día de San Valentín no sólo celebramos el amor en pareja, también tenemos la oportunidad de celebrar junto a nuestros mejores amigos esa grandiosa amistad que nos une y que nos hace incondicionales los unos con los otros. El mundo es un mejor lugar para vivir cuando tenemos buenos amigos, así que feliz día para todos.",
+                "Eres lo más maravilloso que me ha pasado en mi vida. He sufrido muchas decepciones en el amor hasta el punto en el cual ya no quería volver a saber de ese sentimiento, pero entonces llegaste tú y con la luz de tu amor iluminaste mi mundo mostrándome lo maravilloso que es amar y ser amado con sinceridad y verdadera intención. Gracias amor mío por estar a mi lado, brindándome lo mejor de ti, lo mejor de tu amor. Feliz día de los enamorados.",
+                "A todos mis buenos amigos quiero decirles que no olviden que este día también es el día de la amistad y por eso les envío este mensaje de felicitación. Agradezco mucho todo lo que han hecho por mí y sobre todo porque siempre están ahí cuando más necesito de su ayuda. En verdad puedo decir que soy una persona muy afortunada al contar con su amistad. Muchas gracias y feliz día para todos.",
+                "El amor es un sentimiento tan profundo y contigo he descubierto su verdadero significado. Deseo decirte que eres lo mejor que me ha pasado y nada ni nadie podrá interferir en nuestra bella historia de amor. ¡Que pases un hermoso día de San Valentín!",
+                "Te amo con toda mi alma y en este día maravilloso quiero reafirmar mi promesa de estar a tu lado por siempre. Hemos nacido para amarnos y lo nuestro jamás tendrá final. ¡Felicidades en este 14 de febrero!",
+                "Antes de conocerte sentía que mi vida estaba incompleta, pero ahora que te tengo me siento de maravillas. A tu lado todo es mejor y por eso quiero estar contigo por el resto de la eternidad. ¡Amorcito que pases un bello día del amor!",
+                "El amor que siento por ti nunca llegará a su fin y en este hermoso día de San Valentín deseo que sepas que jamás fui tan feliz como lo soy a tu lado.",
+                "El gran cariño que hay entre nosotros hace que cada día sea especial, sin embargo hoy que se celebra el día del amor deseo expresarte mi ternura y admiración. Eres lo mejor que la vida me ha dado. ¡Felicidades!",
+                "¿Sabes algo? En todo momento estás en mis pensamientos; desde que me despierto hasta que me duermo en mi mente sólo hay lugar para ti. Te amo con todo el corazón, que pases un lindo 14 de febrero.",
+                "Muchas veces te he dicho que el amor que siento por ti es infinito, pero hoy nuevamente deseo recordártelo. Eres la persona que siempre estuve esperando y desde que te vi supe que el destino nos había reunido. Te amo mucho, que pases un bello día del amor.",
+                "Tú eres la fuente de mi alegría. Cuando estoy a tu lado me olvido de todo pues a tu lado disfruto el lado bello de la vida. ¡Que pases un hermoso día de San Valentín mi cielo!",
+                "Me da mucha tristeza que hoy no podamos estar juntos, pero ten la seguridad que estarás presente en mis pensamientos pues eres el gran amor de mi vida. ¡Muchas felicidades en este día del amor, la próxima semana lo celebraremos a lo grande!",
+                "Siento un amor inmenso por ti y estoy muy emocionado pues hoy festejaremos que este sentimiento hermoso ha unido nuestras vidas. Ten presente que eres el mejor obsequio que Dios me ha dado. ¡Feliz San Valentín mi amada!",
+                "Amor de mi vida hoy que se celebra el día del amor quiero decirte que eres lo más hermoso que Dios me ha dado. Si no fuera por tu cariño no sería tan dichoso. Desde el momento en que nuestros labios se unieron por primera vez supe que eres la chica que siempre estuve esperando. ¡Muchas felicidades!",
+                "Apreciado amigo, el 14 de febrero también se le rinde un homenaje al día de la amistad y por ese motivo quiero saludarte de manera especial. Eres una buena persona y me siento muy feliz de conocerte. Espero que pases un excelente día, muchas felicidades.",
+                "¡Muchas felicidades a todos mis amigos! Hoy festejaremos al lo grande el día de San Valentín pues el gran lazo que nos une, jamás nada ni nadie lo romperá. Los quiero mucho y los considero parte de mi familia.",
+                "Amor mío, como cada 14 de febrero quiero renovar mi promesa de amarte por siempre, recuerda que cada día puedes contar conmigo porque tus sueños son mis sueños y no hay nada que me haga más dichoso que verte contenta. Te amo con toda el alma, que pases un hermoso día.",
+                "Mi principal objetivo es hacerte muy feliz y cada día que pasa me esfuerzo por superar las expectativas que tienes de mí. Desde que llegaste cambió mi vida totalmente, ahora me siento dichoso de tener tu amor y quiero que lo nuestro sea eterno. En este 14 de febrero quiero entregarte nuevamente mi corazón y darte las gracias por hacerme tan dichoso. ¡Felicidades amorcito!",
+                "Compartir momentos muy agradables con mis amistades me hace sentir muy dichoso. Realmente es una gran bendición conocer a personas tan especiales que siempre me demuestran su cariño y están conmigo en las buenas y malas. Los quiero un montón y deseo que este día de San Valentín esté lleno de muchas alegrías.",
+                "No hay nada más hermoso que estar junto a la persona que más amo. Eres el gran amor de mi vida y desde que somos novios cada día tiene una magia especial. Me haces muy feliz con cada uno de tus detalles y por ello estoy tan enamorada de ti. ¡Que pases un hermoso 14 de febrero!",
+                "Amor mío quiero que sepas que cada día le doy gracias al Señor por haberte puesto en mi camino y le pido que el gran amor que nos une jamás se termine. Eres lo más hermoso que me ha pasado y por ello te amo tanto. ¡Muchas felicidades y que a diario festejemos el día del amor!",
+                "Mi vida ya no tenía sentido hasta que llegaste tu a mi vida, dándole luz .Estoy muy agradecido por todo tu amor .Espero que este día de los enamorados lo pasemos increíble, amor mío.",
+                "Feliz día de los enamorados amada mía, eres muy especial para mí y quiero compartir el resto de mi vida a tu lado. Gracias por hacerme tan feliz, te amo.",
+                "El amor no es tan fácil como parece, sin embargo es tan lindo sentirte enamorado. Te adoro, eres el hombre de mi vida. Feliz día de San Valentín.",
+                "El amor no solo se encuentra en las novelas o en las canciones románticas, sino que hay que llevarlo por dentro para saber cómo se siente. Y ahora que tu estas junto a mi sé que he encontrado al amor de vida. Feliz día de los enamorados, amada mía.",
+                "Desde el instante que te vi por primera vez supe que tu serias la mujer ideal para mi, y hoy soy tan feliz porque aceptaste ser mi enamorada. Y hoy que vamos a festejar nuestro primer día de los enamorados quiero decirte que eres muy especial en mi vida.",
+                "Hoy te deseo un Feliz día de los enamorados , y a pesar que las personas no se den cuenta de tanto amor que nos tenemos , solo me basta estar junto a ti y estar contenta cada uno de mis días contigo. Te amo.",
+                "Se que hoy sientes mucho amor por mi y eso me entusiasma mucho, ya que quisiera estar contigo el resto de mi vida. Feliz día de los enamorados, amada mía.",
+                "Desde el comienzo de nuestra relación cuidaste mi amor, para nunca romper mi corazón, por eso hoy te amo con todas mi fuerzas y quiero hacerte muy feliz. Feliz día de los enamorados amor mío.",
+                "Quiero que sepas que todo lo que tengo es para ti, estas muy dentro de mi corazón. Te quiero transmitir el amor tan grande que siento por ti. Feliz día de los enamorados, mi amor."];
+
+                var randomValue = Novios[Math.floor(Math.random() * Novios.length)];
+                document.getElementById("message").innerHTML = randomValue;
+                $("#message").keyup();    
+
+        }
+    </script>
+
+</body>
+
+</html>

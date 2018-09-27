@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>FelicitaMe</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+    <!-- FontAwesome - http://fortawesome.github.io/Font-Awesome/ -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+
+	<!-- jQueryMobileCSS - original without styling -->
+    <link rel="stylesheet" href="../css/themes/dca_theme.css" />
+    <link rel="stylesheet" href="../css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="../css/jquery.mobile.structure-1.4.5.min.css" />
+
+    <!-- Responsive images -->
+    <style>
+
+        img {max-width:20%}
+
+        @media screen and (orientation: landscape) {
+            .ui-mobile .ui-page {
+                min-height: 0 !important;
+            }
+        }
+    </style>
+
+	<!-- jQuery / jQueryMobile Scripts -->
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../js/jquery.mobile-1.4.2.js"></script>
+
+    <!-- Swipe right to open the menu. -->
+    <script type="text/javascript">
+        $( document ).on( "pagecreate", "#main", function() {
+            $( document ).on( "swipeleft swiperight", "#main", function( e ) {
+                // We check if there is no open panel on the page because otherwise
+                // a swipe to close the left panel would also open the right panel (and v.v.).
+                // We do this by checking the data that the framework stores on the page element (panel: open).
+                if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+                    if ( e.type === "swiperight" ) {
+                        $( "#menu" ).panel( "open" );
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function select_all() {
+            document.getElementById('message').select();
+        }
+    </script>
+
+</head> 
+
+<body>        
+    <div data-role="page" data-theme='a' id="main">
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='a'>
+            <a href="#menu"><i class='fa fa-bars'></i></a>
+            <a href="../index.html#main" data-transition="fade" data-ajax="false"><i class="fa fa-home"></i></a>
+            <h1 style="text-align:center">Dilo con Amor</h1>
+        </div>
+        
+        <div data-role="content">
+	        <div class='inset'>
+				<h2 align="center">Día de la Madre</h2>
+
+                <p align="center">
+                    <img src="../images/pages/madre.png"></img>
+                </p>
+
+                    <p align="center">
+                        <button class="ui-btn ui-btn-inline" onclick="generateMsg();">Generar</button>
+                    </p>
+
+                    <label for="textarea-enhanced"><h4>Mensaje:</h4></label>
+                    <textarea readonly="readonly" onclick="select_all();" name="textarea-enhanced" id="message" data-enhanced="true" class="ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all" placeholder="Mensaje" data-autogrow="true"></textarea>
+
+	        </div>
+	        
+        </div>
+
+        <div data-role="panel" data-display="push" id="menu" data-theme="b">
+            <ul data-role="listview">
+                <li><b>Seleccione el Evento</b></li>
+                <li data-icon='false'><a href="aniversario.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-bell-o'></i>&ensp; Aniversario</a></li>
+                <li data-icon='false'><a href="cumpleanos.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-birthday-cake'></i>&ensp; Cumpleaños</a></li>
+                <li data-icon='false'><a href="#" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-venus'></i>&ensp; Día de la Madre</a></li>
+                <li data-icon='false'><a href="padre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-mars'></i>&ensp; Día del Padre</a></li>
+                <li data-icon='false'><a href="fin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-sun-o'></i>&ensp; Fin de Año</a></li>
+                <li data-icon='false'><a href="graduacion.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-graduation-cap'></i>&ensp; Graduación</a></li>
+                <li data-icon='false'><a href="navidad.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-tree'></i>&ensp; Navidad</a></li>
+                <li data-icon='false'><a href="san_valentin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-heart-o'></i>&ensp; San Valentín</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+            // Recopilacion de frases usando: http://www.consejosgratis.net/
+
+        function generateMsg()
+        {
+
+            var Madre = 
+            ["A las mamás del mundo les deseo todo lo mejor, no sólo hoy que es su día todo el resto del año. Feliz día de las madres.",
+            "En esta fecha importante quiero expresar mis saludo a la mujer más maravillosa de todas: Mi amada madrecita. Le doy gracias al cielo por tenerte a mi lado. Feliz día linda mamá.",
+            "El amor que una madre por su hijo no tiene comparación, pues es un sentimiento puro que como ninguno otro. Feliz día de la madre a todas las mujeres maravillosas que dan lo mejor de sí por el bien de sus hijos.",
+            "Desde que tengo uso de razón has estado a mi lado, me has dado todo tu amor y hoy quiero felicitarte por tu labor. No me tuviste en tu vientre pero eres mi madre y te amo. Felicidades en este día.",
+            "Si tan sólo se me permitiera un deseo pediría que tú siempre estés a mi lado. Eres una madre maravillosa. Perdóname por mis errores por favor. Deseo que tu vida sea dichosa mamá. Feliz día.",
+            "Cuando era pequeño no me quería separar de ti, pero al crecer tuve que hacerlo para cumplir mis metas. Te amo mamá y todas las enseñanzas que me has dado siempre las tendré presentes. Feliz día de la madre.",
+            "Una madre siempre amará a su hijo, aunque éste se porte mal ella siempre le dará una nueva oportunidad. Amen a sus mamás pues ellas sólo se preocupan por su bienestar. Feliz día a todas las madres.",
+            "Cuando empezamos a hablar lo primero que decimos es “mamá” porque la pureza de nuestros corazones reconoce que ella es la persona que más nos ama. Felicidades a todas las mujeres que se sacrifican cada día por sus hijos.",
+            "Madre es la que cuida de un ser y le da todo su amor. Muchas felicidades a todas las madres del mundo y en especial a aquellas que adoptan niños para brindarles cariño y protección.",
+            "Algunas veces me enojaba contigo cuando me cuidabas, pero ahora que soy mamá puedo entender que sólo querías lo mejor para mí. Te amo mamá. Felicidades en este hermoso día.",
+            "Cuando una mujer sabe que será mamá se olvida de ella y empieza a vivir por su hijo, por eso debemos homenajearla todos los días de nuestras vida. Feliz día a todas las mamás.",
+            "Quiero desearte un día muy lindo porque te lo mereces por todo el cariño que me has dado toda mi vida y eso nunca lo podre olvidar, sobre todo por tu esfuerzo para que nunca me falte nada ,por tu tiempo y amor , me has hecho muy feliz. Un Feliz Día para ti mama.",
+            "Hoy que estamos celebrando el día de las madres quiero que estés súper contenta y que lo pases muy bonito. Estoy muy agradecida por todos los cuidados que me has dado cuando fui una bebe esas madrugadas sin dormir y ya cuando niña amaneciéndonos realizando las labores de la escuela, por acompañarme en el hospital cuando estaba mal de salud y otras muchas cosas más , gracias mama. Te adoro mamita querida.",
+            "En este mensaje es muy difícil expresarte todo el amor que siento por ti. Solo deseo que seas muy feliz y que Dios cuide de tu camino siempre, te lo mereces por ser una gran madre. En este día te deseo un lindo día mi amada mama. Feliz día de la madres.",
+            "Toda la vida has dado todo por mí, tu tiempo, tu amor, tu dedicación por eso hoy te mereces ser recompensada doblemente porque has eres una madre admirable, la mejor del mundo. Muchas felicidades en tu día querida mama.",
+            "El amor que te tengo querida madre es tan inmenso. Nunca me quiero alejar de ti porque eres una de las personas que me da mucha felicidad y me quiere mucho. Por eso hoy que es el día de la madre quiero que la pases muy feliz y no olvides que te adoro madre mía.",
+            "Este mensaje es tan corto como para expresarte todo el amor que llevo dentro por ti, eres muy especial para mí. A veces casi nunca los hijos le dicen a su madre que la aman, pero en mi caso tengo que expresarte todo mi cariño por que te lo mereces, me enseñaste a ser mejor cada día de mi vida .Te envió muchos cariños adorada mama.",
+            "Hoy en tu día de la madre te mereces un regalo especial por todo lo que hiciste por mí, por tu entrega de madre para hacerme muy feliz y sobretodo nunca que pediste algo por hacerlo. Te quiero mucho madre. Feliz día mamita linda.",
+            "Sentí tu amor desde el momento en que empecé a sentir dentro de ti. Eres única e irreemplazable. Te amo mamá, siempre daré mi cien por ciento para que estés orgullosa de mí.",
+            "Diste mucho de ti por mí porque me amas inmensamente. Siempre te estaré agradecido por todo el amor que me has dado y el cuidado que me has tenido. Con tu ejemplo me enseñaste qué es ser una buena madre y un buen ser humano. ¡Feliz Día de la madre!",
+            "Cada vez que me caía de la bicicleta, me ayudabas a levantarme y me decías que siga para adelante. Me enseñaste a nunca rendirme, sin importar las caídas que tenga. Eres la mejor madre que un hijo podría tener. ¡Feliz Día Mamá!",
+            "A veces soy un poco travieso, pero es porque estoy creciendo y aprendiendo. Yo sé que tus regañadas significan que me quieres mucho, y que sea una buena persona. Te amo mamá, en este día te deseo solo lo mejor, porque te lo mereces. ¡Feliz Día mamá!",
+            "Siempre hallabas la manera de levantarme el ánimo. No sé si era por instinto o porque me conocías tan bien. Te tengo un infinito aprecio y te agradezco por todo lo que has hecho por mí. Pero ahora este día esta dedicado para ti, madre mía. ¡Feliz Día!",
+            "Cuando era pequeño, tú me mentías. Yo te preguntaba si querías mi pedazo de pollo y tú me decías que no porque no tenías hambre. Ahora, muchos años después, entendí en realidad qué hacías. Te amo mamá, siempre te estaré agradecido por tu sacrificio y entrega.",
+            "No sé cómo será en otras familias, solo sé que en la nuestra existe la mejor madre del mundo. Gracias por todos tus consejos, tu preocupación y dedicación. Ahora nos toca a nosotros cuidar de ti, porque tú lo has dado todo por nuestro bien ¡Feliz Día de la Madre!",
+            "Porque siempre te preocupaste que nos falte comida en la mesa, o ropa para abrigarnos, o un techo para protegernos. Porque siempre nos diste amor y cuidado todo este tiempo. Por eso, y muchas cosas más, eres la mejor madre de todas. Este día está hecho solo para ti. ¡Feliz Día madre hermosa!",
+            "No pude haber tenido mejor bendición que haber venido de ti, madre mía. Desde antes que naciera, tú ya me amabas. Dios envió a la mejor ángel que tenía a protegerme. Gracias por todo tu esfuerzo, hoy yo te celebro a ti. ¡Feliz Día mamá!",
+            "Madre sabes lo mucho que te admiro y lo agradecido que estoy contigo por ser la mamá más maravillosa que Dios me pudo dar. Agradezco a Dios y doy gracias a la vida y les pido te llenen de salud y que Dios te colme siempre de  bendiciones. Feliz día mamá.",
+            "Reciban todas las mamás un Feliz día de la Madre, se lo deseamos de corazón, pues todos, pero todos somos conscientes de que madre sólo  hay una y ninguna se iguala a la otra, porque cada quien desea brindarle lo mejor a sus hijos, y para cada madre su hijo es el mejor.",
+            "Como me emociono al mencionar la palabra madre, mujer capaz de entregar su vida por los hijos, sacarse el pan de la boca para que ellos coman, la madre es la mujer que no podemos compararla con ningún otro ser en la tierra, cuidemos de ella y convirtámonos en una persona de provecho para la sociedad que es por lo que una madre lucha por su hijo,  es el mejor regalo que ella puede recibir de un hijo. Feliz día de la Madre.",
+            "Madre mía te hago llegar estás líneas emocionado y te las escribo con mucho cariño, quiero que sepas mamá que estoy muy agradecido por tus enseñanzas y la forma como me has guiado en la vida, gracias a ti soy una persona de bien y con muchos valores, mis amigos me quieren y también te quieren a ti. Te amo mamá y quiero desearte un Feliz día de la Madre.",
+            "Madre sólo hay una y ninguna como la mía, doy gracias a Dios y a la vida por haber sido favorecido con esta mamá que me dieron, la amo y al igual que ella da la vida por mí yo también doy la vida  por ella. Feliz día mamacita, te amo.",
+            "Dios es tan noble con sus hijos, que nos dio a cada uno un ángel para que nos guíe y nos cuide a lo largo de nuestra vida, ese ángel nos da de comer, nos viste, nos instruye, y nos cuida y cuando enfermamos nos lleva al doctor y se amanece bajándonos la fiebre, cuidando de nosotros hasta vernos nuevamente restablecidos, todos sabemos que a ese ángel le llamamos mamá. Feliz día de la Madre.",
+            "Todos los hijos admiramos a una mujer digna, trabajadora, capaz de cortarse la mano por sus hijos, a esa persona la llamamos mamá, y quiero que reflexionen y que nunca la olviden y cuiden de ella aunque ya no vivan en la misma casa que ellas u hogar ni aunque se casen. Feliz día a todas las Madres."];
+            
+            var randomValue = Madre[Math.floor(Math.random() * Madre.length)];
+            document.getElementById("message").innerHTML = randomValue;
+            $("#message").keyup();
+ 
+        }
+    </script>
+
+</body>
+
+</html>

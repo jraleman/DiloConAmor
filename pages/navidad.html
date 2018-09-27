@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>FelicitaMe</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+    <!-- FontAwesome - http://fortawesome.github.io/Font-Awesome/ -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+
+	<!-- jQueryMobileCSS - original without styling -->
+    <link rel="stylesheet" href="../css/themes/dca_theme.css" />
+    <link rel="stylesheet" href="../css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="../css/jquery.mobile.structure-1.4.5.min.css" />
+
+    <!-- Responsive images -->
+    <style>
+
+        img {max-width:20%}
+
+        @media screen and (orientation: landscape) {
+            .ui-mobile .ui-page {
+                min-height: 0 !important;
+            }
+        }
+    </style>
+
+	<!-- jQuery / jQueryMobile Scripts -->
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../js/jquery.mobile-1.4.2.js"></script>
+
+    <!-- Swipe right to open the menu. -->
+    <script type="text/javascript">
+        $( document ).on( "pagecreate", "#main", function() {
+            $( document ).on( "swipeleft swiperight", "#main", function( e ) {
+                // We check if there is no open panel on the page because otherwise
+                // a swipe to close the left panel would also open the right panel (and v.v.).
+                // We do this by checking the data that the framework stores on the page element (panel: open).
+                if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+                    if ( e.type === "swiperight" ) {
+                        $( "#menu" ).panel( "open" );
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function select_all() {
+            document.getElementById('message').select();
+        }
+    </script>
+
+</head> 
+
+<body>        
+    <div data-role="page" data-theme='a' id="main">
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='a'>
+            <a href="#menu"><i class='fa fa-bars'></i></a>
+            <a href="../index.html#main" data-transition="fade" data-ajax="false"><i class="fa fa-home"></i></a>
+            <h1 style="text-align:center">Dilo con Amor</h1>
+        </div>
+        
+        <div data-role="content">
+	        <div class='inset'>
+				<h2 align="center">Navidad</h2>
+
+                <p align="center">
+                    <img src="../images/pages/navidad.png"></img>
+                </p>
+
+                    <label for="filter-menu"><h4>Para:</h4></label>
+                    <select name="filter-menu" id="filter-menu" data-native-menu="false">
+                        <option value="amistades">Amistades y Familiares</option>
+                        <option value="novios">Novios</option>
+                        <option value="coorporativas">Coorporativas</option>
+                    </select>
+
+                    <p align="center">
+                        <button class="ui-btn ui-btn-inline" onclick="generateMsg();">Generar</button>
+                    </p>
+
+                    <label for="textarea-enhanced"><h4>Mensaje:</h4></label>
+                    <textarea readonly="readonly" onclick="select_all();" name="textarea-enhanced" id="message" data-enhanced="true" class="ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all" placeholder="Mensaje" data-autogrow="true"></textarea>
+
+	        </div>
+	        
+        </div>
+
+        <div data-role="panel" data-display="push" id="menu" data-theme="b">
+            <ul data-role="listview">
+                <li><b>Seleccione el Evento</b></li>
+                <li data-icon='false'><a href="aniversario.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-bell-o'></i>&ensp; Aniversario</a></li>
+                <li data-icon='false'><a href="cumpleanos.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-birthday-cake'></i>&ensp; Cumpleaños</a></li>
+                <li data-icon='false'><a href="madre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-venus'></i>&ensp; Día de la Madre</a></li>
+                <li data-icon='false'><a href="padre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-mars'></i>&ensp; Día del Padre</a></li>
+                <li data-icon='false'><a href="fin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-sun-o'></i>&ensp; Fin de Año</a></li>
+                <li data-icon='false'><a href="graduacion.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-graduation-cap'></i>&ensp; Graduación</a></li>
+                <li data-icon='false'><a href="#" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-tree'></i>&ensp; Navidad</a></li>
+                <li data-icon='false'><a href="san_valentin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-heart-o'></i>&ensp; San Valentín</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        function generateMsg()
+        {
+                var selected = $( "#filter-menu" ).val(); // or this.value
+                //alert(selected);
+                
+                    // Recopilacion de frases usando: http://www.consejosgratis.net/
+
+                // Amistades
+                if (selected == "amistades") {
+                    var Amistades = 
+                    ["Espero que esta navidad sea una de las mejores de tu vida y que en compañía de tus familiares y seres queridos contemples el pesebre y recuerdes el ejemplo de humildad y sencillez que demostró el Salvador. Que todo sea alegría en tu vida, feliz nochebuena.",
+                    "Son tantas las personas a quienes tienes que darles un regalo que te vas a quedar bien endeudada. Es broma amiga, la nochebuena es una celebración en donde importa más el amor que las cosas materiales. Que la pases muy bien. ¡Felicidades!",
+                    "Deseo que el regalo más hermoso que estén dispuestos a brindar sea el amor incondicional hacia las personas que forman parte de sus vidas. No hay nada mejor que convivir en paz y el mejor lugar para empezar es el hogar. Les deseo todo lo mejor, que pasen una linda navidad.",
+                    "Cada elemento de la navidad tiene un significado profundo: Las luces nos indican que siempre debemos brillar, el pesebre nos invita a recibir a Jesús en nuestros corazones y los regalos que debemos dar lo mejor a nuestra familia. ¡Felicidades a todos!",
+                    "Anhelo que esta navidad no sea una celebración más, sino que tenga un mayor significado para que siempre recordemos el amor que Dios siente por nosotros. Espero que la pasen muy bien y que disfruten esta festividad con las personas que más aman.",
+                    "Lo más hermoso de la Navidad no son los regalos que recibiremos, es poder compartir al lado de las personas que más queremos muchos momentos inolvidables de amor y felicidad. Recuerda que lo más importante en esta época es brindar lo mejor de nosotros a los demás, éste es el mejor obsequio que podemos entregar. ¡Feliz Navidad!",
+                    "La decoración más hermosa que puedes hacer en esta Navidad no es la de tu hogar, la del árbol o la del pesebre, son los buenos sentimientos que puedes expresar a los demás deseándoles lo mejor en esa época tan especial. Que tengas una feliz Navidad.",
+                    "Durante la Navidad hay dos colores muy representativos que son el rojo y el verde y quiero que guardes su significado en tu corazón para que cada vez que los veas puedas sentir el amor, que simboliza el color rojo, y la esperanza que está representada por el color verde. Recuerda que esta época es perfecta para perdonar y entregar lo mejor de nosotros a nuestros seres queridos. Que tengas felices fiestas.",
+                    "Esta noche la luna y las estrellas brillan con intensidad recordándonos el nacimiento de nuestro Salvador, es mi deseo que puedas recibir al niño Jesús en tu corazón al lado de tus seres queridos para que esta Navidad sea una de las más hermosas. ¡Muchas felicidades!",
+                    "Lo que más aprecio es el amor de mis familiares y por ello les mando este mensaje con todo mi cariño ya que deseo que en esta nochebuena reine en nuestro hogar el bello espíritu de esta festividad.",
+                    "No hay algo tan hermoso como disfrutar la nochebuena con mis familiares ya que ellos siempre están conmigo y me apoyan en todo. ¡A todos les deseo muchas felicidades y que en sus hogares siempre haya amor y paz!",
+                    "En esta navidad oraré para que el Señor siempre bendiga a mi familia y nos ayude a estar unidos toda la vida. ¡Espero que pasen una linda nochebuena!",
+                    "Los regalos pueden emocionarme mucho, sin embargo después dejan de tener importancia, en cambio estar junto a mis familiares es algo de valor incalculable. Le doy gracias a Dios por todo lo bueno que me ha dado y le pido que bendiga mucho sus hogares.",
+                    "Compartir una agradable cena con todos mis familiares es algo tan especial que siempre va a quedarse grabado en mi recuerdo. Es una gran alegría estar con las personas que tanto amamos. ¡Que todas las familias pasen una linda nochebuena!",
+                    "La familia es la mayor bendición que Dios nos ha dado y en festividades como la navidad nos sentimos más unidos que nunca. Que todos los hogares sean bendecidos y que tengan una nochebuena inolvidable.",
+                    "Por estar con mis familiares haría lo que sea; es que reunirme con ellos a festejar la nochebuena hace que me sienta muy afortunado. Espero que en todos los hogares se sienta un espíritu de unión y de armonía. ¡Felicidades a todos!",
+                    "Aprecia a todos tus familiares ya que ellos siempre estarán a tu lado. Tener el cariño incondicional de ellos es algo que nos hace sentir mucha felicidad. En este día mi deseo es que todos pasen una hermosa navidad.",
+                    "Si deseas que esta navidad sea inolvidable, entonces disfruta al máximo cada momento que pases con tus familiares, ellos estarán muy contentos y juntos disfrutarán de un ambiente agradable. La navidad es especial porque une a todas las familias. ¡Muchas felicidades!",
+                    "Hay mucha gente que anhela estar con sus familiares en esta nochebuena y si tú eres afortunado y celebrarás el nacimiento del niño Dios con tus seres queridos, entonces siéntete agradecido pues tendrás mejor regalo que puede haber. ¡Que tengas una hermosa navidad!",
+                    "Que tengas un hermosa navidad acompañado de todos las personas que amas y bendecido con el amor de Dios. ¡Feliz navidad querido!",
+                    "Aunque te encuentres a la distancia siempre tengo presente tu amistad sincera y siempre te agradeceré por todo lo que has hecho por mi. Que tengas un linda navidad amigo mío y que nunca te falte el cariño de tu familia.",
+                    "¡Feliz navidad amigo! Que siempre estes rodeado de tu hermosa familia y se conserven con salud y amor en sus corazones. Ten presente que siempre siento un gran afecto por ti.",
+                    "Te doy las gracias por haber compartido conmigo muchas cosas en este año. Te considero mi mejor amigo  y siempre reconoceré tu amistad sincera.¡Feliz navidad, que todos tus anhelos se hagan realidad!",
+                    "Si hay algo que valoro en una persona es su amistad sincera. Tu eres un amigo muy especial y gracias por ser tan leal conmigo.¡Feliz navidad y que Dios bendiga nuestra amistad!",
+                    "Esta es la mejor época para conmemorar  a Dios y compartir lo mejor de nosotros con nuestros seres queridos. Por ello quiero ser uno de los primeros en darte un cariñoso saludo de Feliz Navidad.",
+                    "Quiero que esta noche tengas una noche buena en el calor de tu hogar y bendecido con la unión de todos los que forman parte de ella. ¡Feliz navidad amigo mío!",
+                    "Espero que en esta noche buena recibas como mejores regalos todo el cariño y la comprensión de tu familia que nunca te abandonará y siempre estará contigo en los buenos y malos momentos. ¡Feliz navidad para ti y tu familia!",
+                    "Que en esta celebración puedas reunirte con personas que han estado ausentes por mucho tiempo en tu vida y que Dios te bendiga por ser un buen amigo que se merece lo mejor por tener tan buenos sentimientos. Feliz navidad y todo mi cariño para ti.",
+                    "Sabes cuanto te estimo y como me alegra verte contento en estas fechas navideñas. Deseo que tu navidad sea mágica e inolvidable al lado de tus seres queridos.Feliz navidad amiguito.",
+                    "Aunque estaré lejos en esta navidad quiero enviarte mis saludos de navidad para ti y toda tu familia, que la pasen muy bonito y que siempre Dios los proteja. ¡Feliz navidad!",
+                    "En esta navidad quiero que me perdones si alguna vez te fallé como amigo, eres una persona que vale la pena tener como amigo y no quiero perder tu amistad. Que Dios bendiga tu hogar esta noche de paz.",
+                    "¡Muchas felicidades a todas mis amistades en esta navidad! Jamás se olviden que pueden contar conmigo para lo que deseen. Que Dios los proteja y bendiga a sus familias.",
+                    "En todos lados ya se disfruta del espíritu navideño. Quiero decirles que les deseo una linda navidad, que en compañía de sus familiares y amistades pasen momentos inolvidables.",
+                    "La navidad es tiempo de amar, de compartir y ser feliz. Espero que siempre tengan presente la magia de esta festividad y que en su vida haya mucha armonía y paz. ¡Les deseo una feliz nochebuena!",
+                    "Ha llegado la hora de irradiar amor, expresar cariño y compartir con los demás. El niño Jesús nacerá dentro de poco y en nuestro corazón debe haber un lugar para Él. ¡Que pasen una hermosa nochebuena!",
+                    "Que Dios siempre llene de amor sus hogares en esta hermosa navidad. Muchas felicidades y tengan un año nuevo cargado de éxitos.",
+                    "Les envío un cordial saludo a todos mis seres queridos, celebren en familia el nacimiento del niño Dios. Que éste sea un tiempo de reflexión. ¡Felicidades en esta nochebuena.",
+                    "Que tengan una linda nochebuena y que en el próximo año todos sus sueños se hagan realidad. ¡Los quiero mucho, felicidades!",
+                    "Eres mi mejor amigo y no podía pasar esta oportunidad para dedicarte unas líneas. Espero que pases una hermosa navidad y que tengas un año nuevo lleno de mucha prosperidad.",
+                    "Que la alegría de hoy se multiplique todos los días del año. Les deseo una linda nochebuena y un año nuevo muy próspero. ¡Muchas felicidades!",
+                    "Que en tu hogar rebose de amor y que siempre haya felicidad. Te mereces todo eso y más por ser un gran amigo. ¡Felicidades en esta nochebuena y muchos éxitos!"];
+
+                    var randomValue = Amistades[Math.floor(Math.random() * Amistades.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Novios
+                else if (selected == "novios") {
+                    var Novios = 
+                    ["Esta fecha tan linda no va a ser lo mismo si tú no estás. Voy a extrañar mucho tus abrazos y saludarte a las doce, darte el lindo obsequio que te he comprado. Espero que pases una feliz navidad estés donde estés.",
+                    "A las doce, seguramente vas a venir a mi mente y voy a rogarle a Dios para que esta sea la última navidad que la pasemos separados. Feliz navidad, mi rey. Te amo.",
+                    "Lo que más me apena es que vamos a pasar la navidad separados. Espero que vuelvas pronto a mis brazos. Que tengas una bella navidad. Sabes que te amo demasiado.",
+                    "Lo que más quiero es que tengas una linda navidad donde sea que te encuentres. Te echo mucho de menos, mi amor. Espero que esta sea la última vez que no separamos para estas fechas.",
+                    "Te encuentras lejos y echas mucho de menos a todos, mi amor, yo lo sé. Acuérdate que seguramente vas a regresar pronto y estaremos todos unidos nuevamente. No sabes cuánto estoy extrañándote. Que tengas una linda navidad.",
+                    "Pasar estas fechas tan bonitas sin tu presencia no es lo mismo. Necesito de tus besos y abrazos para estar contenta. Espero que pases una feliz navidad y que vuelvas pronto.",
+                    "Para sentirme completamente feliz en esta navidad necesitaría que estés a mi lado. Te mando un fortísimo abrazo de navidad, mi amor.",
+                    "Aunque nos encontremos lejos el uno del otro, mi amor por ti nunca va a cambiar porque es un amor verdadero. Que tengas una linda navidad, mi amor.",
+                    "Espero que recibas todo mi afecto a través de estas palabras, mi vida. Te deseo una feliz navidad, pásala lindo.",
+                    "No hay un segundo del día que no esté pensando en ti, mi amor. En esta Nochebuena lo único que va a estar en mi mente eres tú. Que tengas una hermosa navidad, donde quiera que estés.",
+                    "Quisiera tener la posibilidad de ir volando a tu lado para pasar esta navidad juntos. Pero como no es posible lo único que puedo hacer es desearte una bella navidad.",
+                    "Se me vienen a la memoria todas las navidades que hemos pasado juntos en estos momentos en los que pasaremos estas fechas separados. Feliz navidad, mi amor. Me duele no poder estar a tu lado.",
+                    "El mejor obsequio que he recibido en mi vida ha sido tu amor. Te agradezco por hacerme tan feliz, que pases una bonita navidad.",
+                    "Yo sólo quiero un regalo: tu amor eterno. Tú alegras mi vida y por ello me siento dichoso de tenerte a mi lado. ¡Feliz navidad mi princesa!",
+                    "Esta nochebuena será la mejor de todas porque juntos festejaremos el nacimiento del niño Dios. ¡Muchas felicidades amor!",
+                    "Todo el año he esperado con entusiasmo esta fecha, no por los obsequios ni por la comida, sino porque celebraremos juntos el nacimiento de Jesús.",
+                    "Que pases una hermosa navidad mi amada y que en tu hogar siempre reine la paz y la armonía. Recibe un gran beso y un fuerte abrazo.",
+                    "Eres lo más hermoso que tengo y te agradezco por estar a mi lado. Espero que esta navidad sea una de las más hermosas de tu vida, muchas felicidades.",
+                    "Soy muy afortunado por ser el dueño de tu corazón y en este día tan especial quiero decirte que te deseo todo lo mejor. ¡Que tengas una linda navidad!",
+                    "Eres una mujer maravillosa por ello cada día me enamoro más de ti. Que la llegada de la navidad llene de una gran alegría tu corazón, te amo mucho.",
+                    "En este día tan especial le doy gracias al Señor por todo lo que tengo, especialmente por ti amor pues eres la chica más bellas de todas. Que tengas una navidad maravillosa.",
+                    "Llegó la nochebuena y estoy muy contento de tenerte a mi lado. Deseo que esta celebración sea muy especial para que siempre la recuerdes con mucha emoción. ¡Felicidades!",
+                    "Hoy festejaremos la navidad y aprovecho la oportunidad para decirte que me siento muy agradecido con Dios por haberte conocido. Que la magia de esta fiesta envuelva nuestro corazón.",
+                    "Me encanta la navidad porque es una época de reflexión y de sentimientos hermosos como los que tengo hacia ti. Te amo mi princesa, que la pases muy bien.",
+                    "Lo más especial de la navidad es poder darte un fuerte abrazo y decirte una vez más que te amo. Tú eres el mejor regalo de mi vida.",
+                    "A Santa Claus no le he pedido ningún regalo pues con tu amor nada me hace falta. Te amo mucho y espero que estas celebraciones navideñas nos ayuden a estar más unidos que nunca.",
+                    "En esta navidad le ruego al Señor que siempre estemos juntos pues tú eres lo más maravilloso que me ha ocurrido. ¡Felicidades cariño mío!",
+                    "Tu presencia hará que esta navidad sea la mejor de toda mi vida. Que estos bellos sentimientos siempre mantengan unidos nuestros corazones.",
+                    "La navidad es una época de paz, armonía y amor por ello quiero celebrar a tu lado la llegada del niño Dios y a la media noche fundirnos en un gran abrazo.",
+                    "Mi amor, para este día tan importante quiero que pases una Feliz Navidad. Me apena que todavía no podamos reunir a nuestras familias para celebrar juntos esta fecha especial, a pesar de ello sabes que siempre estarás presente dentro de mi corazón. ¡Feliz Navidad!",
+                    "Amor mío, quiero desearte lo mejor para esta Navidad y que el Niño Jesús de una vida llena de bendiciones, pues te lo mereces por ser una mujer encantadora. Feliz Navidad mi amor nos veremos dentro de poco.",
+                    "Uno de mis mayores sueños ya se cumplió y es de haberme ganado tu corazón. Pues son varios los bellos momentos que compartimos juntos durante este año. El mejor de ellos fue cuando finalmente me diste el si, por eso en esta Noche Buena quiero desearte muchas felicidades, que el niño Jesús cumpla todos tus sueños, y que pases una ¡Feliz Navidad!",
+                    "Compartimos muchas razones para estar felices en esta fiesta, y la principal es agradecerle a Dios por el bello hijo con el que nos ha bendecido. Esta navidad será diferente a las anteriores, pues es la primera que la pasaremos con nuestro hijo, y es en verdad un momento incomparable. ¡Feliz Navidad para mi gran amor!",
+                    "Todas las navidades superan a la del año pasado, en esta ocasión será la primera Navidad que la pasaremos como esposos, aunque aún no hemos recibido la bendición de tener un hijo, podemos festejar la formación de nuestro nuevo hogar que con el tiempo recibirá la alegría de nuestros hijos. “Feliz Navidad mi amor.",
+                    "Te deseo lo mejor en la vida porque te amo mucho preciosa. Celebremos por la nueva familia que estamos por formar y demos gracias a Dios por permitirnos compartir unas vidas juntos. ¡Feliz Navidad!",
+                    "Feliz Navidad mi amor, eres el amor de mi vida, y gracias a ti y a nuestros hijos mi vida tiene sentido. Esta noche nos reuniremos a rededor de la cena para desearnos una ¡Feliz Navidad!",
+                    "Mi amor, no encuentro las palabras suficientes para describir lo feliz que me encuentro al festejar una navidad contigo. Es incomparable la emoción que siento al pasar una navidad más en familia. Siempre estaré junto a ti, mi bella esposa, eres el amor de mi vida. ¡Feliz navidad amor!",
+                    "Reunámonos alrededor de nuestro árbol de navidad y compartamos un bello momento de amor y felicidad que recordaremos siempre de manera especial. ¡Feliz Navidad, amor de mi vida!"];
+
+                    var randomValue = Novios[Math.floor(Math.random() * Novios.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Coorporativas
+                else if (selected == "coorporativas") {
+                    var  Coorporativas = 
+                    ["A todos los miembros de esta empresa, les deseamos una feliz navidad que la disfruten en compañia de sus familias y esperamos seguir contando con su entusiamo en el trabajo que realizan.",
+                    "Gracias por ser nuestra motivación que nos hace seguir hacia adelante. Esperamos que esta navidad sea exclusiva en sus vidas y siempre sus familias vivan en armonía. Feliz Navidad para todos ustedes.",
+                    "Gracias por ser tan eficientes en sus funciones, por ello somos una institución líder en el mercado. Siempre mantengan su entusiasmo y unión para hacer una sola fuerza que nos lleve al éxito.",
+                    "Aprovechamos la navidad para reiterar nuestros lazos de fraternidad y cordialidad. Ustedes son el motor de esta empresa y deseamos que siempre seamos un equipo unido por el mismo objetivo. ¡Feliz Navidad a todos!",
+                    "Les damos un caluroso saludo  para todos aquellos que cada día se esfuerzan por sacar adelante esta compañia. Que tengan un navidad serena rodeados del calor de sus familias.",
+                    "Que esta noche el Señor llene de bendiciones a cada familia de esta empresa. Estamos seguros que seguiremos contando un año más con vuestro trabajo y dedicación. ¡Feliz Navidad a todos los trabajadores de esta empresa!",
+                    "Esta es una ocasión que queremos aprovechar para desear a todo el staff de esta empresa una feliz navidad y renovarles nuestro reconocimiento por ser lo más importante de esta empresa. ¡Feliz Navidad a todos!",
+                    "Agradecemos toda su dedicación y entusiasmo para realizar un maravilloso trabajo, como equipo humano hemos obtenidos los logros propuestos para este año. Sin ustedes no hubiera sido posible y por ello les deseamos una feliz y sincera navidad en sus hogares.",
+                    "Deseamos una feliz navidad al excelente grupo humano de esta empresa, gracias queridos empleados por todo su esfuerzo para sacar adelante a esta compañía. Que tengan una feliz navidad y que Dios siempre este presente en sus hogares.",
+                    "Esperamos que en estas fecha en que debe reinar la paz y armonía se estrechen las relaciones de solidaridad y compañerismo y que con la bendición de Dios tengamos muchos éxitos. Feliz navidad para todos ustedes.",
+                    "Que los mejores anhelos de esta navidad se cristalicen en la gran familia que formamos en esta compañia. Que esta noche buena sea una fiesta donde reine la unión y la esperanza. ¡Feliz Navidad para todos!",
+                    "Que Dios bendiga a los empleados de esta empresa y que siempre mantengan la lealtad y compañerismo entre ustedes. ¡Feliz navidad para todos!",
+                    "Esta es una celebración muy especial y no duden que también lo son para esta compañia, gracias por vuestro trabajo de cada día. Les deseamos a nombre del Directorio una feliz navidad.",
+                    "Si no fuera por ustedes no hubieramos llegado hasta donde nos encontramos, por ello tienen todo nuestro reconocimiento y prometemos como regalo de navidad darles una bonificación especial como estímulo a su trabajo.",
+                    "Nuestra corporación desea una feliz navidad a nuestros trabajadores y a sus familias, esperamos que esta noche buena la pasen con toda la paz y el amor del mundo.",
+                    "Debido al trabajo tan eficiente que realizan todos los días, la empresa se encuentra entre las mejores, esta empresa desea de corazón que pasen una navidad maravillosa con sus seres queridos.",
+                    "El éxito de nuestra empresa es el resultado del excelente trabajo que realizan nuestros trabajadores y a la preferencia de nuestros clientes, por eso y muchas cosas más les deseamos un feliz navidad a todos ustedes.",
+                    "En esta fecha tan importante queremos agradecer a todas las personas que hacen posible que nuestra empresa mejore cada día, queridos trabajadores y clientes pasen una navidad en familia llena de amor y paz y comiencen este nuevo año de la mejor manera.",
+                    "El regalo más preciado que podemos recibir esta navidad es la preferencia de nuestros clientes, por eso les deseamos de corazón una formidable Navidad y un prospero año nuevo.",
+                    "Esta empresa está constituida por personas magnificas que están muy cómodos de trabajar juntos, estamos agradecidos de que sean parte de nosotros y deseamos que esta navidad la pasen en familia y que Dios los bendiga a todos ustedes.",
+                    "Queremos que esta navidad sea inolvidable para eso nos hemos esforzado todo el año motivados por su preferencia, para brindarle un servicio y productos de calidad. Esta empresa desea una feliz navidad a nuestros clientes.",
+                    "Seguiremos trabajando esta navidad para que tengan una noche buena maravillosa. Todos los miembros de esta empresa les desean una feliz navidad a ustedes y sus familias.",
+                    "Esta noche buena deseamos que la paz y el amor este presente en sus familias y amigos, esta empresa les envía de todo corazón un grato abrazo y les desea una feliz navidad.",
+                    "Esta fecha realizaremos un alto a nuestras labores, y nos reuniremos con ustedes para agradecerles por el buen desempeño en sus labores y para decirles lo valioso que son para nosotros. Les deseamos de corazón una navidad llena de alegría y amor.",
+                    "Felices fiestas a toda nuestra familia empresarial. Es nuestro deseo que puedan disfrutar una Navidad llena de mucha felicidad al lado de las personas que más quieren y que el próximo año esté lleno de muchos éxitos.",
+                    "Son nuestros deseos que esta nochebuena la puedas compartir con toda tu familia para que los lazos de unidad se fortalezca. Una feliz Navidad es el deseo de nuestra compañía, gracias por todo su empeño y dedicación a lo largo de este año.",
+                    "Gracias a su trabajo y dedicación nuestra empresa ha ido creciendo cada día hasta llegar a convertirse en una de las más destacadas dentro del campo. En esta Navidad es nuestro más sincero deseo que pasen una Nochebuena llena de mucha felicidad y unión familiar.",
+                    "La parte central en nuestra compañía son ustedes, nuestros empleados, por eso les extendemos un cordial saludo de navidad y nuestros agradecimientos por su esfuerzo y dedicación a lo largo de este año. Que tengan unas felices fiestas.",
+                    "Nuestra empresa ha logrado posicionarse como una de las más importantes del país pero esto no hubiera sido posible sin la dedicación, integridad y esfuerzo de personas como ustedes. Queremos agradecerles por estar con nosotros y desearles una feliz Navidad.",
+                    "En esta navidad es nuestro ruego que el Señor bendiga sus vidas y las de sus familiares con felicidad, salud y prosperidad en el año nuevo. Felices fiestas para todos.",
+                    "Nuestro compromiso es con nuestros trabajadores porque ustedes son el corazón de esta empresa, gracias por su esfuerzo y dedicación y que en esta Navidad puedan disfrutar de la felicidad y la unión familiar.",
+                    "En este año que termina queremos agradecer a todos los empleados por su dedicación y empeño en sus actividades diarias. Gracias a ustedes la empresa crece y avanza. Que tengan una feliz Navidad y que puedan compartir familia la felicidad que nos trae esta fecha tan especial.",
+                    "Feliz Navidad para toda la gran familia empresarial de, gracias a su dedicación somos una empresa de éxito y es nuestro deseo que ese éxito se extienda a nuestras familias. Que Dios los bendiga en estas fiestas decembrinas.",
+                    "La Navidad es una época muy especial pues nos invita a compartir nuestro amor con los demás y sentir la paz y tranquilidad que nos trae la unión familiar. Es nuestro deseo que tengan una feliz Navidad en familia celebrando el nacimiento de nuestro Salvador.",
+                    "La nochebuena es una oportunidad perfecta para reunir a la familia y compartir con amor y felicidad una cena y lindos presentes. Deseamos que tengan una feliz Navidad al lado de los tuyos.",
+                    "Queremos agradecer a todos los empleados por la gran labor que han realizado a lo largo del presente año y también queremos desearles una feliz Navidad y nuestros mejores deseos para que sus familias sean bendecidas con salud y prosperidad.",
+                    "Ya se acerca el fin de este año y queremos expresarle es nuestra gratitud por la gran labor que desempeñan en esta compañía. Es nuestro deseo que pueda ser noche buena en familia disfrutando de la unión, la paz y la felicidad que nos trae celebrar el nacimiento del niño Dios.",
+                    "Esta empresa no sería lo que es sin el esfuerzo ni la dedicación de todos ustedes, gracias por su excelente trabajo. Es nuestro deseo que tengan una feliz Navidad con sus familias y que sus propósitos se cumplan en el año venidero."];
+
+                    var randomValue = Coorporativas[Math.floor(Math.random() * Coorporativas.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                else {
+                    document.getElementById("message").innerHTML = "Error!";
+                }
+
+        }
+    </script>
+
+</body>
+
+</html>

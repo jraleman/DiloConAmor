@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>FelicitaMe</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+    <!-- FontAwesome - http://fortawesome.github.io/Font-Awesome/ -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+
+	<!-- jQueryMobileCSS - original without styling -->
+    <link rel="stylesheet" href="../css/themes/dca_theme.css" />
+    <link rel="stylesheet" href="../css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="../css/jquery.mobile.structure-1.4.5.min.css" />
+
+    <!-- Responsive images -->
+    <style>
+
+        img {max-width:20%}
+
+        @media screen and (orientation: landscape) {
+            .ui-mobile .ui-page {
+                min-height: 0 !important;
+            }
+        }
+    </style>
+
+	<!-- jQuery / jQueryMobile Scripts -->
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../js/jquery.mobile-1.4.2.js"></script>
+
+    <!-- Swipe right to open the menu. -->
+    <script type="text/javascript">
+        $( document ).on( "pagecreate", "#main", function() {
+            $( document ).on( "swipeleft swiperight", "#main", function( e ) {
+                // We check if there is no open panel on the page because otherwise
+                // a swipe to close the left panel would also open the right panel (and v.v.).
+                // We do this by checking the data that the framework stores on the page element (panel: open).
+                if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+                    if ( e.type === "swiperight" ) {
+                        $( "#menu" ).panel( "open" );
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function select_all() {
+            document.getElementById('message').select();
+        }
+    </script>
+
+</head> 
+
+<body>        
+    <div data-role="page" data-theme='a' id="main">
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='a'>
+            <a href="#menu"><i class='fa fa-bars'></i></a>
+            <a href="../index.html#main" data-transition="fade" data-ajax="false"><i class="fa fa-home"></i></a>
+            <h1 style="text-align:center">Dilo con Amor</h1>
+        </div>
+        
+        <div data-role="content">
+	        <div class='inset'>
+				<h2 align="center">Graduación</h2>
+
+                <p align="center">
+                    <img src="../images/pages/graduacion.png"></img>
+                </p>
+
+                    <p align="center">
+                        <button class="ui-btn ui-btn-inline" onclick="generateMsg();">Generar</button>
+                    </p>
+
+                    <label for="textarea-enhanced"><h4>Mensaje:</h4></label>
+                    <textarea readonly="readonly" onclick="select_all();" name="textarea-enhanced" id="message" data-enhanced="true" class="ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all" placeholder="Mensaje" data-autogrow="true"></textarea>
+
+	        </div>
+	        
+        </div>
+
+        <div data-role="panel" data-display="push" id="menu" data-theme="b">
+            <ul data-role="listview">
+                <li><b>Seleccione el Evento</b></li>
+                <li data-icon='false'><a href="aniversario.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-bell-o'></i>&ensp; Aniversario</a></li>
+                <li data-icon='false'><a href="cumpleanos.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-birthday-cake'></i>&ensp; Cumpleaños</a></li>
+                <li data-icon='false'><a href="madre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-venus'></i>&ensp; Día de la Madre</a></li>
+                <li data-icon='false'><a href="padre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-mars'></i>&ensp; Día del Padre</a></li>
+                <li data-icon='false'><a href="fin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-sun-o'></i>&ensp; Fin de Año</a></li>
+                <li data-icon='false'><a href="#" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-graduation-cap'></i>&ensp; Graduación</a></li>
+                <li data-icon='false'><a href="navidad.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-tree'></i>&ensp; Navidad</a></li>
+                <li data-icon='false'><a href="san_valentin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-heart-o'></i>&ensp; San Valentín</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+            // Recopilacion de frases usando: http://www.consejosgratis.net/
+
+        function generateMsg()
+        {
+
+            var Graduacion = 
+            ["¡Felicitaciones! Gracias a tu esfuerzo continuo has llegado hasta aquí y todos estamos orgullosos de ti. Disfruta de este momento y prepárate para la etapa más importante de tu carrera profesional.",
+            "Por fin lograste aquello que tanto anhelabas hijo y no podría estar más orgullosa de ti. Felicitaciones por esta meta alcanzada y felicitaciones adelantadas por todo lo que vas a conquistar a partir de ahora.",
+            "Con tu ejemplo siempre me inspiraste a salir adelante, a perseguir mis sueños. Me siento feliz y orgulloso de que tú hayas alcanzado el tuyo amigo. Sé que tienes un futuro prometedor y que seguirás cumpliendo tus sueños.",
+            "Te mereces este logro alcanzado y mucho más. Por tu esfuerzo, por tu perseverancia y por tus ganas de ser el mejor. Felicitaciones, este camino recién empieza.",
+            "Recibe mis sinceras felicitaciones por este logro alcanzado, por esta meta cumplida. Era lo que siempre quisiste y lo lograste. Tienes todo lo que se necesita para triunfar en la vida y sé que lo lograrás. ¡Felicitaciones!",
+            "Como siempre, consigues lo que quieres y te admiro por eso. Felicitaciones desde el fondo de mi corazón amigo mío. Estoy seguro de que este es solo el primero de los tantos sueños que cumplirás.",
+            "Me alegra ver que te apasiona la carrera que elegiste y que al fin te hayas graduado. Estoy seguro de que las empresas se pelearán por contratarte amigo, eres excelente en lo que haces. Muchas felicidades.",
+            "Sé por todo lo que pasaste para llegar aquí. Sé de las noches en vela, de los sacrificios y las ojeras que tuviste que sufrir. Por eso estoy más que orgullosa y contenta de que hayas logrado tu meta. Felicitaciones, aún te falta mucho por recorrer.",
+            "Quiero hacerte llegar mis felicitaciones por este día tan importante en tu vida profesional. Aunque no pueda estar a tu lado, te mando todas mis felicitaciones, mis cariños y mis buenas vibras para esta nueva etapa que inicias en tui vida.",
+            "Que en esta nueva etapa que inicias, las derrotas sean buenas maestras y que los triunfos te ayuden a avanzar en el mundo profesional. ¡Felicidades!",
+            "El día de hoy quiero felicitarte de una manera muy especial porque es el día en el que todo tu esfuerzo y sacrificio por fin rindió sus frutos, ahora que has llegado a este punto no te detengas y continua avanzando con paso fuerte y firme como hasta ahora, sé que te ira muy bien porque eres una gran persona y también sé que es el inicio de muchas cosas buenas en tu vida. Un saludo y un gran abrazo para ti.",
+            "Mi querido amigo, en este momento importante de tu vida quiero decirte que no cualquiera llega a donde tu estas, ahí solo llegan los persistentes, los tercos, los que no se cansan de soñar, los que son constantes hasta el final, es por estas razones que tienes que estar muy orgulloso por tu logro y saber que todos estamos más que orgullosos por ti y que no debes detenerte en este nuevo camino, eres todo un ejemplo para nosotros.",
+            "Muchas felicidades, el día de hoy has dado un gran paso en tu vida profesional, uno realmente importante que te da el derecho de celebrar por montones y disfrutar del resultado de todo el esfuerzo que pusiste para lograr esta meta. Te felicito de corazón y te deseo lo mejor que todas las decisiones que tomes de ahora en adelante te lleven a dar cada vez más pasos para poder lograr todos tus sueños.",
+            "Muchas felicitaciones por tu día, puede que hoy no sea tu cumpleaños pero es tu día porque hoy por fin has recolectado el éxito después de tantas noches de estudio y esfuerzo sin límites, te mereces todo esto y más porque lo lograste a puro pulso y empuje, bienvenido a esta nueva etapa de tu vida, felicitaciones nuevamente y los mejores deseos para ti siempre.",
+            "Ahora que por fin te despides del mundo universitario para siempre y le das la bienvenida al mundo laboral, quiero decirte que te felicito y que no debes estar asustado sino más bien emocionado porque seguramente tendrás mucho éxito si continuas realizando todos tus planes con la misma constancia y dedicación de siempre. Estoy seguro que llegaras muy lejos si nunca dudas de tus capacidades. Un gran abrazo y que empiece lo bueno.",
+            "Hoy por fin has cumplido tu sueño de completar la carrera y graduarte y todos nosotros estamos felices de estar reunidos y poder verte cumplir tu sueño, hoy cierras la puerta de una etapa y abres otra, la de madurez y responsabilidades de un adulto que ingresa a la vida laboral. Te felicitamos y te deseamos lo mejor, estamos contigo siempre, desde el inicio hasta el final. Un fuerte abrazo y saludos.",
+            "Hoy has logrado llegar tan alto porque has sabido utilizar todos tus talentos y cualidades de la mejor manera y ni mencionar todo tus esfuerzo porque es el mejor talento que tienes, que los logros, bendiciones y felicitaciones nunca paren de llegar, sigue adelante y nunca te detengas. Saludos.",
+            "Después de tantos años de estudios por fin has entendido que las mejores recompensas se alcanzan con trabajo duro y esfuerzo, nunca dejes que una caída te detenga, continua siempre hacia adelante y nosotros estaremos siempre contigo para apoyarte y felicitarte.",
+            "Muchas felicidades, tu siempre tuviste claras tus metas y nunca te detuviste hasta alcanzarlas, es por eso que ahora puedes disfrutar de estos sentimientos de satisfacción, nunca dejes que nada ni nadie se interponga entre tú y tus sueños.",
+            "Déjame felicitarte por el tremendo logro que has alcanzado. Con esto demuestras el grado de compromiso que tienes con los objetivos que te propones. Admiro tu fuerza de voluntad. Estoy seguro que lo que viene para ti es tan bueno como tu capacidad y que sabrás afrontarlo y aprovechar cada oportunidad que se te presente. Estoy seguro que serás un gran profesional, felicitaciones nuevamente.",
+            "Querido amigo, he visto cómo te has esforzado por alcanzar lo que ahora disfrutas. Obtener este logro no ha sido nada fácil y yo he sido testigo de tus sacrificios. Verás que ante ti se abren innumerables chances para que demuestres tus habilidades y todo lo aprendido en esta gran etapa. Me alegra saber que nunca te darás por vencido, eres un ejemplo a seguir. Felicitaciones por este gran logro y que vengan más.",
+            "Te felicito porque has logrado demostrarle al mundo y a ti mismo de lo que eres capaz. El mundo ahora necesita personas como tú, íntegras y con ganas de hacer las cosas como se deben hacer. La satisfacción que te generas para ti mismo y para los que te queremos es incalculable, siempre serás una referencia de esfuerzo y dedicación.",
+            "He sido partícipe de cuánto has tenido que sacrificar por llegar a donde estás ahora, pero me alegra verte satisfecho y feliz por haber alcanzado esta meta que parecía siempre lejana. Ahora eres todo un profesional y le mostrarás al mundo de lo que estás hecho. Estoy seguro que sabrás desenvolverte de la mejor manera en el mundo laboral y que llegarás muy alto. Te felicito por este gran logro.",
+            "No sabes lo importante que es lo que has alcanzado. Me siento muy orgulloso de ti y de tu perseverancia para alcanzar lo que te propusiste. Luchaste ante todas las adversidades y te sobrepusiste a los obstáculos que parecían imbatibles. Ahora estás parado ahí recibiendo tu grado universitario y es para mí u honor felicitarte. Te mereces este logro y muchos más y estoy seguro que alcanzarás lo que te propongas. Felicitaciones.",
+            "Por fin pudiste superar aquello por lo que siempre te sentías oprimido, la universidad, ahora gozas de total libertad y además de una profesión que te llevará muy lejos. El sacrificio de muchas cosas en tu vida ahora te ha puesto en esta posición que te impulsará a alcanzar más rápido tus sueños. No podría estar más orgulloso de ti. Siempre serás un ejemplo de perseverancia.",
+            "Te extiendo mis más sinceras felicitaciones por este logro invaluable que has alcanzado en tu vida. Estoy seguro que seguirás siendo el orgullo de las personas que te queremos porque siempre estás preparado para afrontar nuevos retos y superar dificultades. Felicidades, disfruta como debes.",
+            "Terminar la universidad es cerrar un ciclo de vida muy importante en la vida de muchos, por eso es importante que lo tengamos en cuenta y realcemos con una felicitación sincera el esfuerzo y la dedicación del recién graduado. Hazle recordar que más que cerrar un ciclo en su vida, en realidad está abriéndose a una nueva etapa, la realidad misma para lo cual ha sido preparado.",
+            "Hoy has cumplido con una de tus metas más ambiciosas, hoy te has graduado de la universidad y estoy seguro que es el principio de una etapa exitosa de tu vida, felicitaciones.",
+            "Son muchos los que ingresan a la universidad pero son pocos los que llegan hasta el final, felicitaciones por la obtención de tu grado de bachiller y mis mejores deseos para lo que viene en tu vida como profesional.",
+            "Solo algunos tiene las cualidades que tu posees y por esa razón llegaras muy lejos, graduarte de la universidad es solo un paso más hacia los grandes objetivos que te has trazado en la vida, felicitaciones.",
+            "Cuando hay esfuerzo y dedicación todo es posible, han sido años de estudios pero al fin lo has conseguido, acabas de graduarte de la universidad y ahora estás listo para afrontar los retos profesionales que desees, felicitaciones.",
+            "En el día de graduación solo están presentes los alumnos que no se rindieron en el camino y siempre estuvieron convencidos de lo que deseaban hacer en la vida, felicitaciones y éxitos.",
+            "Para obtener el grado de bachiller tuviste que dejar a un lado momentos importantes con los seres que amas y eso es digno de reconocimiento, felicitaciones por tu graduación.",
+            "Serás un gran profesional porque a lo largo de tu formación has demostrado ser una persona responsable y de firmes valores, felicitaciones recién graduado, a partir de ahora nuevos retos empiezan para ti.",
+            "Este es el fin de una etapa pero el inicio de una mejor, ahora tienes los conocimientos necesarios para triunfar en la vida y hacer de este un mundo mejor, te felicito por haberte graduado de la universidad.",
+            "Asumiste tu rol de estudiante como debe ser y ahora eres un profesional, quiero felicitarte por haber culminado la universidad y lograr el grado de bachiller, has demostrado que todo es posible si se hace con convicción.",
+            "El tiempo ha transcurrido rápido y le dices adiós a la universidad, hoy es tu graduación y será un momento que nunca olvidaras, felicitaciones amigo.",
+            "Estar 5 años en la universidad no ha sido fácil pero valió la pena porque ahora puedes salir al mundo y ejercer la profesión que te gusta, felicitaciones por tu grado de bachiller."];
+            
+            var randomValue = Graduacion[Math.floor(Math.random() * Graduacion.length)];
+            document.getElementById("message").innerHTML = randomValue;
+            $("#message").keyup();
+ 
+        }
+    </script>
+
+</body>
+
+</html>

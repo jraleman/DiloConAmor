@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>FelicitaMe</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+    <!-- FontAwesome - http://fortawesome.github.io/Font-Awesome/ -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+
+	<!-- jQueryMobileCSS - original without styling -->
+    <link rel="stylesheet" href="../css/themes/dca_theme.css" />
+    <link rel="stylesheet" href="../css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="../css/jquery.mobile.structure-1.4.5.min.css" />
+
+    <!-- Responsive images -->
+    <style>
+
+        img {max-width:20%}
+
+        @media screen and (orientation: landscape) {
+            .ui-mobile .ui-page {
+                min-height: 0 !important;
+            }
+        }
+    </style>
+
+	<!-- jQuery / jQueryMobile Scripts -->
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../js/jquery.mobile-1.4.2.js"></script>
+
+    <!-- Swipe right to open the menu. -->
+    <script type="text/javascript">
+        $( document ).on( "pagecreate", "#main", function() {
+            $( document ).on( "swipeleft swiperight", "#main", function( e ) {
+                // We check if there is no open panel on the page because otherwise
+                // a swipe to close the left panel would also open the right panel (and v.v.).
+                // We do this by checking the data that the framework stores on the page element (panel: open).
+                if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+                    if ( e.type === "swiperight" ) {
+                        $( "#menu" ).panel( "open" );
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function select_all() {
+            document.getElementById('message').select();
+        }
+    </script>
+
+</head> 
+
+<body>        
+    <div data-role="page" data-theme='a' id="main">
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='a'>
+            <a href="#menu"><i class='fa fa-bars'></i></a>
+            <a href="../index.html#main" data-transition="fade" data-ajax="false"><i class="fa fa-home"></i></a>
+            <h1 style="text-align:center">Dilo con Amor</h1>
+        </div>
+        
+        <div data-role="content">
+	        <div class='inset'>
+				<h2 align="center">Aniversario</h2>
+
+                <p align="center">
+                    <img src="../images/pages/aniversario.png"></img>
+                </p>
+
+                    <label for="filter-menu"><h4>Para:</h4></label>
+                    <select name="filter-menu" id="filter-menu" data-native-menu="false">
+                        <option value="boda">Boda</option>
+                        <option value="novios">Novios</option>
+                    </select>
+
+                    <p align="center">
+                        <button class="ui-btn ui-btn-inline" onclick="generateMsg();">Generar</button>
+                    </p>
+
+                    <label for="textarea-enhanced"><h4>Mensaje:</h4></label>
+                    <textarea readonly="readonly" onclick="select_all();" name="textarea-enhanced" id="message" data-enhanced="true" class="ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all" placeholder="Mensaje" data-autogrow="true"></textarea>
+
+	        </div>
+	        
+        </div>
+
+        <div data-role="panel" data-display="push" id="menu" data-theme="b">
+            <ul data-role="listview">
+                <li><b>Seleccione el Evento</b></li>
+                <li data-icon='false'><a href="#" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-bell-o'></i>&ensp; Aniversario</a></li>
+                <li data-icon='false'><a href="cumpleanos.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-birthday-cake'></i>&ensp; Cumpleaños</a></li>
+                <li data-icon='false'><a href="madre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-venus'></i>&ensp; Día de la Madre</a></li>
+                <li data-icon='false'><a href="padre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-mars'></i>&ensp; Día del Padre</a></li>
+                <li data-icon='false'><a href="fin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-sun-o'></i>&ensp; Fin de Año</a></li>
+                <li data-icon='false'><a href="graduacion.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-graduation-cap'></i>&ensp; Graduación</a></li>
+                <li data-icon='false'><a href="navidad.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-tree'></i>&ensp; Navidad</a></li>
+                <li data-icon='false'><a href="san_valentin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-heart-o'></i>&ensp; San Valentín</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        function generateMsg()
+        {
+                var selected = $( "#filter-menu" ).val(); // or this.value
+                //alert(selected);
+                
+                    // Recopilacion de frases usando: http://www.consejosgratis.net/
+
+                // Boda
+                if (selected == "boda") {
+                    var Boda = 
+                    ["Mi amor hoy es tan intenso como lo era hace cinco años. La dulzura y la delicadeza de tu corazón han conseguido que mi vida sea maravillosa cada día.",
+                    "Gracias por brindarme los 25 años más maravillosos de mi vida. Espero disfrutar de muchos más a tu lado.",
+                    "Gracias por haberme dado tres hermosos hijos y haberme brindado la posibilidad de haber creado una familia realmente maravillosa.",
+                    "Hoy celebramos nuestras Bodas de Oro. En estos 50 años juntos hemos tenido oportunidad educar a nuestros hijos, hemos disfrutado de numerosos momentos alegres y hemos, incluso, superado algunas dificultades. Pero, lo más importante de todo es que siempre hemos permanecido juntos y deseo estar a tu lado durante muchos años más.",
+                    "No existe felicidad mayor que la que vivo desde el día en que nos unimos en matrimonio.",
+                    "El día de nuestra boda simbolizó la unión de dos raíces que se han convertido con el paso de los años en una hermosa planta.",
+                    "No cuentes los años que llevamos juntos sino trata de detener el tiempo y la magia del amor del que disfrutamos desde que nos dimos el sí, quiero en el altar.",
+                    "Tu amor es como una promesa de beso eterno.",
+                    "Que la llama de nuestro amor permanezca por siempre inalterable. Felicidades, tesoro.",
+                    "Las parejas que se aman son capaces de decirse mil cosas el uno al otro sin pronunciar una palabra.",
+                    "Qué caprichoso es el destino que nos ha permitido disfrutar de estos 25 años unidos.",
+                    "La pureza y el brillo del oro de nuestro 50 aniversario permanecerá inalterable durante muchos años más.",
+                    "El hombre y la mujer son como dos cofres cerrados. Uno de ellos guarda la clave del otro.",
+                    "El verdadero amor es el camino que ambos recorren hacia un ideal común.",
+                    "Mientras las rosas tengan espinas nuestro amor nunca va a terminar.",
+                    "Para que la lámpara puede continuar transmitiendo la luz, no debemos olvidar que hay añadir aceite.",
+                    "Durante los últimos 50 años hemos disfrutado de numerosas alegrías y hemos superado, además, algunas dificultades; pero lo verdaderamente importante es todo este tiempo que permanecemos unidos. Deseo, mi amor, disfruta de otros muchos más a tu lado.",
+                    "Los años han pasado desde que nos casamos son una maravilla. Feliz aniversario, mi amor, cada día te adoro más.",
+                    "Mi vida se ha vuelto impredecible desde que te conozco. Cada día me sorprendes con nuevas formas de disfrutar de tu amor.",
+                    "Tuve que besar a muchas ranas antes de encontrar mi príncipe azul. Gracias por todo y feliz aniversario.",
+                    "Se sabe que debe ser el amor, cuando siempre suena a poco tiempo. ",
+                    "Nuestra llama jamás se apagará, porque nuestro compromiso jamás se romperá. Feliz aniversario. ",
+                    "Aunque el matrimonio sea obra del Cielo, hay que trabajarlo en la tierra. Prometo hacer horas extras si hace falta, para que el nuestro nunca se rompa.",
+                    "Gracias por escuchar mis pensamientos, por comprender mis sueños, por convivir con mis defectos y por quererme durante todos estos años. Feliz aniversario.",
+                    "Detrás de cada hombre excepcional, se encuentra una suegra sorprendida. Y la tuya, mi madre, ¡no sale de su asombro! Feliz aniversario.",
+                    "La felicidad es estar casada con tu mejor amigo. Estos años han sido los más felices de mi vida.",
+                    "En el amor, no se tratar de contar los años que estamos juntos, sino de hacer que la felicidad que nos han dado, hable por si mismo. ",
+                    "En este día de nuestro aniversario, debo confesarte que durante nuestra relación me he enamorado muchas muchas veces. Siempre de la misma persona. De ti. Feliz aniversario.",
+                    "Aunque el matrimonio sea obra del Cielo, hay que trabajarlo en la tierra. Prometo hacer horas extras si hace falta, para que el nuestro nunca se rompa.",
+                    "El amor que ha iluminado sus vidas a la luz de la esperanza y la felicidad jamás termine, Que todos los sueños que han realizado perduren para siempre.",
+                    "Todos esos años de dicha y comprensión son digno ejemplo para nosotros. Cada día los admiramos y los queremos más.",
+                    "Pedimos a Dios por la eterna felicidad de tu sonrisa. Comparada con estas flores tú serás siempre la más hermosa de ellas. Con todo nuestro cariño.",
+                    "Que en esta fecha toda la felicidad del mundo esté dentro de ti y que este sea el día más florido de tu vida. Feliz Aniversario.",
+                    "Pedimos a Dios por la eterna felicidad de tu sonrisa. Comparada con estas flores tú serás siempre la más hermosa de ellas. Con todo nuestro cariño.",
+                    "En nuestro Aniversario de Bodas en reconocimiento a ti, mi Amor: Por ser así tan especial para mí. Por llenar mi existencia de dicha. Por enseñarme que el verdadero amor se compone de tristezas y alegrías. Tú eres y serás siempre el verdadero amor de mi vida.",
+                    "Gracias por llenar mi vida con tanta felicidad. Feliz Aniversario mi Amor. Siempre tu serás mi Amor eterno!.",
+                    "El amor no es contar los años, si no más bien , Que los años cuenten.",
+                    "Siempre me acordaré del día de nuestro matrimonio como el más maravilloso de mi vida. En este aniversario, quiero darte gracias por tu dedicación y por tu amor.",
+                    "Dicen que el amor se apaga con el tiempo, eso nunca lo sabré porque cada día me vuelvo a enamorar de ti.",
+                    "En el amor, no se tratar de contar los años que estamos juntos, sino de hacer que la felicidad que nos han dado, hable por si mismo."];
+                    var randomValue = Boda[Math.floor(Math.random() * Boda.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Novios
+                else if (selected == "novios") {
+                    var Novios = 
+                    ["Los días no tienen importancia para mí, lo que más valoro son los instantes en que hemos estado juntos, un día como hoy te pedí ser mi pareja y tu aceptaste mi amor, tenemos un año juntos pero toda una vida para ser felices.",
+                    "Siento que tu vida y la mía ahora son una sola, siento que para ser feliz te necesito a mi lado, me he acostumbrado a escuchar tu voz y a ver tus hermosos ojos, la felicidad lleva tu nombre y está presente en mi vida gracias a ti, hoy cumplimos un año desde que decidimos vivir este amor.",
+                    "El tiempo ha sido testigo de todas las dificultades que hemos superado para mantener vivo nuestro amor, cumplimos un año más juntos y tenemos un hermoso futuro por delante.",
+                    "Un día como hoy dimos inicio a esta hermosa historia de amor y desde ese momento he sido la mujer más feliz de todas. Muchas felicidades cariño mío por nuestro primer aniversario y espero que estamos juntos por siempre.",
+                    "Desde que tengo tu amor todo ha sido felicidad de mi vida. En este día que cumplimos un año de de esta hermosa historia de amor quiero decirte que me he enamorado más de ti. Muchas felicidades amor.",
+                    "Ha pasado un año desde que nos hicimos novios y siento una enorme felicidad pues hoy estamos más unidos que nunca. ¡Muchas felicidades mi vida!",
+                    "Luego de un año de noviazgo me he dado cuenta que eres la mujer de mi vida. Siempre soñé con alguien tan cariñosa tierna y dulce como tú, y yo que te tengo a mi lado soy el hombre más feliz del mundo.",
+                    "Los momentos maravillosos que hemos compartido en este primer año de noviazgo siempre van a quedarse grabados en mi corazón. Te amo mucho mi linda novia y te deseo muchas felicidades en nuestro primer aniversario.",
+                    "Me siento un hombre muy afortunado por tener tu amor. Eres una chica linda y te amo con todas mis fuerzas. Muchas felicidades en nuestro primer aniversario y que sean muchos más.",
+                    "Desde que te dije que me gustas hasta el día que me pediste ser tu novia no lo dude ni un instante. Mi amado novio eres un chico muy especial a quien voy a amar por siempre. ¡Felicidades en nuestro aniversario!",
+                    "Cuando dimos inicio esta historia de amor tuvimos que enfrentar muchos obstáculos, pero el gran cariño que hay entre tú y yo nos ayudó a superarlos. Qué alegría es celebrar nuestro primer aniversario juntos y saber que serán muchos más.",
+                    "A tu lado he aprendido lo que significa el amor verdadero. Tu cariño es lo mejor que tengo es por eso me siento muy agradecido cada día. ¡Muchas felicidades por nuestro primer año mi linda chica!",
+                    "Cuando estoy contigo los mejores sentimientos invaden mi corazón. Me siento muy contenta porque estoy a tu lado y porque hoy estamos cumpliendo nuestro primer año de novios. Muchas felicidades mi bello príncipe.",
+                    "Ha pasado un año desde que empezamos lo nuestro y es increíble pensar en que nuestro amor se ha hecho más fuerte que nunca. Espero que siempre podemos estar juntos pues te amo con todas mis fuerzas.",
+                    "En este año que hemos estado juntos he llegado a amarte como nunca lo imaginé. Te agradezco mucho por hacerme sentir tan feliz cada día y por cuidar muy bien de mi corazón. Muchas felicidades por nuestro primer añito juntos.",
+                    "Hoy se cumplen nuestro primer año de novios y también se cumple el primer año de una vida completamente diferente para mí. Tú me hiciste ver el mundo de otra manera y me ayudaste a creer nuevamente en el amor. Te amo con todas mis fuerzas mi bella novia y quiero decirte que este amor jamás va a dejar de existir.",
+                    "Muchas felicidades por nuestro aniversario amorcito. No hay palabras que me ayuden a expresar la gran felicidad que siento por tener tu amor y por estar celebrando nuestro primer año juntos. Te agradezco mucho por cada día que has estado mi lado.",
+                    "Celebrar nuestro primer año juntos es celebrar 365 días llenos de mucho amor y experiencias increíbles que siempre van a permanecer en nuestro recuerdo. El destino une a nuestras vidas y es una gran felicidad poder estar más unidos que nunca.",
+                    "El amor que hay entre nosotros es hermoso, tierno y verdadero. Deseo estar a tu lado el resto de mi vida porque tú eres mi alma gemela. Que sean muchos años más en los que podamos amarnos y estar juntos.",
+                    "Tenemos un mes juntos en el que hemos disfrutado del amor y compartido bellos momentos, lo que más deseo en el mundo es seguir a tu lado hasta mi último día de vida.",
+                    "Cumplimos un mes más de relación y soy muy feliz, estar contigo es tan increíble que aún me cuesta creer que no es un sueño, te amo.",
+                    "Te amo demasiado y solo quiero estar contigo, este ha sido el mejor mes de mi vida gracias a ti, eres mi novia, la mujer que me hizo conocer la felicidad.",
+                    "Apenas tenemos un mes de relación pero ha sido suficiente para darme cuenta que eres con quien quiero pasar el resto de mis días, te amo princesa.",
+                    "El día que te pedí ser mi novia no me imagine que mi vida cambiaria tanto, hoy se cumple un mes más de nuestro amor y quiero que sean muchos más.",
+                    "Amor de mi vida, este es un día especial para ambos porque cumplimos un nuevo mes de nuestro romance, solo quiero que sepas que eres y serás la única mujer en mi corazón.",
+                    "Es sorprendente lo rápido que pasan los días cuando estoy contigo, este ha sido el primer mes de nuestra relación y también el más maravilloso en mi vida.",
+                    "Nada en este mundo se puede comparar a estos dos meses en los que hemos disfrutado de nuestro amor, siento que lo nuestro ahora es más fuerte que al principio.",
+                    "Hoy cumplimos tres meses de relación, debo decir que me encuentro más enamorado que nunca y que mi corazón ahora te pertenece.",
+                    "Cuatro meses han sido suficientes para darme cuenta que necesito toda la vida para amarte y que tu alma y la mía están en este mundo para ser felices estando juntas.",
+                    "Cumplir cinco meses de relación contigo le ha dado otro sentido a mi vida, el amor que existe en nosotros me ha hecho ver que en este mundo no hay nada mejor que tener alguien a quien amar.",
+                    "Tener seis meses como pareja es mejor que haber tocado el cielo con las manos pues tu eres el amor con quien siempre soñé.",
+                    "Siete son los días de la semana, las vidas de un gato y los meses en que el amor nos ha hecho sentir como si viviéramos en un paraíso.",
+                    "En ocho meses he podido conocerte mejor y me he dado cuenta que lo nuestro no es un juego o un sueño, es una realidad que me hace muy feliz.",
+                    "Cuando esta mañana me acerque al calendario y vi que hoy cumplíamos 9 meses de relación una imagen tuya se vino a mi mente e hizo que mi corazón salte de felicidad.",
+                    "Jamás me importo el tiempo que podía durar nuestra relación, desde el inicio solo quise demostrarte lo que siento y ahora después de diez meses veo que nuestro amor tiene futuro y puede durar por siempre, te amo.",
+                    "Estos once meses de relación solo los quiero celebrar de una forma, quiero sentir lo mismo que la primera vez en que tus labios y los míos se unieron en un beso, quiero sentir tu amor en todo mi ser.",
+                    "Un año más de amarnos y conocernos en lo más profundo. Un año más es lo que hoy me regala el destino, regalo que agradezco con todo mi corazón. Feliz aniversario, amor mío.",
+                    "Porque un amor tan grande es imposible de romper, es que hoy te escribo, enviando mis suspiros al viento para que puedas saber cuánto te he llegado a querer hasta este momento. Te amo, y eso nadie lo podrá cambiar. Feliz aniversario, mi amor.",
+                    "Nunca me sentí tan feliz como ahora, porque tú y yo hemos llegado a este punto es que sé que lo que mi corazón siente por ti es real y no ha de cambiar. Feliz aniversario, amor de mis amores.",
+                    "Si el destino me puso a tu lado, sé que por algo ha de ser, pues tu amor me reconforta, me da de beber, me siento como pez en el agua en cuanto veo tu mirada al atardecer. Feliz aniversario, vida mía."];
+                    var randomValue = Novios[Math.floor(Math.random() * Novios.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                else {
+                    document.getElementById("message").innerHTML = "Error!";
+                }
+
+        }
+    </script>
+
+</body>
+
+</html>

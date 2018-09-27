@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>FelicitaMe</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+    <!-- FontAwesome - http://fortawesome.github.io/Font-Awesome/ -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+
+	<!-- jQueryMobileCSS - original without styling -->
+    <link rel="stylesheet" href="../css/themes/dca_theme.css" />
+    <link rel="stylesheet" href="../css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="../css/jquery.mobile.structure-1.4.5.min.css" />
+
+    <!-- Responsive images -->
+    <style>
+
+        img {max-width:20%}
+
+        @media screen and (orientation: landscape) {
+            .ui-mobile .ui-page {
+                min-height: 0 !important;
+            }
+        }
+    </style>
+
+	<!-- jQuery / jQueryMobile Scripts -->
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../js/jquery.mobile-1.4.2.js"></script>
+
+    <!-- Swipe right to open the menu. -->
+    <script type="text/javascript">
+        $( document ).on( "pagecreate", "#main", function() {
+            $( document ).on( "swipeleft swiperight", "#main", function( e ) {
+                // We check if there is no open panel on the page because otherwise
+                // a swipe to close the left panel would also open the right panel (and v.v.).
+                // We do this by checking the data that the framework stores on the page element (panel: open).
+                if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+                    if ( e.type === "swiperight" ) {
+                        $( "#menu" ).panel( "open" );
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function select_all() {
+            document.getElementById('message').select();
+        }
+    </script>
+
+</head> 
+
+<body>        
+    <div data-role="page" data-theme='a' id="main">
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='a'>
+            <a href="#menu"><i class='fa fa-bars'></i></a>
+            <a href="../index.html#main" data-transition="fade" data-ajax="false"><i class="fa fa-home"></i></a>
+            <h1 style="text-align:center">Dilo con Amor</h1>
+        </div>
+        
+        <div data-role="content">
+	        <div class='inset'>
+				<h2 align="center">Día del Padre</h2>
+
+                <p align="center">
+                    <img src="../images/pages/padre.png"></img>
+                </p>
+
+                    <p align="center">
+                        <button class="ui-btn ui-btn-inline" onclick="generateMsg();">Generar</button>
+                    </p>
+
+                    <label for="textarea-enhanced"><h4>Mensaje:</h4></label>
+                    <textarea readonly="readonly" onclick="select_all();" name="textarea-enhanced" id="message" data-enhanced="true" class="ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all" placeholder="Mensaje" data-autogrow="true"></textarea>
+
+	        </div>
+	        
+        </div>
+
+        <div data-role="panel" data-display="push" id="menu" data-theme="b">
+            <ul data-role="listview">
+                <li><b>Seleccione el Evento</b></li>
+                <li data-icon='false'><a href="aniversario.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-bell-o'></i>&ensp; Aniversario</a></li>
+                <li data-icon='false'><a href="cumpleanos.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-birthday-cake'></i>&ensp; Cumpleaños</a></li>
+                <li data-icon='false'><a href="madre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-venus'></i>&ensp; Día de la Madre</a></li>
+                <li data-icon='false'><a href="#" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-mars'></i>&ensp; Día del Padre</a></li>
+                <li data-icon='false'><a href="fin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-sun-o'></i>&ensp; Fin de Año</a></li>
+                <li data-icon='false'><a href="graduacion.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-graduation-cap'></i>&ensp; Graduación</a></li>
+                <li data-icon='false'><a href="navidad.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-tree'></i>&ensp; Navidad</a></li>
+                <li data-icon='false'><a href="san_valentin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-heart-o'></i>&ensp; San Valentín</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        function generateMsg()
+        {
+
+                // Recopilacion de frases usando: http://www.consejosgratis.net/
+
+            var Madre = 
+            ["Muchas veces he discutido contigo por cosas tontas como mi música y mi forma de vestir pero sé que cuando se trata de nosotros siempre estaremos de acuerdo en algo, que nos queremos con toda el alma, feliz día del padre querido papá.",
+            "Hubo un momento en mi vida en que no quería volver a verte pero luego comprendí que estaba cometiendo un error y que tu única intención era evitarme tristeza y lamentos, te pido perdón papá y te deseo un feliz día del padre.",
+            "Hay momentos en la vida en que por lograr las cosas de manera fácil no le prestamos atención a las personas que realmente quieren lo mejor para nosotros, discúlpame por no escucharte a tiempo papá, espero que hoy pases un feliz día del padre.",
+            "Hoy me arrepiento por no haber escuchado tus consejos y tus advertencias pero me alegro que a pesar de todo aun me quieras ayudar, eso me demuestra que tu amor es grande papá, que pases un bonito día del padre.",
+            "De todos tus hijos fui yo quien más problemas te trajo a casa pero tú nunca me culpaste de nada y por el contrario siempre me ofreciste tu apoyo incondicional, el amor que sientes por mi es maravilloso y único, feliz día del padre.",
+            "Pensé que después de tantas decepciones me sacarías de tu corazón pero me sorprendo que aun me trates con el mismo amor que cuando era un niño, sé que no he sido un buen hijo pero por ti cambiare papá, pasa un feliz día del padre.",
+            "Un día me senté ha reflexionar sobre lo que hacía en la vida y me di cuenta que debía hacerte caso, gracias papá porque sin ti hoy quizás seguiría por el al camino, te deseo un feliz día del padre con todo el corazón.",
+            "Hoy te mando este mensaje por el día del padre deseando que seas muy feliz y pidiéndote que olvidemos el pasado, te amo papá y te pido me perdones si alguna vez te defraude, feliz día del padre.",
+            "Papá, pienso en ti y me siento muy feliz, eres un ser que solo tiene amor en el corazón, feliz día del padre.",
+            "Es difícil de imaginar mi vida sin ti pero algo es seguro, no sería tan hermosa como lo es hoy, feliz día del padre querido papá.",
+            "Una mirada tuya es suficiente para saber si estoy haciendo las cosas bien o mal, te amo papá, siempre serás el hombre a quien más quiero, feliz día del padre.",
+            "Tengo un millón de cosas que decirte pero sé que tres palabras pueden resumir todo lo que siento, te amo papá, feliz día del padre.",
+            "Ya no soy una niña pero sería muy feliz de salir a caminar contigo de la mano, es que así me siento protegida por tu amor, feliz día del padre.",
+            "No hay nada más bonito y conmovedor que escucharte decir que me quieres más que a tu propia vida, por eso y más te amo papá, feliz día del padre.",
+            "Padre, no solamente me enseñaste a conducir el coche, también me enseñaste a conducirme de manera correcta en esta vida, te lo agradezco de corazón y en una fecha tan especial como esta te quiero decir feliz día papá.",
+            "Cuando salgo de casa y te veo observándome por la ventana me doy cuenta de lo mucho que me amas, es por eso siempre llevo una foto tuya, porque tu me quieres con toda el alma, feliz día del padre.",
+            "Que suerte tuve al tener un padre como tú, se que a veces no podemos ponernos de acuerdo en muchas cosas pero se siempre estaremos de acuerdo en que estando juntos todo es más bonito, feliz día del padre.",
+            "Hoy que es tu día quería decirte que no hay nadie que se pueda comparar contigo, que eres el responsable que tenga una vida feliz, eres mi papá y pienso que también eres un ángel que vino del cielo a cuidarme, feliz día del padre.",
+            "Siento una gran emoción cuando te veo papá, es que tú me has dado todo y nunca esperaste nada a cambio, todo lo hiciste por amor, feliz día del padre.",
+            "Veo la manera en que cada día te esfuerzas por darle lo mejor a tus hijos y solo me queda decir que te admiro mucho, feliz día del padre mi buen amigo.",
+            "Te conozco desde hace muchos años y sé que por tus hijos serias capaz de todo, esa actitud demuestra que eres una persona que ama a sus hijos por sobre todas las cosas, felicitaciones amigo, mis mejores deseos para ti en este día del padre.",
+            "Amigo, tus acciones dicen más que tus palabras, tienes una familia feliz porque los quieres y siempre estas pendiente de lo que necesitan, eres un padre ejemplar y mereces toda la felicidad del mundo, pasa un feliz día del padre.",
+            "Tu esposa y tus hijos son felices gracias a ti, eres un hombre que considera a su familia lo más importante en este mundo y eso te hace especial, te deseo un feliz día del padre amigo.",
+            "Me alegra ver que a tus hijos les inculcas valores y los motivas a ser mejores cada día, esa es la tarea principal de un padre que desea que sus hijos sean felices y personas de bien, te felicito amigo, que tengas un bonito día del padre.",
+            "Cuando nació tu primer hijo algo en ti cambio para siempre, dejaste de lado la diversión para darle a ese nuevo ser toda tu atención, ojala hubieran más personas en este mundo como tú, feliz día del padre querido amigo.",
+            "Traer hijos al mundo es algo que cualquier hombre puede hacer pero asumir las responsabilidades de un padre es algo que pocos se atreven, felicidades amigo, que tengas un feliz día del padre.",
+            "Hoy la felicidad no estará en un obsequio o en una noche de diversión, hoy la felicidad estará en la sonrisa y el abrazo de tu hijo/a al decirte te quiero papá, feliz día del padre.",
+            "Eres un ser afortunado pues dios te dio la oportunidad de ser padre de dos hermosos niños, ámalos cada día pues ellos son y serán por siempre tu más grande felicidad, mi deseo es que hoy pases el día del padre en compañía de los seres que amas.",
+            "Este es el mes de papá, el mes para darle amor a ese hombre que fue nuestro primer héroe o nuestro primer príncipe azul, para felicitar al hombre que cada día trabaja por darnos lo mejor, felicidades padres de todo el mundo.",
+            "Que viva mi papá y todos los papás que desde que nacieron sus hijos los convirtieron en su principal motivación en la vida, padres e hijos unámonos en un cálido abrazo y disfrutemos de estar juntos en este mundo.",
+            "Es el mes para rendirle homenaje a todos los padres del mundo, a los papás que a diario trabajan por darle una vida digna a sus hijos, a todos ellos un feliz día de la padre y una vida llena de maravilloso momentos con los seres que aman.",
+            "Ser papá y tener hijos no es lo mismo, un verdadero padre vela por el bienestar de su familia a toda hora y se convierte en un ejemplo para sus hijos, aprovechemos el mes de papá para decirle gracias al hombre que hace de todo por nosotros.",
+            "En la mirada de mi padre encuentro paz, en sus palabras sabiduría y en sus caricias amor, le doy gracias a dios por haberme dado un padre maravilloso a quien amo con todo mi corazón, muchas felicidades a todo los papás.",
+            "Un padre no necesita recibir un regalo costoso en una fecha especial, a un padre le basta con recibir un gesto de amor sincero de sus hijos, felicitaciones a todo los padres que son felices cuando ven a sus hijos salir adelante y lograr su metas honestamente.",
+            "En este mes especial, un saludo afectuoso a los padres que trabajan horas extras por cumplir un deseo de cumpleaños de sus hijos, a esos padres que lloran cuando sus hijos atraviesan por problemas y aquellos que darían la vida por verlos felices.",
+            "A tu padre puedes decirle lo mucho que lo quieres pero se sentirá más feliz si se lo demuestras, trata de ser mejor cada día, aprende de tu errores, lucha por tus sueños y actúa de buena fe, tu felicidad será la de él."];
+            
+            var randomValue = Madre[Math.floor(Math.random() * Madre.length)];
+            document.getElementById("message").innerHTML = randomValue;
+            $("#message").keyup();
+ 
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>FelicitaMe</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+    <!-- FontAwesome - http://fortawesome.github.io/Font-Awesome/ -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+
+	<!-- jQueryMobileCSS - original without styling -->
+    <link rel="stylesheet" href="../css/themes/dca_theme.css" />
+    <link rel="stylesheet" href="../css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="../css/jquery.mobile.structure-1.4.5.min.css" />
+
+    <!-- Responsive images -->
+    <style>
+
+        img {max-width:20%}
+
+        @media screen and (orientation: landscape) {
+            .ui-mobile .ui-page {
+                min-height: 0 !important;
+            }
+        }
+    </style>
+
+	<!-- jQuery / jQueryMobile Scripts -->
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../js/jquery.mobile-1.4.2.js"></script>
+
+    <!-- Swipe right to open the menu. -->
+    <script type="text/javascript">
+        $( document ).on( "pagecreate", "#main", function() {
+            $( document ).on( "swipeleft swiperight", "#main", function( e ) {
+                // We check if there is no open panel on the page because otherwise
+                // a swipe to close the left panel would also open the right panel (and v.v.).
+                // We do this by checking the data that the framework stores on the page element (panel: open).
+                if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+                    if ( e.type === "swiperight" ) {
+                        $( "#menu" ).panel( "open" );
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function select_all() {
+            document.getElementById('message').select();
+        }
+    </script>
+
+</head> 
+
+<body>        
+    <div data-role="page" data-theme='a' id="main">
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='a'>
+            <a href="#menu"><i class='fa fa-bars'></i></a>
+            <a href="../index.html#main" data-transition="fade" data-ajax="false"><i class="fa fa-home"></i></a>
+            <h1 style="text-align:center">Dilo con Amor</h1>
+        </div>
+        
+        <div data-role="content">
+	        <div class='inset'>
+				<h2 align="center">Fin de Año</h2>
+
+                <p align="center">
+                    <img src="../images/pages/fin.png"></img>
+                </p>
+
+                    <label for="filter-menu"><h4>Para:</h4></label>
+                    <select name="filter-menu" id="filter-menu" data-native-menu="false">
+                        <option value="amistades">Amistades y Familiares</option>
+                        <option value="novios">Novios</option>
+                        <option value="distancia">A Distancia</option>
+                        <option value="coorporativas">Coorporativas</option>
+                    </select>
+
+                    <p align="center">
+                        <button class="ui-btn ui-btn-inline" onclick="generateMsg();">Generar</button>
+                    </p>
+
+                    <label for="textarea-enhanced"><h4>Mensaje:</h4></label>
+                    <textarea readonly="readonly" onclick="select_all();" name="textarea-enhanced" id="message" data-enhanced="true" class="ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all" placeholder="Mensaje" data-autogrow="true"></textarea>
+
+	        </div>
+	        
+        </div>
+
+        <div data-role="panel" data-display="push" id="menu" data-theme="b">
+            <ul data-role="listview">
+                <li><b>Seleccione el Evento</b></li>
+                <li data-icon='false'><a href="aniversario.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-bell-o'></i>&ensp; Aniversario</a></li>
+                <li data-icon='false'><a href="cumpleanos.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-birthday-cake'></i>&ensp; Cumpleaños</a></li>
+                <li data-icon='false'><a href="madre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-venus'></i>&ensp; Día de la Madre</a></li>
+                <li data-icon='false'><a href="padre.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-mars'></i>&ensp; Día del Padre</a></li>
+                <li data-icon='false'><a href="#" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-sun-o'></i>&ensp; Fin de Año</a></li>
+                <li data-icon='false'><a href="graduacion.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-graduation-cap'></i>&ensp; Graduación</a></li>
+                <li data-icon='false'><a href="navidad.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-tree'></i>&ensp; Navidad</a></li>
+                <li data-icon='false'><a href="san_valentin.html#main" data-transition="fade" data-ajax="false" style="text-decoration:none"><i class='lIcon fa fa-heart-o'></i>&ensp; San Valentín</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        function generateMsg()
+        {
+                var selected = $( "#filter-menu" ).val(); // or this.value
+                //alert(selected);
+                
+                    // Recopilacion de frases usando: http://www.consejosgratis.net/
+
+                // Amistades
+                if (selected == "amistades") {
+                    var Amistades = 
+                    ["Deseo para todos ustedes que si han tenido vivencias malas pues el año viejo se las lleve con él. Coge así todo lo bueno y llévatelo como tus mejores recuerdos. Que tengas un feliz año nuevo lleno de esperanzas.",
+                    "Cuando las cosas ya están hechas por más que sientas arrepentimiento ya nada se puede hacer. Este nuevo año recíbelo con buenas vibras y se feliz de la mejor manera posible.",
+                    "Las cosas son muy simples un año se acaba y otro comienza. Aprendamos de lo bueno y de lo malo que nos paso y sigamos para adelante. Pues todos sabemos que las cosas pasan por alguna razón.",
+                    "Las personas cuando el año se acaba se ponen a meditar en las acciones que realizaron durante todo el año ya sean buenas o malas y tratan de sacar provecho de ellas. Deseo que reciban este nuevo año con esperanza.",
+                    "Cuando suenen las campanas de la Iglesia anunciando la media noche lo primero que hare es pedir que el próximo año todo me vaya de maravilla al igual que a ustedes. Que tengan un feliz año nuevo.",
+                    "No sé porque la gente siente tristeza cuando un año viejo se va yo al contrario me siento muy emocionado y con la esperanza que este nuevo año me traiga gratas cosas. Lo mismo deseos para todos.",
+                    "Como todo en la vida tiene un inicio y un fin y así será todos los fines de año así que lo mejor que podemos hacer es siempre recibir el año nuevo de la mejor manera y con mucha alegría. Felicidades.",
+                    "Se que lo que más deseaba era arreglar algunas cosas antes que se acabe el año, en vista que no pude este nuevo año estoy seguro que les demostrare que las puedo hacer bien. Amigos deseo que inicien un buen año nuevo.",
+                    "Hoy que es año nuevo me tomare unas copas de vino en nombre de todos mis amigos y familiares a quienes quiero mucho y pediré porque en sus corazones solo reine el amor y la amistad.",
+                    "Siempre he sido una persona emotiva y en estas fechas aun mas por eso siento la necesidad de decirles a todos ustedes que este año nuevo lo gocen en familia pues nadie sabe que nos deparara el futuro. Felicidades.",
+                    "Un año más que se va, un año más que envejecemos pero la vida continua y hay que vivirla con alegría y armonía entre los unos y los otros. Deseo de todo corazón que pasen un lindo año nuevo.",
+                    "Ya está por acabar un año más y con el se irán muchos recuerdos buenos que hemos vivido y que jamás regresaran, este año que viene estoy seguro que te traerá lindas sorpresas, que tengas un feliz año nuevo.",
+                    "Ahora que está acabando el año trata de hacer un resumen de todo lo bueno que hiciste para que el próximo lo hagas mil veces mejor y logres alcanzar tus metas, quiero desearte que pases un feliz año nuevo.",
+                    "Deja que este año se vaya pronto y se lleve tan malos recuerdos, tómalo como una experiencia que viviste y que gracias a Dios acabo, ahora es momento de recibir este año nuevo con mucha alegría veras que todo es distinto, feliz año nuevo.",
+                    "Me apena que se vaya este año por que en el conocí al amor de mi vida pero también estoy contenta por que este año nos comprometeremos y seremos muy felices, que tengan todos ustedes un feliz año nuevo.",
+                    "Me siento muy feliz y con muy buenas vibras para recibir este año que está por llegar, me he puesto como meta terminar mi carrera y ser un profesional, quiero que todos mis amigos, familiares y mas tengan el mejor feliz año nuevo.",
+                    "Es increíble si viéramos las fotos del año nuevo pasado este año somos las mismas personas las que nos mantenemos unidas, nuestra amistad cada día crece mas y mas y me siento orgullosa de ustedes, que pasen un feliz y prospero año nuevo.",
+                    "Se que este año que esta por irse hiciste lo mejor que pudiste y te esforzaste para poder lograr tus metas pero no te sientas desanimado este año que empieza te dará la oportunidad que logres hacerlo, se fuerte, que tengas un feliz año.",
+                    "Este año nuevo quiero celebrarlo a lo grande junto a todos mis amigos, bailar hasta el amanecer y pedirle a Dios por que reine  la alegría en todos los hogares y que por fin el mundo alcance la paz mundial, que tengan todos ustedes un feliz año nuevo.",
+                    "Una de las costumbres de año nuevo dicen que es comerse doce uvas y pedir un deseo en cada una de ellas pues yo me las comeré y pediré por todas las personas que necesitan un hogar, que pasen un feliz año nuevo queridos amigos.",
+                    "Ahora que el año se acaba, es el momento de reafirmar ciertas verdades, como la de que somos amigos y nadie podrá hacer que este lindo sentimiento entre nosotros se acabe nunca. Gracias por estar ahí. ¡Feliz Año!",
+                    "Es momento de ir por nuestras metas, pues cada sueño nuestro debe ser cumplido para poder tener la vida que nos merecemos. Ahora que el año comienza, no hay marcha atrás. ¡Feliz año nuevo a todos mis amigos!",
+                    "Que la dicha y la paz entren en tu corazón y en tu hogar este año que viene. Recuerda que tendrás por doce meses más a una buena amiga que acudirá cuando la necesites. ¡Feliz Año!",
+                    "¡Feliz año nuevo a todos mis amigos! Que la felicidad llegue a ti y nunca pares de sonreír en esta nueva etapa que el mundo nos regala. Gracias por ser mi amigo.",
+                    "A ti, que eres un amigo especial, un feliz y próspero año te vengo a desear. Es momento de dejar atrás los malos sentimientos y renacer con un propósito de amor. Por lo pronto, yo te prometo que nuestra amistad crecerá. Estoy segura de ello. Que tengas un buen año, amigo mío.",
+                    "Gracias por acompañarme a cada instante de mi vida. Hemos sido amigos siempre, y este año será crucial para reafirmar nuestra amistad. Te quiero mucho, amigo. Nunca dejes de soñar en la forma en que tú sabes hacerlo.",
+                    "Un feliz año nuevo a todos mis amigos. La prosperidad inundará sus hogares, colmándolos a ustedes de alegría y progreso. Son mis sinceros deseos en estas fiestas.",
+                    "Un año nuevo cargado de cosas buenas es lo que he pedido al cielo para mis amigos. Son ustedes quienes me hacen sonreír y llenan mis mañanas de alegría. Gracias por estar ahí. ¡Feliz año nuevo a todos!",
+                    "Si hay una lección que debemos aprender antes de que el año culmine, es a dar amor. Agradezco a cada uno de ustedes su bella amistad. Los quiero mucho. ¡Un Feliz Año para todos!",
+                    "Las pascuas y el final de año son las fechas más importantes para que todos reflexionemos acerca de lo maravillosa que son las personas que están nuestro lado y para pensar en los sueños que tenemos en nuestra vida, felices fiestas a todos mis amigos.",
+                    "En este fin de año lo que más nos da felicidad es estar reunidos con nuestros seres queridos y amigos, ya que la felicidad no se puede comparar con nada, feliz Navidad y feliz Año Nuevo a todos.",
+                    "En esta Navidad Jesús nacerá nuevamente, trayendo tranquilidad y felicidad a todos, además nos mostrará la senda que debemos seguir para tener un Año Nuevo lleno de felicidad, a todos les deseo felices fiestas.",
+                    "Antes que finalice el año debemos arrepentirnos y pedir disculpas por aquellos errores que hayamos cometido, esperamos que este nuevo año sea el mejor para nosotros, si empezamos el año nuevo haciendo las cosas bien, seremos doblemente bendecidos, feliz Año Nuevo.",
+                    "No te pongas triste porque el mejor año de tu vida se está acabando, se positivo y los instantes más felices de tu vida serán dobles, feliz Año Nuevo.",
+                    "Todos tenemos metas que deseamos que se hagan realidad y en este año que empieza tendremos la oportunidad de hacerlo, vive cada instante con mucho amor y la provisión de los problemas que tengas, feliz Año Nuevo.",
+                    "Festejemos estas fiestas con júbilo, no te olvides que el mejor obsequio que pueden recibir los familiares es tu cariño y amor que se puede expresar a través de un beso o un abrazo, a todos mis amigos les deseo una maravillosa Navidad y un dichoso Año Nuevo.",
+                    "Todos siempre queremos que el mundo mejore cada día y que juntos lo logremos hacer, en este nuevo año que empieza dejemos a un lado las dificultades y el pasado y cambiemos los rencores por carcajadas, feliz y dichoso Año Nuevo.",
+                    "En esta fecha recibimos el nacimiento de Jesucristo y estamos reunidos como familia, nuestra esperanza para lograr nuestros sueños se incrementa, felices fiestas de fin de año.",
+                    "En esta fiesta navideñas, aprendamos que dar y recibir sentimientos de amor y cariño es lo más lindo que puede existir, que las dificultades nos han hecho mejores, y que deseamos perfeccionarnos, feliz Navidad y un dichoso Año Nuevo"];
+
+                    var randomValue = Amistades[Math.floor(Math.random() * Amistades.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Novios
+                else if (selected == "novios") {
+                    var Novios = 
+                    ["Todos los mejores deseos y mi corazón para el hombre que cada día amo más y más. Te deseo un Feliz Año Nuevo amor.",
+                    "No basta decirte que te amo sino que quiero mostrarte cuan grande son mis sentimientos por ti y deseo que en este año que vamos a recibir juntos prometamos que nuestro amor será eterno. ¡Feliz Año Nuevo amor!",
+                    "Finalmente llega el año nuevo para fundirnos en un solo beso y abrazo. Este será un día muy importante porque estaremos juntos recibiendo con todo nuestro amor el nuevo año.",
+                    "Siempre quise recibir el año nuevo junto a alguien importante y esta vez podré realizar mi sueño porque desde que llegaste a mi vida eres alguien muy especial para mi. ¡Feliz Año Nuevo amor mío!",
+                    "Tu llegaste a mi  para cambiar mi rutina, darme una razón para apreciar la vida y ver las cosas con más optimismo y alegría. Quiera Dios que nuestro amor siempre nos mantenga unidos y que dure para siempre. Feliz Año Nuevo.",
+                    "Comenzemos el año nuevo con pensamientos positivos. Que este año nos mantenga unidos y que nada ni nadie se interponga en nuestra felicidad ¡Feliz Año Nuevo corazón!",
+                    "Que pena que este año no lo recibiremos juntos pero me consuelo de saber que donde te encuentres al celebrar el año nuevo estarás pensando en mi de la misma forma que yo haré contigo. Te amo.",
+                    "Me siento muy contenta de pensar que festejaremos un año nuevo los dos juntitos y que haremos nuestra propia cabala para que nos vaya bien durante todo el año, no pediremos fama ni fortuna solo abundante amor para que nunca nos separemos.",
+                    "Cuando estoy contigo todo lo sombrío y las desilusiones se convierten en alegrías, pido a Dios que siempre me inspires estos sentimientos. Que tengas un feliz y próspero Año Nuevo mi amor.",
+                    "Comienza un nuevo año que aunque deses lo mejor será incierto porque nadie sabe lo que puede suceder en el futuro, de lo único que tengo plena confianza es del amor que ambos nos tenemos. Feliz año nuevo amor mío.",
+                    "Siempre estaré a tu lado así haga frío o calor, así estemos en las buenas o las malas tendrás todo mi amor y mi compañia. Feliz Año Nuevo amor, no quiero apartarme de tu vida.",
+                    "Tal vez no podamos estar juntos todos los días del año pero los momentos que estemos juntos valdrán mucho más que todo un año entero. Feliz Año Nuevo tesoro, tenemos toda una vida para ser felices.",
+                    "Nuestras almas tienen un solo ideal de alcanzar la felicidad, sí siempre nos mantenemos unidos y nuestros sentimientos permanecen intacos alcanzaremos este sueño. ¡Feliz Año Nuevo amor!",
+                    "Tengo la plena confianza que nuestros anhelos los podremos  realizar este año que viene. Pido a Dios que nos proteja y bendiga esta relación tan bonita que tenemos y que a pesar de los obstacúlos que se nos presenten siempre estemos juntos"];
+
+                    var randomValue = Novios[Math.floor(Math.random() * Novios.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Distancia
+                else if (selected == "distancia") {
+                    var Distancia = 
+                    ["El destino quiso que continuemos por caminos distintos, este fin de año será muy difícil para mi si no estás conmigo. Donde quiera que te encuentres que tengas un feliz año nuevo.",
+                    "Tu me enseñaste a ver la vida con optimismo, a tener ilusiones y alegrías. Tu siempre hacias que cada inicio de año nuevo sea diferente. Como quisiera que este año nuevo estuvieras conmigo para recibirlo junto como antes.",
+                    "Aún te sigo amando y no tienes idea como me lastima no poder estar contigo a la media noche. Te agradezco porque fui muy dichosa mientras estuvimos. Que tengas un buen año nuevo amor.",
+                    "Cuando sea la media noche, pensaré en ti y donde quiera que te encuentres espero que me recuerdes y que te pongas en mi lugar por unos instantes para que sepas cuanta falta me haces. Te deseo un feliz Año Nuevo, lleno de paz y armonía en tu vida.",
+                    "A pesar de la distancia nuestro amor sigue presente. Espero que tengas un buen año y que el tiempo pase volando para que volvarnos a reunirnos muy pronto.",
+                    "Estas fechas me llenan de melancolía.Cuanto quisiera recibir el año nuevo contigo pero no será posible, solo puedo desearte que tengas un feliz año.",
+                    "El destino me premió con la alegría de ser tu pareja pero también me castigó con apartarte de mi vida. Yo siempre te amaré y te recibiré con los brazos abiertos si decides regresar. Feliz Año Nuevo.",
+                    "Cada vez que un año esta por terminar me acuerdo más de ti. Nunca olvidaré lo inmensamente feliz que fui un fin de año a tu lado. Te deseo toda la felicidad del mundo aunque yo no sea más parte de tu vida.",
+                    "Siempre eres y serás una persona muy importante en mi vida. Todo mis mejores deseos para ti y en este año que comienza te pido por favor que no dejes de pensar en mi.",
+                    "Desde que te alejaste de mi vida me cuesta tanto adaptarme a tu partida más aún ahora que recibiré sola el año nuevo sin tu agradable compañia.",
+                    "No importa cuantos kilometros nos separen, siempre te amaré y  nunca perderé las esperanzas de que regreses algún día. Feliz Año Nuevo mi amor.",
+                    "Los preparativos de fin de año anuncian la llegada de un año nuevo que lastimosamente comenzaré sin ti. Mi corazón te aclama y a pesar de todo siempre abrigaré las esperanzas de que vuelvas a mi.",
+                    "La celebración de año nuevo trae consigo ilusiones y alegrías, pero para mi la vida pierde todo significado si no estas conmigo. Espero que esta noche te diviertas y no olvides cuanto te amo y que siempre sigo esperando tu regreso."];
+
+                    var randomValue = Distancia[Math.floor(Math.random() * Distancia.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                // Coorporativas
+                else if (selected == "coorporativas") {
+                    var  Coorporativas = 
+                    ["Gracias a tu esfuerzo y tu eficiencia nos complace informarte que este ha sido el mejor año que hemos tenido hasta ahora como empresa. Feliz Año Nuevo.",
+                    "Estamos a punto de culminar el año y no quiero dejar de agradecer a cada uno de Ustedes por su dedicación y apoyo que me han brindado este año. Y por supuesto también quiero desearles un Feliz Feliz Año Nuevo.",
+                    "El éxito de nuestra empresa se la debemos a cada uno de Ustedes por su profesionalismo diario. Por ello, queremos desearle un Feliz Año.",
+                    "El buen posicionamiento del que gozan nuestros productos de lo debemos a ustedes. Feliz Año a todos los trabajadores que conforman esta empresa.",
+                    "No queremos despedir este año sin agradecerles a cada uno de Ustedes por la eficiente labor que realizan día a día. Feliz Año Nuevo.",
+                    "Gracias por confiar en nosotros. A pocos días de cerrar el año nos enorgullece contarles que hemos cumplido con nuestras metas. Feliz Año a todos los miembros de esta gran familia.",
+                    "Para este año queremos prometerle continuar ofreciéndoles nuestros mejores productos porque lo único que nos interesa es tenerlo contento. Feliz año nuevo.",
+                    "Gracias por su preferencia. Esperamos seguir contando con su confianza. Feliz Año Nuevo a todos nuestros cliente.",
+                    "Feliz año nuevo a todos nuestros fieles clientes. Queremos que sepan que no hay día en el que no estén primeros en nuestros proyectos, porque sabemos que de ustedes depende nuestro éxito.",
+                    "Porque sabemos que son la pieza principal de nuestro crecimiento, no existe día en el que no trabajemos pensando en ustedes. Feliz año nuevo a todos nuestros clientes.",
+                    "Feliz año nuevo, a todos los integrantes de esta gran familia. Esperamos seguir trabajando juntos este año que está por comenzar.",
+                    "Este ha sido un buen año, pero estamos seguro que el año que se viene será aun mejor. Feliz Año a todos nuestros colaboradores.",
+                    "Gracias a su esfuerzo hemos logrado cumplir nuestros objetivos. Por ello, queremos desearles a todos nuestros trabajadores un Feliz Año Nuevo.",
+                    "Este año hemos enfrentado juntos muchas adversidades, pero estamos seguros de que este nuevo año que se viene nos irá mejor si nos esforzamos y continuamos trabajando como equipo. Feliz Año Nuevo.",
+                    "Dejemos atrás los errores y comencemos a trazar nuestras nuevas metas. Estoy seguro que lograremos el éxito. Feliz año nuevo para todo mi equipo. Un abrazo.",
+                    "Feliz año nuevo. Sigamos trabajando con esfuerzo y sacrificio, y continuaremos cosechando éxitos como lo hemos venido haciendo este año."];
+
+                    var randomValue = Coorporativas[Math.floor(Math.random() * Coorporativas.length)];
+                    document.getElementById("message").innerHTML = randomValue;
+                    $("#message").keyup();
+                }
+
+                else {
+                    document.getElementById("message").innerHTML = "Error!";
+                }
+
+        }
+    </script>
+
+</body>
+
+</html>
